@@ -1,15 +1,19 @@
 "use client"
+import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
 import Home from "@/components/home/Home";
-import { useSize } from "@/lib/utils/hooks";
+import NoAuth from "@/components/home/noAuth/noAuth";
 
 export default function Page() {
-  const {h} = useSize()
+  const {user,loginStatus} = loginInfo()
   return (
-    <div className="h-full flex flex-col overflow-y-auto">
+    <>
+      {loginStatus=="unauthenticated"
+      ?
+      <NoAuth />
+      :
       <Home />
-      {h>650&&<div className="bg-white  w-full text-center py-4 text-lg">
-          &copy;IlyassKrem-dev
-      </div>}
-    </div>
+      }
+    
+    </>
   );
 }

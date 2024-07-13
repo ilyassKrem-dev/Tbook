@@ -1,16 +1,23 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import axios from "axios";
+import Servers from "@/lib/classes/Servers";
 const options:NextAuthOptions = {
         providers:[
             CredentialsProvider({
                 name:"credentials",
                 credentials:{},
-                //@ts-ignore
+                
                 async authorize(credentials)  {
-                    const {email,password}  = credentials as {email:string,password:string}
+                    const {email}  = credentials as {email:string,password:string}
                     try {
-                        return email
+                        const res = await axios.post(`${Servers.laravelURl}/user`,{
+                            email
+                        })
+                        if(res) {
+                            return res.data
+                        }
+                        return null
                     } catch (error) {
                         throw new Error(`Error signing`)
                     }
@@ -18,18 +25,27 @@ const options:NextAuthOptions = {
             })
         ],
         callbacks:{
-            //@ts-ignore
             async session({session}) {
                 try {
                     if(session&&session.user) {
-                        let user = await('ze')
-                       
+                        const {email} = session.user
+                        let user = await axios.post(`${Servers.laravelURl}/user`,{
+                            email
+                        })
+                        const data = user?.data
+                        session.user.name = data.name
+                        session.user.email = data.email
+                        session.user.image = data.image
+                        //@ts-ignore
+                        session.user.status = data.status
+                        //@ts-ignore
+                        session.user.username = data.username
 
                         return session
                     }
-                    
+                    return session
                 } catch (error) {
-                    
+                    return session
                 }
                 
 

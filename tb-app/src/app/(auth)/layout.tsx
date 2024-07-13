@@ -18,14 +18,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={figtree.className + " h-screen bg-gray-1"}>
+      <body className={figtree.className + " min-h-screen bg-gray-1"}
+      >
         <ToastProvider>
-          <AuthWrapper >
+          <AuthWrapper>
             <SessionWrapper>
-              {children}
+             {children}
             </SessionWrapper>
           </AuthWrapper>
         </ToastProvider>
+        
       </body>
     </html>
   );

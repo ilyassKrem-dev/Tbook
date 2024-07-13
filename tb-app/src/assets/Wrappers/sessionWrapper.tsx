@@ -1,7 +1,8 @@
 "use client"
 import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter,usePathname } from "next/navigation"
 import { useContext,createContext,useState,useEffect } from "react"
+import LaodingFullScreen from "@/shared/loadingFull"
 type UserType = {
     id:string;
     name:string;
@@ -14,7 +15,7 @@ type SessionType = {
     loginStatus:string |null
 }
 const SessionContext = createContext<SessionType|null>(null)
-
+const paths = ["/","/auth/signin","/auth/login","/*"]
 export const loginInfo = ()=>{
     const context = useContext(SessionContext)
     if(!context) {
@@ -28,13 +29,18 @@ export const SessionWrapper = ({children}:{children:React.ReactNode}) => {
     const [loginStatus,setLoginStatus] = useState<string|null>(null)
     const {data:session,status} = useSession()
     const router = useRouter()
+    const pathname = usePathname()
     useEffect(() => {
         if(status==="loading") return
-        if(status === "unauthenticated") return router.push('/signin')
+        if(status === "unauthenticated" && !paths.includes(pathname)) {
+            return router.push("/auth/login")
+        }
         setUser(session?.user as UserType || null)
         setLoginStatus(status)
     },[session])
-
+    if(status == "loading") {
+        return <LaodingFullScreen />
+    }
     return (
         <SessionContext.Provider value={
             {

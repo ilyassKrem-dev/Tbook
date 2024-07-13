@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         "gender",
         "phone",
-        "status"
+        "status",
+        "birthdate"
     ];
     protected $table = "users";
     /**

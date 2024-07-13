@@ -31,7 +31,8 @@ const config = {
         lighter: "#F2F2F2",
         darker: "#0D0D0D",
         "gray-1": "#f0f2f5",
-        "green-1":"#4bce9d"
+        "green-1":"#4bce9d",
+        "white-1":"#dddfe2"
       },
       keyframes: {
         "accordion-down": {

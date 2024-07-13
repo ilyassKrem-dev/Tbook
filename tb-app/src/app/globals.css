@@ -58,8 +58,12 @@ html {
     background: #a2a2b8;
   }
   input {
-    @apply p-4 border border-[#dddfe2] h-full align-middle text-base rounded-md  w-full placeholder:text-lg
+    @apply p-4 border border-[#dddfe2]  align-middle text-base rounded-md  w-full placeholder:text-lg
   }
+  select {
+    @apply border border-[#dddfe2]  align-middle text-base rounded-md  w-full 
+  }
+  
   .hover-opacity {
     @apply hover:opacity-70 transition-all duration-300 active:opacity-50
   }
