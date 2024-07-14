@@ -14,7 +14,7 @@ type SessionType = {
     user :UserType | null,
     loginStatus:string |null
 }
-const SessionContext = createContext<SessionType|null>(null)
+const SessionContext = createContext<SessionType|undefined>(undefined)
 const paths = ["/","/auth/signin","/auth/login","/*"]
 export const loginInfo = ()=>{
     const context = useContext(SessionContext)
@@ -35,8 +35,9 @@ export const SessionWrapper = ({children}:{children:React.ReactNode}) => {
         if(status === "unauthenticated" && !paths.includes(pathname)) {
             return router.push("/auth/login")
         }
-        setUser(session?.user as UserType || null)
+        setUser(session?.user as UserType)
         setLoginStatus(status)
+        
     },[session])
     if(status == "loading") {
         return <LaodingFullScreen />
