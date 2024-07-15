@@ -37,7 +37,7 @@ export const validationErrors = ({
         errors.password_confirm = "Passwords do not match.";
         errorFound=true
     }
-
+    //@ts-ignore
     if (!date || !isValidDate(date)) {
         errors.date = "You must be more than  5 years older to sign.";
         errorFound=true

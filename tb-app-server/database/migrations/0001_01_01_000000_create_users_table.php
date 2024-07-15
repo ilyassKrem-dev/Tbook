@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->date("birthdate");
-            $table->string('username')->nullable();
+            $table->string('username')->nullable()->unique();
             $table->string('image')->nullable();
+            $table->string("cover_photo")->nullable();
             $table->string('email')->unique();
             $table->boolean('email_verified')->default(false);
             $table->timestamp('email_verified_at')->nullable();
@@ -24,6 +25,8 @@ return new class extends Migration
             $table->string('status')->default("offline");
             $table->string('gender');
             $table->string('phone')->unique()->nullable();
+            $table->string("bio")->nullable();
+            $table->string("country")->nullable();
             $table->timestamps();
         });
 
