@@ -1,5 +1,6 @@
 "use client"
 
+import { removeOverlay } from "@/lib/utils/hooks";
 import { SetStateAction, useEffect, useState } from "react"
 
 
@@ -10,17 +11,10 @@ export default function Toast({varient,title,description,show,setShow}:{
     show:boolean;
     setShow:React.Dispatch<SetStateAction<boolean>>
 }) {
-    useEffect(() => {
-        const removeToast = (e:any) => {
-            const overlay = document.querySelector('.toast')
-            if(overlay && !overlay.contains(e.target)) {
-                setShow(false)
-            }
-        }
-        document.addEventListener('click',removeToast)
-
-        return () => document.removeEventListener('click',removeToast)
-    },[])
+    removeOverlay({
+        tab:".toast",
+        setShow:setShow
+    })
     if(varient === "error") {
         return (
             <>

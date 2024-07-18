@@ -6,14 +6,13 @@ import { UserType } from "@/lib/utils/types/user"
 
 export default function Page() {
     const {user} = loginInfo()
+   
     return (
         <>
             {user&&
             <div>
                 <TopNav /> 
-                <div className="pt-16">
-                    <Profile user={user as UserType}/>
-                </div> 
+                <Profile user={user as UserType}/>
                 
             </div>}
         

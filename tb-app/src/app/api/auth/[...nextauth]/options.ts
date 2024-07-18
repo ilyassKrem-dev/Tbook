@@ -33,6 +33,8 @@ const options:NextAuthOptions = {
                             email
                         })
                         const data = user?.data
+                        //@ts-ignore
+                        session.user.id = data.id
                         session.user.name = data.name
                         session.user.email = data.email
                         session.user.image = data.image

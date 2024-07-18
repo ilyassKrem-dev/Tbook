@@ -1,6 +1,6 @@
 "use client"
 
-import { useState,useEffect } from "react"
+import { useState,useEffect, SetStateAction } from "react"
 
 type SizeType = {
     h:number;
@@ -27,5 +27,24 @@ export const useSize =() => {
     },[])
 
     return size
+}
+
+
+export const removeOverlay =({tab,setShow}:{
+    tab:string;
+    setShow:React.Dispatch<SetStateAction<boolean>>
+}) => {
+    useEffect(() => {
+        const removeOv = (e:any) => {
+            const overlay = document.querySelector(tab)
+            if(overlay && !overlay.contains(e.target)) {
+                setShow(false)
+            }
+        }
+        document.addEventListener('click',removeOv)
+    
+        return () => document.removeEventListener('click',removeOv)
+  
+    },[])
 }
 

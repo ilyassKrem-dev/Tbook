@@ -7,6 +7,7 @@ import { IoLogOut } from "react-icons/io5";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import { signOut } from "next-auth/react";
+import { removeOverlay } from "@/lib/utils/hooks";
 
 const accTabs = [
     {
@@ -34,19 +35,11 @@ export  default function AccountTab({user}:{
         if(value !== "Logout") return
         signOut()
     }
-
-    useEffect(() => {
-        const removeToast = (e:any) => {
-            const overlay = document.querySelector('.acc-tab')
-            if(overlay && !overlay.contains(e.target)) {
-                setShow(false)
-            }
-        }
-        document.addEventListener('click',removeToast)
+    removeOverlay({
+        tab:".acc-tab",
+        setShow:setShow
+    })
     
-        return () => document.removeEventListener('click',removeToast)
-  
-    },[])
 
     return (
         <div className="relative acc-tab">

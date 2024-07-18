@@ -52,4 +52,32 @@ class UserController extends Controller
             "status"=>$user->status
         ]);
     }
+
+    function getUsetData(Request $request) {
+        $data = $request->only("username");
+        $user = User::where("username",$data["username"])->first();
+
+
+        if(!$user) {
+            return response()->json(["message"=>"No user found"],404);
+        }
+        $userData = [
+            "id"=>$user->id,
+            "name"=>$user->name,
+            "username"=>$user->username,
+            "cover_photo"=>$user->cover_photo,
+            "image"=>$user->image,
+            "bio"=>$user->bio,
+            "phone"=>$user->phone,
+            "email"=>$user->email,
+            "gender"=>$user->gender,
+            "birthdate"=>$user->birthdate,
+            "country"=>$user->country
+        ];
+        return response()->json(
+            [
+                "user"=>$userData,
+                "friends"=>[],
+            ],200);
+    }
 }

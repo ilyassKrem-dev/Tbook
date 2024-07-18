@@ -2,8 +2,9 @@
 import { IoSearch } from "react-icons/io5";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
-import {  useEffect, useRef, useState } from "react";
+import {   useRef, useState } from "react";
 import { motion,AnimatePresence} from "framer-motion";
+import { removeOverlay } from "@/lib/utils/hooks";
 
 export default function LogoASearch({w}:{w:number}) {
     const [show,setShow] = useState<boolean>(false)
@@ -21,19 +22,11 @@ export default function LogoASearch({w}:{w:number}) {
             inputRef.current.focus();
         }
     };
+    removeOverlay({
+        tab:".search-tab",
+        setShow:setShow
+    })
     
-    useEffect(() => {
-        const removeToast = (e:any) => {
-            const overlay = document.querySelector('.search-tab')
-            if(overlay && !overlay.contains(e.target)) {
-                setShow(false)
-            }
-        }
-        document.addEventListener('click',removeToast)
-    
-        return () => document.removeEventListener('click',removeToast)
-  
-    },[])
     
     return (
         <div className={`py-2 flex gap-2 items-center  left-0 pl-3 ${w>953 ?"absolute ":""} search-tab`}>
@@ -75,6 +68,8 @@ export default function LogoASearch({w}:{w:number}) {
                                     animate={{paddingLeft:focused?"16px":"32px"}}
                                     transition={{duration:0.2,ease:"linear"}}
                                     ref={inputRef}
+                                    name="search"
+                                    id="search"
                                     type="text"
                                     className={`rounded-full p-1 focus-within:outline-none bg-gray-1/80 text-base placeholder:text-base  w-[250px] max-[320px]:w-[200px]`}
                                     placeholder="Search"

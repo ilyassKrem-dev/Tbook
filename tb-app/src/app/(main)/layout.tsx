@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
+
 import "../globals.css";
 import { ToastProvider } from "@/assets/Wrappers/toastWrapper";
 import AuthWrapper from "@/assets/Wrappers/authWrapper";

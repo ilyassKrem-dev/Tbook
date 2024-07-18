@@ -10,7 +10,7 @@ export default function TopNav() {
     const {w} = useSize()
     
     return (
-        <div className="fixed top-0 right-0 left-0 z-40 bg-white shadow-[-1px_4px_3px_1px_rgba(232,229,229,1)]">
+        <div className="fixed top-0 right-0 left-0 z-50 bg-white shadow-[-1px_4px_3px_1px_rgba(232,229,229,1)]">
             {user&&<div className={`w-full flex  items-center relative ${w>953 ?" justify-center":" justify-between"}`}>
                 <LogoASearch w={w}/>
                 {w>660&&<Navigation />}
