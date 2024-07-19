@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\post\Medias;
-use App\Models\Posts;
-use App\Models\Likes;
+use App\Models\post\Posts;
+use App\Models\post\Likes;
 use App\Models\User;
 use App\Http\Requests\PostRequest;
 class PostController extends Controller
@@ -29,7 +29,7 @@ class PostController extends Controller
                 ]);
             }
         } 
-
+        
         return response()->json(["message"=>"Post created",200]);
     }
 }

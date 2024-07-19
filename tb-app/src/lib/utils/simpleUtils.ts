@@ -1,5 +1,11 @@
 
-
+export const getStringDate = (time:string) => {
+    const date = new Date(time)
+    const month = date.toLocaleDateString(undefined,{month:"long"})
+    const day = date.getDay()
+    const year = date.getFullYear()
+    return {day,month,year}
+}
 
 export const currentDate = () => {
     const date = new Date()

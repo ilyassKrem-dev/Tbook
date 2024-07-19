@@ -9,7 +9,7 @@ export default function ProfileTemplate({userData}:{
     userData:UserDataType
 }) {
     const {user,friends} = userData
-    
+    console.log(userData)
     const {w} = useSize()
     return (
         <>

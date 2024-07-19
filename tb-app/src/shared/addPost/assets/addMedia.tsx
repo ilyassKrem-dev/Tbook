@@ -14,6 +14,7 @@ export default function AddMedia({setMedias}:{
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         const files = e.target.files
+
         if(files && files.length>0) {
             const arrFiles = Array.from(files)
             const handleFiles = (files:File[]) => {

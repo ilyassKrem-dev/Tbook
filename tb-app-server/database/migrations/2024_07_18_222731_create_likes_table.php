@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('medias', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
-            $table->enum('type', ['image', 'video',"audio"]);
             $table->unsignedBigInteger("user_id");
-            $table->foreign('user_id')->refernces("id")->on("users");
+            $table->foreign('user_id')->references("id")->on("users");
             $table->unsignedBigInteger("post_id");
-            $table->foreign('post_id')->refernces("id")->on("posts");
+            $table->foreign('post_id')->references("id")->on("posts")->onDelete("cascade");
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('likes');
     }
 };

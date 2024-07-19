@@ -3,19 +3,14 @@ import { useSession } from "next-auth/react"
 import { useRouter,usePathname } from "next/navigation"
 import { useContext,createContext,useState,useEffect } from "react"
 import LaodingFullScreen from "@/shared/loadingFull"
-type UserType = {
-    id:string;
-    name:string;
-    email:string;
-    image:string | null |undefined;
-    status:string;
-}
+import { UserType } from "@/lib/utils/types/user"
+
 type SessionType = {
     user :UserType | null,
     loginStatus:string |null
 }
 const SessionContext = createContext<SessionType|undefined>(undefined)
-const paths = ["/","/auth/signin","/auth/login","/*"]
+const paths = ["/","/auth/signin","/auth/login","/*","/profile","/profile/**"]
 export const loginInfo = ()=>{
     const context = useContext(SessionContext)
     if(!context) {

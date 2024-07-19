@@ -1,9 +1,10 @@
 import { FaGlobeAfrica } from "react-icons/fa";
 import { MdArrowDropDown } from "react-icons/md";
 
-export default function SetPostWatch({profileImage,profileName}:{
+export default function SetPostWatch({profileImage,profileName,status}:{
     profileImage:string|null;
-    profileName:string
+    profileName:string;
+    status:string
 }) {
 
     return (
@@ -19,7 +20,7 @@ export default function SetPostWatch({profileImage,profileName}:{
                     <h2 className="font-bold capitalize">{profileName}</h2>
                     <button className="flex gap-1 items-center text-xs  p-[0.15rem] rounded-md  px-2 bg-gray-300/60 font-semibold">
                         <FaGlobeAfrica />
-                        <p className="max-w-[150px] truncate cursor-pointer">Public</p>
+                        <p className="max-w-[150px] truncate cursor-pointer">{status}</p>
                         
                         <MdArrowDropDown className="text-xl"/>
                     </button>

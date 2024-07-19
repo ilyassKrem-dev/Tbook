@@ -1,19 +1,23 @@
 import { UserDataType } from "@/lib/utils/types/user"
-import SendPost from "./assets/sendPost"
-
-
+import SendPost from "../../../../../shared/addPost/sendPost"
+import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import LeftSide from "./leftSide/leftSide"
+import RightSide from "./rightSide/rightSide"
 
 export default function PostsTab({userData}:{
     userData:UserDataType
 }) {
-    const {user,friends} = userData
+    const userInfo = userData.user
+    const {user} = loginInfo()
     return (
         <>
-            <div className="flex gap-3 bg-gray-1 items-center">
-                <div className="bg-white rounded-lg p-3 flex-1 font-bold max-w-[490px]">
-                    <h1 className="text-lg">Intro</h1>
+            <div className="flex gap-3 bg-gray-1 items-start pb-32 flex-col lg:flex-row">
+                <LeftSide userData={userData}/>
+                <div className="flex flex-col gap-3 flex-1">
+                    {user&&userInfo.id === user.id&&
+                    <SendPost user={user}/>}
+                    <RightSide userInfo={userInfo} user={user}/>
                 </div>
-                <SendPost user={user}/>
             </div>
         </>
     )

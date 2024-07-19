@@ -4,17 +4,16 @@ import {  useState } from "react"
 import { IoMdPhotos } from "react-icons/io";
 import AddPost from "@/shared/addPost/addPost";
 
-
+import { UserType } from "@/lib/utils/types/user"
 
 
 export default function SendPost({user}:{
-    user:FullUserType
+    user:UserType
 }) {
     const [show,setShow] = useState<boolean>(false)
-    
     return (
         <>
-            <div className="flex-1 bg-white rounded-lg p-3  px-4 flex flex-col gap-3">
+            <div className="flex-1 bg-white rounded-lg p-3  px-4 flex flex-col gap-3 w-full sm-shadow">
                 <div className="flex gap-3 items-center">
                     <Link  href={`/profile/${user.username}`} className=" hover:opacity-50  w-[43.43px] h-[40px] ">
                         <img 

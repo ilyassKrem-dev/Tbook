@@ -80,4 +80,19 @@ class UserController extends Controller
                 "friends"=>[],
             ],200);
     }
+
+    function addBio(Request $request) {
+       $data = $request->validate(
+        [
+            "user_id"=>"required",
+            "bio"=>"required|max:101|min:1|string"
+        ]
+        );
+        $user = User::where('id',$data["user_id"])->first();
+        if(!$user) {
+            return response()->json(['message'=>"User not found"],404);
+        }
+        $user->update(["bio"=>$data['bio']]);
+        return response()->json(['message'=>"Added"],200);
+    }
 }
