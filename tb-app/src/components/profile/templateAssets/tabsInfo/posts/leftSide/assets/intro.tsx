@@ -28,7 +28,7 @@ export default function Intro({userInfo,user}:{
 
     const handleAddBio = async() => {
         if(!words || !isUser) return
-        const res = await new User(userInfo.id).addBio(userInfo.id,words)
+        const res = await  User.addBio(userInfo.id,words)
         if(res?.success) {
             setUserBio(words)
             setShowBio(false)

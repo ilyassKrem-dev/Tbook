@@ -11,9 +11,9 @@ export default function PostsTab({userData}:{
     const {user} = loginInfo()
     return (
         <>
-            <div className="flex gap-3 bg-gray-1 items-start pb-32 flex-col lg:flex-row">
+            <div className="flex gap-3 bg-gray-1 items-start pb-12 flex-col lg:flex-row">
                 <LeftSide userData={userData}/>
-                <div className="flex flex-col gap-3 flex-1">
+                <div className="flex flex-col gap-3 flex-1 w-full">
                     {user&&userInfo.id === user.id&&
                     <SendPost user={user}/>}
                     <RightSide userInfo={userInfo} user={user}/>

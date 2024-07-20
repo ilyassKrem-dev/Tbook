@@ -10,7 +10,12 @@ export type UserType = {
     email:string;
     username:string;
 }
-
+export type PostUserType = {
+    id:string;
+    name:string;
+    username:string;
+    image:string|null;
+}
 
 export type userFriendsType = {
     username:string;

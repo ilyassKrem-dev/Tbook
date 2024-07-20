@@ -1,25 +1,43 @@
 import { FullUserType, UserType } from "@/lib/utils/types/user"
 import { getStringDate } from "@/lib/utils/simpleUtils"
-import { MdCake } from "react-icons/md";
-import { BiLike,BiSolidLike  } from "react-icons/bi";
-import { FaRegComment } from "react-icons/fa6";
-import { TbShare3 } from "react-icons/tb";
-import { MdOutlineAccessTimeFilled } from "react-icons/md";
+import { MdCake, MdOutlineAccessTimeFilled } from "react-icons/md";
+
+import PostHeader from "@/shared/posts/postHeader";
+import PostFooter from "@/shared/posts/postFooter";
+import PostBtns from "@/shared/posts/postBtns";
+import { useEffect, useState } from "react";
+import User from "@/lib/classes/User";
+import PostTemplate from "@/shared/posts/postTemplate";
+import { PostType } from "@/lib/utils/types/post";
 import { BsDot } from "react-icons/bs";
-
-
-
 export default function RightSide({userInfo,user}:{
     userInfo:FullUserType;
     user:UserType | null
 }) {
+    const [posts,setPosts] = useState<PostType[]>([])
     const {day,month,year} = getStringDate(userInfo.birthdate)
+    
+    useEffect(() => {
+        const getPosts = async() => {
+            const res = await User.getUserPosts(userInfo.id)
+            if(res?.success) {
+                setPosts(res.data)
+            }
+        }
+        getPosts()
+    },[userInfo.id])
 
     return (
         <div className="flex gap-3 w-full flex-col">
             <div className="px-4 py-3 rounded-lg bg-white text-lg font-bold sm-shadow">
                 <h1>Posts</h1>
             </div>
+            {posts.length>0&&
+            posts.map((post,index) => {
+                return (
+                    <PostTemplate key={index} userInfo={userInfo} user={user} post={post}/>
+                )
+            })}
             <div className="px-4 py-3 rounded-lg bg-white  sm-shadow">
                 <div className="flex gap-3  items-center">
                     <div className="w-[40px] h-[40px] rounded-full">
@@ -42,46 +60,8 @@ export default function RightSide({userInfo,user}:{
                     </div>
                     <p className="font-semibold text-lg">Born on {month} {day}, {year}</p>
                 </div>
-                <div className="flex gap-1 border-y border-gray-500/30 py-1 mt-10">
-                    <div className="flex-1 text-center font-bold text-gray-600/80 flex items-center gap-1 justify-center cursor-pointer hover:bg-gray-300/40 rounded-md hover-opacity active:scale-95 p-[0.4rem]">
-                        <BiLike className="text-xl"/>
-                        Like
-                    </div>
-                    <div className="flex-1 text-center font-bold text-gray-600/80 flex items-center gap-1 justify-center cursor-pointer hover:bg-gray-300/40 rounded-md hover-opacity active:scale-95 p-[0.4rem]">
-                        <FaRegComment className="text-xl" />
-                        Comment
-                    </div>
-                    <div className="flex-1 text-center font-bold text-gray-600/80 flex items-center gap-1 justify-center cursor-pointer hover:bg-gray-300/40 rounded-md hover-opacity active:scale-95 p-[0.4rem]">
-                        <TbShare3  className="text-xl"/>
-                        Share
-                    </div>
-                </div>
-                {user&&
-                <div className="mt-4">
-                        <div className={`flex gap-1 items-center`}>
-                            <div className="w-[32px] h-[32px] rounded-full">
-                                <img 
-                                src={user?.image ? user?.image: "/profile.jpg"} 
-                                alt={`${user?.name} image`}
-                                className="rounded-full w-full h-full object-cover" />
-                            </div>
-                            <div className="w-full">
-                                <div className="w-full">
-                                <div 
-                                    className={`w-full focus-within:outline-none resize-none  custom-scrollbar  font-noto bg-gray-500/10 rounded-full  p-[0.39rem] relative`}
-                                    >
-                                        <p contentEditable className=" focus-within:outline-none pl-1 break-words">
-
-                                        </p>
-                                        <p  className="absolute left-3 text-base text-gray-500/60 top-[0.50rem]">
-                                            Write a comment...
-                                        </p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                </div>}
+                <PostBtns />
+                <PostFooter user={user}/>
             </div>
         </div>
     )

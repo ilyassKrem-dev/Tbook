@@ -8,7 +8,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Likes extends Model
 {
     use HasFactory,HasApiTokens;
-    protected $tabel= "likes";
+    protected $table= "likes";
     protected $fillable=[
         "user_id",
         "post_id",

@@ -32,4 +32,22 @@ class PostController extends Controller
         
         return response()->json(["message"=>"Post created",200]);
     }
+    function likePost(Request $request) {
+        $data = $request->validate(
+            [
+                "user_id"=>"required",
+                "post_id"=>"required"
+            ]
+        );
+        $liked = Likes::where("user_id",$data['user_id'])
+                        ->where("post_id",$data['post_id'])
+                        ->first();
+        if($liked) {
+            $liked->delete();
+            return response()->json(['message'=>"Like removed"],200);
+        }
+        Likes::create(["user_id"=>$data["user_id"],"post_id"=>$data["post_id"]]);
+
+        return response()->json(['message'=>"Like added"],201);
+    }
 }

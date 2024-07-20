@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\post\Posts;
 use App\Http\Requests\UserRequest;
+use App\Models\post\Likes;
+use App\Models\post\Medias;
+
 class UserController extends Controller
 {
     function login(Request $request) {
@@ -94,5 +98,34 @@ class UserController extends Controller
         }
         $user->update(["bio"=>$data['bio']]);
         return response()->json(['message'=>"Added"],200);
+    }
+    function getUserPosts(Request $request) {
+        $data = $request->only("userId");
+        $posts = Posts::where("user_id",$data["userId"])->get();
+        $medias = [];
+        $likes = [];
+        $newPosts = [];
+        foreach($posts as $post) {
+            $medias = Medias::where("post_id",$post->id)->get();
+        }
+        foreach($posts as $post) {
+            $likes = Likes::where("post_id",$post->id)->get();
+        }
+        foreach($posts as $post) {
+    
+            array_push($newPosts,[
+                "id"=>$post->id,
+                "content"=>$post->content,
+                "status"=>$post->status,
+                "user_id"=>$post->user_id,
+                "likes"=>$likes,
+                "medias"=>$medias,
+                'created_at'=>$post->created_at,
+                'updated_at'=>$post->updated_at
+            ]);
+        }
+        
+        return response()->json(['posts'=>$newPosts],200);
+        
     }
 }

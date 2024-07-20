@@ -10,7 +10,7 @@ export default function LeftSide({userData}:{
     const userInfo = userData.user
     const {user} = loginInfo()
     return (
-        <div className="flex flex-col gap-2 flex-1 w-full lg:max-w-[490px]">
+        <div className="flex flex-col gap-2 flex-1 w-full lg:max-w-[490px] sticky top-0 bottom-0 ">
             <Intro userInfo={userInfo} user={user}/>
         </div>
     )

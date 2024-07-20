@@ -8,7 +8,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Medias extends Model
 {
     use HasFactory,HasApiTokens;
-    protected $tabel= "medias";
+    protected $table= "medias";
     protected $fillable=[
         "url",
         "type",

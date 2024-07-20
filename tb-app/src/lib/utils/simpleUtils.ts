@@ -1,8 +1,9 @@
 
 export const getStringDate = (time:string) => {
+    
     const date = new Date(time)
     const month = date.toLocaleDateString(undefined,{month:"long"})
-    const day = date.getDay()
+    const day = date.getDate()
     const year = date.getFullYear()
     return {day,month,year}
 }

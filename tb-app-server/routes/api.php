@@ -15,8 +15,10 @@ Route::controller(UserController::class)
         Route::post('/user',"fetchUser");
         Route::post("/getuser","getUsetData");
         Route::patch("/addBio","addBio");
+        Route::post("/getUserPosts","getUserPosts");
     });
 Route::controller(PostController::class)
     ->group(function() {
         Route::post('/addpost',"addPost");
+        Route::post("/likePost","likePost");
     });

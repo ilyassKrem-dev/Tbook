@@ -1,5 +1,6 @@
 import axios from "axios"
 import Servers from "./Servers"
+const baseUrl = Servers.laravelURl
 class User {
     private username:string
 
@@ -15,7 +16,7 @@ class User {
             data:undefined
         }
         try {
-            const res = await axios.post(`${Servers.laravelURl}/getuser`,{
+            const res = await axios.post(`${baseUrl}/getuser`,{
                 username:this.username
             })
 
@@ -45,20 +46,20 @@ class User {
             }
         }
     }
-    async addBio(userId:string,bio:string) {
+    static async addBio(userId:string,bio:string) {
         let data = {
             success:false,
             error:"",
             msg:""||null
         }
         try {
-            const res = await axios.patch(`${Servers.laravelURl}/addBio`,{
+            const res = await axios.patch(`${baseUrl}/addBio`,{
                 user_id:userId,
                 bio
             })
             return res.data.message
         } catch (error:any) {
-            console.log(error)
+            
             if(error.message != "Request failed with status code 400") {
                 
                 return {
@@ -72,6 +73,45 @@ class User {
                 data = {
                     success:false,
                     msg:null,
+                    error:err.message
+                }
+                
+                return data
+            }
+        }
+    }
+
+    static async getUserPosts(userId:string) {
+        let data = {
+            success:false,
+            error:"",
+            data:[]||null
+        }
+        
+        try {
+            const res = await axios.post(`${baseUrl}/getUserPosts`,{
+                userId:userId
+            })
+            
+            return {
+                success:true,
+                error:"",
+                data:res.data.posts
+            }
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    data:[],
+                    error:"Internal server error"
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    data:[],
                     error:err.message
                 }
                 

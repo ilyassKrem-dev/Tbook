@@ -4,17 +4,19 @@ import { MdAudiotrack } from "react-icons/md";
 import { FaPlay } from "react-icons/fa";
 
 
-export default function MediaType({media,type,className}:{
+export default function MediaType({media,type,className,controll}:{
     media:string;
     type:"image"|"audio"|"video";
-    className?:string
+    className?:string;
+    controll?:boolean
 }) {
     if(type=="video") {
         return (
             <div className="relative flex items-center justify-center flex-col h-full w-full">
                 <video 
                 src={media} 
-                className={className}>
+                className={className}
+                controls={controll}>
 
                 </video>
                 <div className="absolute">
@@ -27,7 +29,7 @@ export default function MediaType({media,type,className}:{
     if(type=="audio") {
         return (
             <div className="relative flex items-center justify-center flex-col h-full w-full">
-                <audio src={media} className={className}></audio>
+                <audio src={media} className={className} controls={controll}></audio>
                 <div className="absolute">
                     <MdAudiotrack  className="text-xl text-gray-500/80"/>
                 </div>

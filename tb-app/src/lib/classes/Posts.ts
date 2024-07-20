@@ -8,6 +8,8 @@ type postData = {
     status:string;
     user_id:string
 }
+
+const baseUrl = Servers.laravelURl
 class Posts {
 
     static async addPost(postData:postData) {
@@ -17,7 +19,7 @@ class Posts {
             msg:""
         }
         try {
-            const res = await axios.post(`${Servers.laravelURl}/addpost`,postData)
+            const res = await axios.post(`${baseUrl}/addpost`,postData)
             if(res) {
                 data = {
                     success:true,
@@ -42,6 +44,48 @@ class Posts {
                     success:false,
                     msg:"",
                     errors:error.response.data
+                }
+                
+                return data
+            }
+        }
+    }
+
+    static async changeLike(user_id:string,post_id:string) {
+        let data = {
+            success:false,
+            error:'',
+            msg:""
+        }
+        try {
+            const res = await axios.post(`${baseUrl}/likePost`,{
+                user_id,
+                post_id
+            })
+            if(res) {
+                data = {
+                    success:true,
+                    error:"",
+                    msg:res.data.message
+                }
+                return data
+            } 
+            
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    msg:null,
+                    error:"Internal server error"
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    msg:"",
+                    error:err
                 }
                 
                 return data
