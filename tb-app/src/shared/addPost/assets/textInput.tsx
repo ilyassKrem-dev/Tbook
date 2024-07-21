@@ -10,23 +10,26 @@ interface Props {
 export default function TextInput({transformedText,setPostText,setTranformedText}:Props) {
     const editableDivRef = useRef<HTMLDivElement>(null);
     const handleChange = (event:any) => {
-        const text = event.target.innerHTML
-        setPostText(text);
         event.target.style.height = '100px';
         event.target.style.height = `${event.target.scrollHeight}px`;
-        const lastText = Array.from(text)[text.length -1] as string
+        const text = event.target.innerText
+        setPostText(text);
+        
+        const htmlText = event.target.innerHTML
+        const lastText = Array.from(htmlText)[htmlText.length -1] as string
         const reg = /;/
         if (reg.test(lastText)) {
             const reg = /@\w+/g;
-            const replacedContent = text.replace(reg, (match:any) => {
+            const replacedContent = htmlText.replace(reg, (match:any) => {
                 return `<a href="#" class='text-blue-400 underline'>${match}</a>`;
             });
     
             return setTranformedText(replacedContent);
         }
-        return setTranformedText(text)   
+        return setTranformedText(htmlText)   
        
     };
+    
     useEffect(() => {
         
         if (editableDivRef.current) {

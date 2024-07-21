@@ -35,7 +35,11 @@ export default function RightSide({userInfo,user}:{
             {posts.length>0&&
             posts.map((post,index) => {
                 return (
-                    <PostTemplate key={index} userInfo={userInfo} user={user} post={post}/>
+                    <PostTemplate 
+                    key={index} 
+                    userInfo={userInfo} 
+                    user={user} 
+                    post={post}/>
                 )
             })}
             <div className="px-4 py-3 rounded-lg bg-white  sm-shadow">
@@ -60,8 +64,6 @@ export default function RightSide({userInfo,user}:{
                     </div>
                     <p className="font-semibold text-lg">Born on {month} {day}, {year}</p>
                 </div>
-                <PostBtns />
-                <PostFooter user={user}/>
             </div>
         </div>
     )

@@ -16,10 +16,8 @@ class User {
             data:undefined
         }
         try {
-            const res = await axios.post(`${baseUrl}/getuser`,{
-                username:this.username
-            })
-
+            const res = await axios.get(`${baseUrl}/getuser/${this.username}`)
+    
             return {
                 success:true,
                 error:"",
@@ -89,10 +87,8 @@ class User {
         }
         
         try {
-            const res = await axios.post(`${baseUrl}/getUserPosts`,{
-                userId:userId
-            })
-            
+            const res = await axios.get(`${baseUrl}/${userId}/getUserPosts`)
+       
             return {
                 success:true,
                 error:"",

@@ -29,9 +29,43 @@ export type PostType = {
     content:string;
     created_at:string;
     updated_at:string;
+    f_comment:FCommentType|null;
     medias:PostMediaType[];
     likes:LikeType[];
     status:string;
     user_id:string;
     id:string;
+}
+
+export type FCommentType = {
+    id:string;
+    created_at:string;
+    updated_at:string;
+    content:string;
+    post_id:string;
+    likes:number;
+    user:{
+        id:string;
+        name:string;
+        username:string;
+        image:string|null;
+    };
+    parent_id:string|null;
+    more:boolean
+}
+
+export type CommentType = {
+    id:string;
+    created_at:string;
+    updated_at:string;
+    content:string;
+    post_id:string;
+    likes:number;
+    user:{
+        id:string;
+        name:string;
+        username:string;
+        image:string|null;
+    };
+    parent_id:string|null
 }

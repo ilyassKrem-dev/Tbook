@@ -5,14 +5,14 @@ namespace App\Models\post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
-class Likes extends Model
+class Comment extends Model
 {
     use HasFactory,HasApiTokens;
-    protected $table= "likes";
-    protected $fillable=[
+    protected $table = "comments";
+    protected $fillable = [
         "user_id",
+        "parent_id",
         "post_id",
-        "comment_id"
-
+        "content"
     ];
 }

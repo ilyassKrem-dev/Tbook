@@ -8,7 +8,7 @@ use App\Models\post\Posts;
 use App\Http\Requests\UserRequest;
 use App\Models\post\Likes;
 use App\Models\post\Medias;
-
+use App\Models\post\Comment;
 class UserController extends Controller
 {
     function login(Request $request) {
@@ -57,9 +57,8 @@ class UserController extends Controller
         ]);
     }
 
-    function getUsetData(Request $request) {
-        $data = $request->only("username");
-        $user = User::where("username",$data["username"])->first();
+    function getUsetData($username) {
+        $user = User::where("username",$username)->first();
 
 
         if(!$user) {
@@ -99,27 +98,54 @@ class UserController extends Controller
         $user->update(["bio"=>$data['bio']]);
         return response()->json(['message'=>"Added"],200);
     }
-    function getUserPosts(Request $request) {
-        $data = $request->only("userId");
-        $posts = Posts::where("user_id",$data["userId"])->get();
+    function getUserPosts($userId) {
+        $posts = Posts::where("user_id",$userId)->get();
         $medias = [];
         $likes = [];
         $newPosts = [];
         foreach($posts as $post) {
-            $medias = Medias::where("post_id",$post->id)->get();
+            $medias[$post->id] = Medias::where("post_id",$post->id)->get();
         }
         foreach($posts as $post) {
-            $likes = Likes::where("post_id",$post->id)->get();
+            $likes[$post->id] = Likes::where("post_id",$post->id)->get();
         }
         foreach($posts as $post) {
-    
+            $allComments = Comment::where("post_id",$post->id)->get();
+            $counted = count($allComments);
+           $comment = Comment::where("post_id",$post->id)
+                    ->orderBy("created_at","desc")
+                    ->first();
+            if($comment) {
+                $user = User::where("id",$comment->user_id)->first();
+                $nmLikes = Likes::where("comment_id",$comment->id)->get();
+                
+                $userInfo = [
+                    "id"=>$user->id,
+                    "name"=>$user->name,
+                    "username"=>$user->username,
+                    "image"=>$user->image
+                ];
+                $newComment=[
+                    "id"=>$comment->id,
+                    "user"=>$userInfo,
+                    "likes"=>count($nmLikes),
+                    "post_id"=>$comment->post_id,
+                    'created_at'=>$comment->created_at,
+                    'updated_at'=>$comment->updated_at,
+                    "content"=>$comment->content,
+                    "parent_id"=>$comment->parent_id,
+                    "more"=>$counted>1 ? true : false
+                ];
+            }
+          
             array_push($newPosts,[
                 "id"=>$post->id,
                 "content"=>$post->content,
                 "status"=>$post->status,
                 "user_id"=>$post->user_id,
-                "likes"=>$likes,
-                "medias"=>$medias,
+                "f_comment"=>empty($newComment)?null:$newComment,
+                "likes"=>$likes[$post->id],
+                "medias"=>$medias[$post->id],
                 'created_at'=>$post->created_at,
                 'updated_at'=>$post->updated_at
             ]);

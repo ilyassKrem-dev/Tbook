@@ -37,3 +37,37 @@ export const allDates = () => {
     return {days,months,years}
 }
 
+
+export const getDayOfComment = (time:string) => {
+    const date = new Date(time)
+    const currentDate = new Date()
+    const differenceMilliseconds = currentDate.getTime() - date.getTime()
+    const millisecondsPerSecond = 1000;
+    const millisecondsPerMinute = millisecondsPerSecond * 60;
+    const millisecondsPerHour = millisecondsPerMinute * 60;
+    const millisecondsPerDay = millisecondsPerHour * 24;
+    const millisecondsPerMonth = millisecondsPerDay * 30; 
+    const millisecondsPerYear = millisecondsPerDay * 365;
+
+    if (differenceMilliseconds < millisecondsPerHour) {
+        const differenceMinutes = Math.floor(differenceMilliseconds / millisecondsPerMinute);
+        return `${differenceMinutes}m`;
+    } else if (differenceMilliseconds < millisecondsPerDay) {
+        // Less than a day
+        const differenceHours = Math.floor(differenceMilliseconds / millisecondsPerHour);
+        return `${differenceHours}h`;
+    } else if (differenceMilliseconds < millisecondsPerMonth) {
+        // Less than a month
+        const differenceDays = Math.floor(differenceMilliseconds / millisecondsPerDay);
+        return `${differenceDays}d`;
+    } else if (differenceMilliseconds < millisecondsPerYear) {
+        // Less than a year
+        const differenceMonths = Math.floor(differenceMilliseconds / millisecondsPerMonth);
+        return `${differenceMonths}m`;
+    } else {
+        // More than a year
+        const differenceYears = Math.floor(differenceMilliseconds / millisecondsPerYear);
+        return `${differenceYears}y`;
+    }
+
+}

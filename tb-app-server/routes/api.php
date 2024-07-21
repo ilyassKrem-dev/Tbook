@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentControllere;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,12 +14,20 @@ Route::controller(UserController::class)
         Route::post('/signin',"signin");
         Route::post('/login',"login");
         Route::post('/user',"fetchUser");
-        Route::post("/getuser","getUsetData");
+        Route::get("/getuser/{username}","getUsetData");
         Route::patch("/addBio","addBio");
-        Route::post("/getUserPosts","getUserPosts");
+        Route::get("/{userId}/getUserPosts","getUserPosts");
     });
 Route::controller(PostController::class)
     ->group(function() {
         Route::post('/addpost',"addPost");
         Route::post("/likePost","likePost");
+        
+        
+    });
+Route::controller(CommentControllere::class)
+    ->group(function() {
+        Route::post('/addComment',"addComment");
+        Route::get("/{postId}/getComment","getComment");
+        Route::post("/likeComment","likeComment");
     });

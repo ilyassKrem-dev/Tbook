@@ -7,6 +7,7 @@ use App\Models\post\Medias;
 use App\Models\post\Posts;
 use App\Models\post\Likes;
 use App\Models\User;
+use App\Models\post\Comment;
 use App\Http\Requests\PostRequest;
 class PostController extends Controller
 {
@@ -46,8 +47,9 @@ class PostController extends Controller
             $liked->delete();
             return response()->json(['message'=>"Like removed"],200);
         }
-        Likes::create(["user_id"=>$data["user_id"],"post_id"=>$data["post_id"]]);
+        Likes::create(["user_id"=>$data["user_id"],"post_id"=>$data["post_id"],"comment_id"=>null]);
 
         return response()->json(['message'=>"Like added"],201);
     }
+    
 }
