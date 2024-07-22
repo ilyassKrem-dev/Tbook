@@ -22,12 +22,12 @@ Route::controller(PostController::class)
     ->group(function() {
         Route::post('/addpost',"addPost");
         Route::post("/likePost","likePost");
-        
+        Route::get("/getAllPosts","getAllPosts");
         
     });
 Route::controller(CommentControllere::class)
     ->group(function() {
         Route::post('/addComment',"addComment");
-        Route::get("/{postId}/getComment","getComment");
+        Route::get("/{postId}/getComments","getComments");
         Route::post("/likeComment","likeComment");
     });

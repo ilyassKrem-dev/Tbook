@@ -48,3 +48,23 @@ export const removeOverlay =({tab,setShow}:{
     },[])
 }
 
+export const ScrollDetector = () => {
+    const [scrollingStarted, setScrollingStarted] = useState(false);
+  
+    useEffect(() => {
+        const handleScroll = () => {
+          if (window.scrollY > 0 && !scrollingStarted) {
+            setScrollingStarted(true);
+          } else if (window.scrollY === 0 && scrollingStarted) {
+            setScrollingStarted(false);
+          }
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+    
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }, [scrollingStarted]);
+    return scrollingStarted
+}

@@ -1,3 +1,4 @@
+import { PostUserType } from "./user";
 
 
 
@@ -36,7 +37,16 @@ export type PostType = {
     user_id:string;
     id:string;
 }
-
+export type DefaultPostType = {
+    content:string;
+    created_at:string;
+    updated_at:string;
+    medias:PostMediaType[];
+    likes:LikeType[];
+    status:string;
+    user:PostUserType;
+    id:string;
+}
 export type FCommentType = {
     id:string;
     created_at:string;
@@ -44,6 +54,7 @@ export type FCommentType = {
     content:string;
     post_id:string;
     likes:number;
+    replies:CommentType[]
     user:{
         id:string;
         name:string;

@@ -4,6 +4,7 @@ import { UserType } from "@/lib/utils/types/user"
 import LeftTabs from "./leftTabs/leftTabs"
 import { useSize } from "@/lib/utils/hooks"
 import RightHome from "./right/rightHome"
+import MiddleHome from "./middle/middleHome"
 export default function Home({user}:{
     user:UserType
 }) {
@@ -11,12 +12,10 @@ export default function Home({user}:{
     return (
         <>
             <TopNav />  
-            {user&&<div className="h-screen flex  gap-10 pt-20">
+            {user&&<div className="min-h-screen flex  gap-10 pt-20">
                 {w>1023&&<LeftTabs user={user}/>}
                 
-                <div className="flex-1">
-                    middle
-                </div>
+                <MiddleHome  userDetails={user}/>
                 
 
                 {w>830&&<RightHome user={user}/>}

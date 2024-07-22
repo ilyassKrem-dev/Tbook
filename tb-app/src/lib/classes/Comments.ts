@@ -13,7 +13,7 @@ class Comments {
 
     static async getCommments(postId:string) {
         try {
-            const res = await axios.get(`${baseUrl}/${postId}/getComment`)
+            const res = await axios.get(`${baseUrl}/${postId}/getComments`)
             return {
                 success:true,
                 data:res.data.comments || [],
@@ -34,7 +34,7 @@ class Comments {
         user_id:string;
         post_id:string;
         content:string;
-        parent_id:string|null
+        parent_id:string|null;
     }) {
         let data = {
             success:false,
@@ -47,7 +47,8 @@ class Comments {
                 user_id,
                 post_id,
                 content,
-                parent_id
+                parent_id,
+        
             })
             if(res) {
                 data = {
@@ -79,7 +80,7 @@ class Comments {
             }
         }
     }
-    static async likeComment(userId:string,comment_id:string) {
+    static async likeComment(userId:string,comment_id:string,post_id:string) {
         let data = {
             success:false,
             error:'',
@@ -88,7 +89,8 @@ class Comments {
         try {
             const res = await axios.post(`${baseUrl}/likeComment`,{
                 user_id:userId,
-                comment_id
+                comment_id,
+                post_id
             })
             if(res) {
                 data = {

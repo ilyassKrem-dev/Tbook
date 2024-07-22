@@ -2,13 +2,14 @@ import { BiLike,BiSolidLike  } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa6";
 import { TbShare3 } from "react-icons/tb";
 import { motion,AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import Posts from "@/lib/classes/Posts";
 import { useToast } from "@/assets/Wrappers/toastWrapper";
-export default function PostBtns({userId,isLiked,postId}:{
+export default function PostBtns({userId,isLiked,postId,setShow}:{
     userId:string;
     isLiked:boolean;
-    postId:string
+    postId:string;
+    setShow:React.Dispatch<SetStateAction<boolean>>
 }) {
     const [liked,setLiked] = useState<boolean>(isLiked)
     const {toast} = useToast()
@@ -56,7 +57,7 @@ export default function PostBtns({userId,isLiked,postId}:{
                     </AnimatePresence>
                     Like
                 </div>
-                <div className="flex-1 text-center font-bold text-gray-600/80 flex items-center gap-1 justify-center cursor-pointer hover:bg-gray-300/40 rounded-md hover-opacity active:scale-95 p-[0.4rem]">
+                <div className="flex-1 text-center font-bold text-gray-600/80 flex items-center gap-1 justify-center cursor-pointer hover:bg-gray-300/40 rounded-md hover-opacity active:scale-95 p-[0.4rem]" onClick={() => setShow(true)}>
                     <FaRegComment className="text-xl" />
                     Comment
                 </div>

@@ -5,18 +5,20 @@ import { SetStateAction } from "react";
 import { FCommentType } from "@/lib/utils/types/post";
 import PostComment from "./footer/postComment";
 
-export default function PostFooter({user,postId,comment,setComment}:{
+export default function PostFooter({user,postId,comment,setComment,setShow}:{
     user:UserType | null;
     postId:string;
     comment:FCommentType| null
-    setComment:React.Dispatch<SetStateAction<FCommentType|null>>
+    setComment:React.Dispatch<SetStateAction<FCommentType|null>>;
+    setShow:React.Dispatch<SetStateAction<boolean>>
 }) {
    
     return (
         <>
-            {comment&&<PostComment 
+            {comment&&<PostComment
             comment={comment}
-            userId={user?.id as string}
+            user={user as UserType}
+            setShow={setShow}
             />}
             {user&&
                 <AddComment 

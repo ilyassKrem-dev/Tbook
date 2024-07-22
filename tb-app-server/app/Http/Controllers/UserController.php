@@ -9,6 +9,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\post\Likes;
 use App\Models\post\Medias;
 use App\Models\post\Comment;
+use App\Helpers\Helpers;
 class UserController extends Controller
 {
     function login(Request $request) {
@@ -112,13 +113,20 @@ class UserController extends Controller
         foreach($posts as $post) {
             $allComments = Comment::where("post_id",$post->id)->get();
             $counted = count($allComments);
-           $comment = Comment::where("post_id",$post->id)
+            $comment = Comment::where("post_id",$post->id)
+                    ->where("parent_id",null)
                     ->orderBy("created_at","desc")
                     ->first();
             if($comment) {
                 $user = User::where("id",$comment->user_id)->first();
                 $nmLikes = Likes::where("comment_id",$comment->id)->get();
-                
+                $replies = Comment::where("parent_id",$comment->id)
+                            ->get();
+                $newReplies = [];
+                foreach ($replies as $reply) {
+                    $re = Helpers::addUserToComment($reply);
+                    array_push($newReplies,$re);
+                };
                 $userInfo = [
                     "id"=>$user->id,
                     "name"=>$user->name,
@@ -128,6 +136,7 @@ class UserController extends Controller
                 $newComment=[
                     "id"=>$comment->id,
                     "user"=>$userInfo,
+                    "replies"=>$newReplies,
                     "likes"=>count($nmLikes),
                     "post_id"=>$comment->post_id,
                     'created_at'=>$comment->created_at,

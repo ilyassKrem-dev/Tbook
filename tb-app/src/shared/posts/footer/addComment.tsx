@@ -3,14 +3,17 @@ import Emotes from "@/shared/addPost/assets/emotes";
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import Comments from "@/lib/classes/Comments";
 import { useToast } from "@/assets/Wrappers/toastWrapper";
-import { FCommentType } from "@/lib/utils/types/post";
+import { CommentType, FCommentType } from "@/lib/utils/types/post";
 
-export default function AddComment({userId,userName,userImage,postId,setComment}:{
+export default function AddComment({userId,userName,userImage,postId,setComment,commentId,setComments,isReply}:{
     userId:string;
     userName:string;
     userImage:string|null;
     postId:string;
-    setComment:React.Dispatch<SetStateAction<FCommentType|null>>
+    setComment?:React.Dispatch<SetStateAction<FCommentType|null>>;
+    setComments?:React.Dispatch<SetStateAction<CommentType[]>>;
+    commentId?:string|null;
+    isReply?:boolean
 }) {
     const [postText, setPostText] = useState<string>('');
     const [transformedText,setTranformedText] = useState<string>("")
@@ -62,14 +65,19 @@ export default function AddComment({userId,userName,userImage,postId,setComment}
         const res = await Comments.addComment({
             user_id:userId,
             post_id:postId,
-            parent_id:null,
+            parent_id:commentId || null,
             content:postText
         })
         if(res?.success) {
             setPostText("")
             setTranformedText("")
             setClicked(false)
-            return setComment(res.data as any)
+            if(setComment) {
+                return setComment(res.data as any)
+            } 
+            if(setComments) {
+                return setComments((prev:any)=>([res.data,...prev]))
+            }
         }
         if(res?.success == null) {
             return toast({
@@ -83,14 +91,14 @@ export default function AddComment({userId,userName,userImage,postId,setComment}
         <>
             <div className="mt-4 px-4">
                     <div className={`flex gap-1 items-center`}>
-                        <div className="w-[32px] h-[32px] rounded-full">
+                        <div className="w-[32px] h-[32px] rounded-full self-start">
                             <img 
                             src={userImage ? userImage: "/profile.jpg"} 
                             alt={`${userName} image`}
                             className="rounded-full w-full h-full object-cover" />
                         </div>
                         <div className="w-full">
-                            <div className={`w-full flex ${clicked?"flex-col":"flex-row"} bg-gray-500/10 p-[0.39rem] rounded-lg`}>
+                            <div className={`w-full flex ${clicked?"flex-col":"flex-row"} bg-gray-500/10 p-[0.39rem] rounded-lg max-w-[220px] sm:max-w-[450px] md:max-w-full`}>
                                 <div
                                 onClick={handleClick} 
                                 className={`w-full focus-within:outline-none resize-none  custom-scrollbar  font-noto  rounded-lg   relative flex items-center cursor-text`}
@@ -105,7 +113,7 @@ export default function AddComment({userId,userName,userImage,postId,setComment}
                                     </div>
                                     {!postText&&<p
                                       className="absolute left-1 top-[0.1rem] text-base text-gray-500/60  w-fit cursor-text">
-                                        Write a comment...
+                                        {!isReply?"Write a comment...":"Write a reply..."}
                                     </p>}
                                     
                                 </div>

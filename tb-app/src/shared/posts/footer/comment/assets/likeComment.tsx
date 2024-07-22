@@ -4,14 +4,15 @@ import { useToast } from "@/assets/Wrappers/toastWrapper";
 
 
 
-export default function LikeComment({setLikes,userId,comment_id}:{
+export default function LikeComment({setLikes,userId,comment_id,postId}:{
     setLikes:React.Dispatch<SetStateAction<number>>;
     userId:string;
-    comment_id:string
+    comment_id:string;
+    postId:string
 }) {
     const {toast}= useToast()
     const handleLike = async() => {
-        const res = await Comments.likeComment(userId,comment_id)
+        const res = await Comments.likeComment(userId,comment_id,postId)
         if(res?.success) {
             if(res.msg=="like removed") {
                 return setLikes(prev=>prev-1)
