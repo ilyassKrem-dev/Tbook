@@ -23,7 +23,7 @@ export default function LeftTabs({user}:{
                         <img 
                         src={image?image:"/profile.jpg"} 
                         alt={`${name} image`}
-                        className="rounded-full h-full w-full object-cover"/>
+                        className="rounded-full h-full w-full object-cover border-2 bg-white"/>
                     </div>
                     <p className=" cursor-pointer " >{name}</p>
                 </Link>

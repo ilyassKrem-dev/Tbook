@@ -48,7 +48,7 @@ export default function RightSide({userInfo,user}:{
                         <img 
                         src={userInfo.image ? userInfo.image: "/profile.jpg"} 
                         alt={`${userInfo.name} image`}
-                        className="rounded-full w-full h-full object-cover" />
+                        className="rounded-full w-full h-full object-cover border bg-white" />
                     </div>
                     <div className="flex flex-col">
                         <h2 className="font-semibold capitalize text-base">{userInfo.name}</h2>

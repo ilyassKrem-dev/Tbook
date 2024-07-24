@@ -19,7 +19,7 @@ export default function SendPost({user}:{
                         <img 
                         src={user.image?user.image:"/profile.jpg"}
                         alt={`${user.name} image`}
-                        className="w-full h-full object-cover rounded-full"
+                        className="w-full h-full object-cover rounded-full border bg-white"
                             />
 
                     </Link>

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useState } from "react";
 import { BiSolidLike } from "react-icons/bi";
-
+import { changeContentToLinks } from "@/lib/utils/textUtils";
 
 
 export default function CommentContent({name,userName,content,likes}:{
@@ -11,12 +11,7 @@ export default function CommentContent({name,userName,content,likes}:{
     likes:number
 }) {
     const [showMore ,setShowMore] = useState<boolean>(false)
-    const reg = /@\w+\b/
-    const remplacedContent = content.replace(reg,(match:any) => {
-        const username = match.split('@')[1]
-        return `<a href="/profile/${username}" class=" text-blue-400 underline hover-opacity">${match}</a>`
-        
-    })
+    const remplacedContent = changeContentToLinks(content)
     const text = remplacedContent && (remplacedContent.length > 149 ? remplacedContent.slice(0,150) +"..." : remplacedContent)
     return (
         <div className="bg-gray-500/10 flex flex-col rounded-xl p-2  flex-1 relative max-w-[300px] sm:max-w-[350px] md:max-w-[400px] w-fit">

@@ -163,4 +163,16 @@ class UserController extends Controller
         return response()->json(['posts'=>$newPosts],200);
         
     }
+
+    function changePicture(Request $request) {
+        $data = $request->validate(
+            [
+                "user_id"=>"required",
+                "image"=>"required|string"
+            ]
+            );
+        $user = User::where("id",$data["user_id"])->first();
+        $user->update(["image"=>$data['image']]);
+        return response()->json(["message","picture changed"],200);
+    }
 }

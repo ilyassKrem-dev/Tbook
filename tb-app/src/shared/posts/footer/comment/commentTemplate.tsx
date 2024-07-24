@@ -37,7 +37,7 @@ export default function CommentTemplate({comment,userInfo,setComments,replies,is
                             <img 
                             src={user.image ? user.image:"/profile.jpg"} 
                             alt={`${user.name} picture`}
-                            className="w-full h-full rounded-full object-cover"/>
+                            className="w-full h-full rounded-full object-cover border bg-white"/>
                         </Link>
 
                     </div>

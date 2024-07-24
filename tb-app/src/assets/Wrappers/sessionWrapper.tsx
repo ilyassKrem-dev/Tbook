@@ -7,7 +7,7 @@ import { UserType } from "@/lib/utils/types/user"
 
 type SessionType = {
     user :UserType | null,
-    loginStatus:string |null
+    loginStatus:string |null,
 }
 const SessionContext = createContext<SessionType|undefined>(undefined)
 const paths = ["/","/auth/signin","/auth/login","/*","/profile","/profile/**"]

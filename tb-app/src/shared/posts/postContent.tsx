@@ -1,6 +1,7 @@
 import { PostMediaType } from "@/lib/utils/types/post";
 import { useState } from "react";
 import PostMedias from "./postMedias";
+import { changeContentToLinks } from "@/lib/utils/textUtils";
 
 
 export default function PostContent({content,medias}:{
@@ -8,12 +9,7 @@ export default function PostContent({content,medias}:{
     medias:PostMediaType[]
 }) {
     const [showMore ,setShowMore] = useState<boolean>(false)
-    const reg = /@\w+\b/
-    const remplacedContent = content.replace(reg,(match:any) => {
-        const username = match.split('@')[1]
-        return `<a href="/profile/${username}" class=" text-blue-400 underline hover-opacity">${match}</a>`
-        
-    })
+    const remplacedContent = changeContentToLinks(content)
     const text = remplacedContent && (remplacedContent.length > 299 ? remplacedContent.slice(0,300) +"..." : remplacedContent)
    
     return (

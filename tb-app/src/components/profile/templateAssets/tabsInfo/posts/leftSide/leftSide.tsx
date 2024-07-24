@@ -5,7 +5,7 @@ import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
 
 
 export default function LeftSide({userData}:{
-    userData:UserDataType
+    userData:UserDataType;
 }) {
     const userInfo = userData.user
     const {user} = loginInfo()

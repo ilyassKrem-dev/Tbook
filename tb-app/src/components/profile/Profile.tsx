@@ -28,7 +28,10 @@ export default function Profile({user}:{
     },[username])
     return (
         <div>
-            {userData&&<ProfileTemplate userData={userData}/> }
+            {userData&&
+            <ProfileTemplate 
+            userData={userData}
+            loggedInfo={user}/> }
         </div>
     )
 }

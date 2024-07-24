@@ -14,7 +14,7 @@ export default function SetPostWatch({profileImage,profileName,status}:{
                     <img 
                     src={profileImage ? profileImage : "/profile.jpg"} 
                     alt={`${profileName} image`}
-                    className="rounded-full w-full h-full object-cover" />
+                    className="rounded-full w-full h-full object-cover border bg-white" />
                 </div>
                 <div className="flex flex-col">
                     <h2 className="font-bold capitalize">{profileName}</h2>

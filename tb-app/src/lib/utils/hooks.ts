@@ -37,6 +37,7 @@ export const removeOverlay =({tab,setShow}:{
     useEffect(() => {
         const removeOv = (e:any) => {
             const overlay = document.querySelector(tab)
+            
             if(overlay && !overlay.contains(e.target)) {
                 setShow(false)
             }

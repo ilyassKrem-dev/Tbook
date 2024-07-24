@@ -1,5 +1,5 @@
 import { SetStateAction, useEffect, useRef } from "react"
-
+import { changeContentToLinks } from "@/lib/utils/textUtils"
 
 interface Props {
     transformedText:string
@@ -19,10 +19,7 @@ export default function TextInput({transformedText,setPostText,setTranformedText
         const lastText = Array.from(htmlText)[htmlText.length -1] as string
         const reg = /;/
         if (reg.test(lastText)) {
-            const reg = /@\w+/g;
-            const replacedContent = htmlText.replace(reg, (match:any) => {
-                return `<a href="#" class='text-blue-400 underline'>${match}</a>`;
-            });
+            const replacedContent = changeContentToLinks(htmlText,true);
     
             return setTranformedText(replacedContent);
         }

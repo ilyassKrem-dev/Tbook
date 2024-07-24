@@ -17,6 +17,7 @@ Route::controller(UserController::class)
         Route::get("/getuser/{username}","getUsetData");
         Route::patch("/addBio","addBio");
         Route::get("/{userId}/getUserPosts","getUserPosts");
+        Route::put("/changePicture","changePicture");
     });
 Route::controller(PostController::class)
     ->group(function() {

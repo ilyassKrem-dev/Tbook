@@ -17,7 +17,7 @@ export default function PostHeader({userImage,userName,date,username}:{
                     <img 
                     src={userImage ? userImage: "/profile.jpg"} 
                     alt={`${userName} image`}
-                    className="rounded-full w-full h-full object-cover" />
+                    className="rounded-full w-full h-full object-cover border bg-white" />
                 </Link>
                 <div className="flex flex-col">
                     <Link href={`/profile/${userName}`} className="font-semibold capitalize text-base hover:underline transition-all duration-300">{userName}</Link>

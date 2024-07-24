@@ -95,7 +95,7 @@ export default function AddComment({userId,userName,userImage,postId,setComment,
                             <img 
                             src={userImage ? userImage: "/profile.jpg"} 
                             alt={`${userName} image`}
-                            className="rounded-full w-full h-full object-cover" />
+                            className="rounded-full w-full h-full object-cover border bg-white" />
                         </div>
                         <div className="w-full">
                             <div className={`w-full flex ${clicked?"flex-col":"flex-row"} bg-gray-500/10 p-[0.39rem] rounded-lg max-w-[220px] sm:max-w-[450px] md:max-w-full`}>

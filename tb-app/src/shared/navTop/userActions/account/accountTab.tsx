@@ -47,7 +47,7 @@ export  default function AccountTab({user}:{
                     <img 
                     src={image?image:"/profile.jpg" }
                     alt="/profile.jpg"
-                    className="w-full h-full rounded-full object-cover active:scale-90 cursor-pointer"
+                    className="w-full h-full rounded-full object-cover active:scale-90 cursor-pointer border bg-white"
                     onClick={() => setShow(prev => !prev)}
                     />
             </div>
