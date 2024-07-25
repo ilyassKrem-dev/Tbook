@@ -5,9 +5,10 @@ import { useToast } from "@/assets/Wrappers/toastWrapper"
 import { BiMessageAltDetail } from "react-icons/bi";
 
 
-export default function Intro({userInfo,user}:{
+export default function Intro({userInfo,user,view}:{
     userInfo:FullUserType;
-    user?:UserType | null
+    user?:UserType | null;
+    view?:boolean
 }) {
     const [userBio,setUserBio] = useState<string|null>(userInfo.bio)
     const [showBio,setShowBio] = useState<boolean>(false)
@@ -51,7 +52,7 @@ export default function Intro({userInfo,user}:{
     return (
         <div className="bg-white rounded-lg p-3 font-bold flex-col gap-5 flex sm-shadow">
             <h1 className="text-lg font-bold">Intro</h1>
-            {!userBio&&isUser?
+            {!view&&!userBio&&isUser?
             <>
                 {!showBio&&<button className=" font-semibold text-center p-2 rounded-lg bg-gray-300/60 w-full hover-opacity active:scale-90" onClick={() => setShowBio(true)}>
                     Add bio
@@ -71,13 +72,14 @@ export default function Intro({userInfo,user}:{
                         
 
                     </div>
-                    {isUser&&<div className="flex justify-end">
+                    {!view&&isUser&&<div className="flex justify-end">
                         <button className="bg-gray-300/60 p-2 rounded-md px-3 hover-opacity active:scale-90 z w-[80px]" onClick={() => setShowBio(true)}>Edit</button>
                     </div>}
                 </div>}
             </>
             }
-            {showBio&&isUser&&<div>
+            {!view&&showBio&&isUser&&
+            <div>
                 <div className="h-[90px] border rounded-lg">
                         <textarea 
                         name="bio" 

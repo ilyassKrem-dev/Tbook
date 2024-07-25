@@ -17,7 +17,7 @@ export default function PostFooter({user,postId,comment,setComment,setShow}:{
         <>
             {comment&&<PostComment
             comment={comment}
-            user={user as UserType}
+            user={user}
             setShow={setShow}
             />}
             {user&&

@@ -18,6 +18,7 @@ export default function PostTemplate({userInfo,user,post}:{
     const [show,setShow] = useState<boolean>(false)
     const [comment,setComment] = useState<FCommentType|null>(post.f_comment)
     const isLiked = post.likes.some((like) => like.user_id === user?.id)
+
     const pathname = usePathname()
     return (
         <>
@@ -35,13 +36,13 @@ export default function PostTemplate({userInfo,user,post}:{
                 medias={post.medias}/>
                 <div>
 
-                </div>
-                {user&&<PostBtns 
-                userId={user?.id as string} 
+                </div>  
+                <PostBtns 
+                userId={user?.id} 
                 isLiked={isLiked}
                 postId={post.id}
-                setShow={setShow}/>}
-                {pathname!=="/"&&<div className="py-3">
+                setShow={setShow}/>
+                {pathname!=="/"&&user&&<div className="py-3">
                     <PostFooter user={user} 
                     postId={post.id}
                     comment={comment} 
@@ -69,11 +70,11 @@ export default function PostTemplate({userInfo,user,post}:{
                             <PostContent 
                             content={post.content} 
                             medias={post.medias}/>
-                            {user&&<PostBtns 
-                            userId={user?.id as string} 
+                            <PostBtns 
+                            userId={user?.id} 
                             isLiked={isLiked}
                             postId={post.id}
-                            setShow={setShow}/>}
+                            setShow={setShow}/>
                             <AllComments 
                             postId={post.id} 
                             user={user as UserType}/>

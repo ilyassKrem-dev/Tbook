@@ -12,7 +12,7 @@ import { FaArrowTurnUp } from "react-icons/fa6";
 
 export default function CommentTemplate({comment,userInfo,setComments,replies,isReply}:{
     comment:CommentType;
-    userInfo:UserType;
+    userInfo:UserType|null;
     setComments?:React.Dispatch<SetStateAction<CommentType[]>>;
     replies?:CommentType[]
     isReply?:boolean
@@ -22,8 +22,8 @@ export default function CommentTemplate({comment,userInfo,setComments,replies,is
     const [showReply,setShowReply] = useState<boolean>(false)
     const [showReplies,setShowReplies] = useState<boolean>(false)
     const [likes,setLikes] = useState<number>(comment.likes)
-    
     const time = getDayOfComment(comment.created_at)
+    
     return (
         <>
             <div className="flex gap-2">
@@ -57,7 +57,7 @@ export default function CommentTemplate({comment,userInfo,setComments,replies,is
                         setLikes={setLikes}
                         postId={comment.post_id}
                         comment_id={comment.id}
-                        userId={userInfo.id}/>
+                        />
                         {!isReply&&<div className="text-gray-600 hover:underline transition-all duration-300 cursor-pointer" onClick={() => setShowReply(prev=> !prev)}>
                             Reply
                         </div>}
@@ -67,13 +67,15 @@ export default function CommentTemplate({comment,userInfo,setComments,replies,is
                         <FaArrowTurnUp className="rotate-90"/>
                         <p className=" cursor-pointer">Show {replies?.length} {replies.length != 1 ? "replies":"reply"}</p>
                     </div>}
+                    
                     {showReplies&&replies && replies?.length>0&&
                     <div className="w-full mt-2">
                         <CommentReplies 
                         replies={replies}
                         user={user as UserType}/>
                     </div>}
-                    {showReply&&<div className="w-full relative mr-5">
+
+                    {showReply&&userInfo&&<div className="w-full relative mr-5">
                         <div className="absolute -left-6 top-0 z-10">
                                 <div className="h-10 w-[30px] rounded-bl-lg border-b-2 border-gray-500/50 bg-transparent" />
                         </div>

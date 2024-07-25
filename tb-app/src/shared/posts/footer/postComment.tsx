@@ -5,9 +5,10 @@ import { UserType } from "@/lib/utils/types/user";
 
 export default function PostComment({comment,user,setShow}:{
     comment:FCommentType;
-    user:UserType;
+    user:UserType|null;
     setShow:React.Dispatch<SetStateAction<boolean>>
 }) {  
+    
     return (
         <>
             <div className="p-2 px-4">

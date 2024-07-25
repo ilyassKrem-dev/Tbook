@@ -4,14 +4,15 @@ import Intro from "./assets/intro"
 import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
 
 
-export default function LeftSide({userData}:{
+export default function LeftSide({userData,view}:{
     userData:UserDataType;
+    view?:boolean
 }) {
     const userInfo = userData.user
     const {user} = loginInfo()
     return (
         <div className="flex flex-col gap-2 flex-1 w-full lg:max-w-[490px] sticky top-0 bottom-0 ">
-            <Intro userInfo={userInfo} user={user}/>
+            <Intro userInfo={userInfo} user={user} view={view}/>
         </div>
     )
 }

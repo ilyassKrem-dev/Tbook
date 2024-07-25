@@ -5,12 +5,14 @@ import CoverImage from "./templateAssets/coverImage";
 import ProfileInfo from "./templateAssets/profileInfo";
 import TabsInfo from "./templateAssets/tabsInfo/tabsInfo";
 import { useSize } from "@/lib/utils/hooks";
-export default function ProfileTemplate({userData,loggedInfo}:{
+export default function ProfileTemplate({userData,loggedInfo,view}:{
     userData:UserDataType;
-    loggedInfo:UserType|null
+    loggedInfo:UserType|null;
+    view?:boolean
 }) {
     const {user,friends} = userData
     const {w} = useSize()
+    
     return (
         <>
             <div className=" bg-white rounded-b-xl">
@@ -18,18 +20,23 @@ export default function ProfileTemplate({userData,loggedInfo}:{
                     <CoverImage 
                     coverImage={user.cover_photo}
                     userId={user.id} 
-                    loggedInfo={loggedInfo}/>
+                    loggedInfo={loggedInfo}
+                    view={view}/>
                     <div className="max-w-[1218px] w-full mx-auto">
                         <ProfileInfo 
                         userData={userData}
-                        loggedInfo={loggedInfo}/>
+                        loggedInfo={loggedInfo}
+                        view={view}/>
                     
                     </div>
                     
                 </div>
             </div>
             <div className="max-w-[1218px] w-full mx-auto">
-                <TabsInfo userData={userData} loggedInfo={loggedInfo}/>
+                <TabsInfo 
+                userData={userData} 
+                loggedInfo={loggedInfo}
+                view={view}/>
             </div>
             
         </>

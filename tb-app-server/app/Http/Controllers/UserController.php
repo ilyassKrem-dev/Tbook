@@ -175,4 +175,18 @@ class UserController extends Controller
         $user->update(["image"=>$data['image']]);
         return response()->json(["message","picture changed"],200);
     }
+
+    function getSearchResults(Request $request) {
+        $data = $request->query("search");
+        if (!$data) {
+            return;
+        }
+        $users = User::select("name","username","image","id")
+                        ->where("name","like","$data%")
+                        ->inRandomOrder()
+                        ->take(10)
+                        ->get();
+        return response()->json(["data"=>$users],200);
+
+    }
 }

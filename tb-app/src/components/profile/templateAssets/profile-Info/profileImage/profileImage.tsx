@@ -4,11 +4,12 @@ import { FaCamera } from "react-icons/fa";
 import { removeOverlay } from "@/lib/utils/hooks";
 import UploadImage from "./uploadImage";
 
-export default function ProfileImage({profileImage,profileName,isUser,userId}:{
+export default function ProfileImage({profileImage,profileName,isUser,userId,view}:{
     profileImage:string|null;
     profileName:string;
     isUser:boolean;
-    userId:string|undefined
+    userId:string|undefined;
+    view?:boolean
 }) {
     const [profileImg,setProfileImg] = useState<string|null>(profileImage)
     const [show,setShow] = useState<boolean>(false)
@@ -17,7 +18,7 @@ export default function ProfileImage({profileImage,profileName,isUser,userId}:{
         setShow:setShow
     })
     const handleShow = () => {
-        if(!isUser) return
+        if(!isUser||view) return
         setShow(prev=>!prev)
     }
     return (
@@ -29,15 +30,15 @@ export default function ProfileImage({profileImage,profileName,isUser,userId}:{
                         src={profileImg?profileImg:"/profile.jpg"} 
                         alt={`${profileName} profile image`}
                         className="rounded-full w-full h-full object-cover group-hover:hover-opacity border bg-white" />
-                        <div className="absolute bottom-2 right-2 rounded-full bg-gray-300/90  p-2 text-lg   group-hover:hover-opacity">
+                        {!view&&<div className="absolute bottom-2 right-2 rounded-full bg-gray-300/90  p-2 text-lg   group-hover:hover-opacity">
                                 <FaCamera />
-                        </div>
+                        </div>}
                     </div>
                 
                     
                 </div>
 
-                {show&&isUser&&<UploadImage userId={userId} setProfileImg={setProfileImg}/>}
+                {show&&isUser&&!view&&<UploadImage userId={userId} setProfileImg={setProfileImg}/>}
             </div>
         </>
     )

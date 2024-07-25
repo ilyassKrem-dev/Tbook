@@ -5,10 +5,11 @@ import { useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import { TfiUpload } from "react-icons/tfi";
 
-export default function CoverImage({coverImage,userId,loggedInfo}:{
+export default function CoverImage({coverImage,userId,loggedInfo,view}:{
     coverImage:string|null;
     userId:string;
-    loggedInfo:UserType|null
+    loggedInfo:UserType|null;
+    view?:boolean
 
 }) {
     const [show,setShow] = useState<boolean>(false)
@@ -18,11 +19,11 @@ export default function CoverImage({coverImage,userId,loggedInfo}:{
         setShow:setShow
     })
     const handleShow = () => {
-        if(!checkUser)return
+        if(!checkUser||view)return
         setShow(true)
     }
     const handleToggle = () => {
-        if(!checkUser)return
+        if(!checkUser||view)return
         setShow(prev => !prev)
     }
     return (
@@ -39,7 +40,7 @@ export default function CoverImage({coverImage,userId,loggedInfo}:{
             
                         
                     
-                   <div className="absolute left-0 right-0 bottom-0 flex justify-end px-4 p-4 bg-gradient-to-t from-black/30  to-white-1/10 xl:rounded-b-xl  ">
+                   {!view&&<div className="absolute left-0 right-0 bottom-0 flex justify-end px-4 p-4 bg-gradient-to-t from-black/30  to-white-1/10 xl:rounded-b-xl  ">
                         <div className="relative">
                             <div className=" bg-white rounded-lg p-2 font-semibold px-3 flex items-center gap-3 cursor-pointer hover-opacity active:scale-90" onClick={handleToggle}>
                                 <FaCamera className="text-lg"/>
@@ -54,7 +55,7 @@ export default function CoverImage({coverImage,userId,loggedInfo}:{
                                 </div>
                             </div>}
                         </div>
-                    </div>
+                    </div>}
                     
                 </div>
         </>

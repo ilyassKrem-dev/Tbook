@@ -10,7 +10,8 @@ type SessionType = {
     loginStatus:string |null,
 }
 const SessionContext = createContext<SessionType|undefined>(undefined)
-const paths = ["/","/auth/signin","/auth/login","/*","/profile","/profile/**"]
+const paths = ["/", "/auth/signin", "/auth/login"];
+const dynamicPaths = [/^\/profile\/[^\/]+$/];
 export const loginInfo = ()=>{
     const context = useContext(SessionContext)
     if(!context) {
@@ -18,6 +19,10 @@ export const loginInfo = ()=>{
     }
     return context
 }
+
+const matchesDynamicPath = (path: string) => {
+    return dynamicPaths.some(pattern => pattern.test(path));
+};
 
 export const SessionWrapper = ({children}:{children:React.ReactNode}) => {
     const [user,setUser] = useState<UserType|null>(null)
@@ -27,7 +32,7 @@ export const SessionWrapper = ({children}:{children:React.ReactNode}) => {
     const pathname = usePathname()
     useEffect(() => {
         if(status==="loading") return
-        if(status === "unauthenticated" && !paths.includes(pathname)) {
+        if(status === "unauthenticated" && !paths.includes(pathname) && !matchesDynamicPath(pathname)) {
             return router.push("/auth/login")
         }
         setUser(session?.user as UserType)

@@ -6,7 +6,7 @@ import { SetStateAction, useState } from "react";
 import Posts from "@/lib/classes/Posts";
 import { useToast } from "@/assets/Wrappers/toastWrapper";
 export default function PostBtns({userId,isLiked,postId,setShow}:{
-    userId:string;
+    userId:string|undefined;
     isLiked:boolean;
     postId:string;
     setShow:React.Dispatch<SetStateAction<boolean>>
@@ -14,6 +14,7 @@ export default function PostBtns({userId,isLiked,postId,setShow}:{
     const [liked,setLiked] = useState<boolean>(isLiked)
     const {toast} = useToast()
     const handleLike = async() => {
+        if(!userId) return
         const res =  await Posts.changeLike(userId,postId)
         if(res?.success) {
             return setLiked(prev=>!prev)

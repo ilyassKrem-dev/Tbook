@@ -26,7 +26,7 @@ class Auth {
             const res = await axios.post(`${baseUrl}/signin`,{
                 name,
                 email,
-                username,
+                username:username.toLowerCase(),
                 password,
                 password_confirm,
                 birthdate:`${date.day}-${date.month}-${date.year}`,

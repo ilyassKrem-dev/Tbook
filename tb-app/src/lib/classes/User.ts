@@ -115,6 +115,43 @@ class User {
             }
         }
     }
+
+    static async getSearchResults(searchString:string) {
+        let data = {
+            success:false,
+            error:"",
+            data:[]||null
+        }
+        
+        try {
+            const res = await axios.get(`${baseUrl}/results?search=${searchString}`)
+            return {
+                success:true,
+                error:"",
+                data:res.data.data
+            }
+        } catch (error:any) {
+           
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    data:[],
+                    error:"Internal server error"
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    data:[],
+                    error:err.message
+                }
+                
+                return data
+            }
+        }
+    }
 }
 
 

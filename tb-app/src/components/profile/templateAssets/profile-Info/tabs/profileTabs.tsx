@@ -5,7 +5,9 @@ import { BsThreeDots } from "react-icons/bs"
 
 import { tabs } from "./tabsNames";
 import TabsSm from "./tabs-sm";
-export default function ProfileTabs() {
+export default function ProfileTabs({view}:{
+    view?:boolean
+}) {
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()

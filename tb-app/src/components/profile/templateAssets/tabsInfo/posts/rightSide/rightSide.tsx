@@ -1,10 +1,6 @@
 import { FullUserType, UserType } from "@/lib/utils/types/user"
 import { getStringDate } from "@/lib/utils/simpleUtils"
 import { MdCake, MdOutlineAccessTimeFilled } from "react-icons/md";
-
-import PostHeader from "@/shared/posts/postHeader";
-import PostFooter from "@/shared/posts/postFooter";
-import PostBtns from "@/shared/posts/postBtns";
 import { useEffect, useState } from "react";
 import User from "@/lib/classes/User";
 import PostTemplate from "@/shared/posts/postTemplate";

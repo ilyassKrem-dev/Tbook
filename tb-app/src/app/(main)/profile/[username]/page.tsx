@@ -1,12 +1,11 @@
 
+import ProfileBy from "@/components/profile/profileByUsername/profileBy"
 
-
-
-export default function Page() {
+export default function Page({params}:{
+    params:{username:string}
+}) {
 
     return (
-        <div>
-            
-        </div>
+        <ProfileBy userName={params.username}/>
     )
 }
