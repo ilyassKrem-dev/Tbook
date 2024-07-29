@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
-
+import { SocketProvider } from "@/assets/Wrappers/socketWrapper";
 import "../globals.css";
 import { ToastProvider } from "@/assets/Wrappers/toastWrapper";
 import AuthWrapper from "@/assets/Wrappers/authWrapper";
@@ -23,7 +23,9 @@ export default function RootLayout({
         <ToastProvider>
           <AuthWrapper >
             <SessionWrapper>
-              {children}
+              <SocketProvider>
+                {children}
+              </SocketProvider>
             </SessionWrapper>
           </AuthWrapper>
         </ToastProvider>

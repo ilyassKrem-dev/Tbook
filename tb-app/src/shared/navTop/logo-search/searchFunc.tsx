@@ -25,7 +25,7 @@ export default function SearchFunc({inputRef,focused,setShow,setFocused,handleFo
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
-    const searchString = searchParams.get("search")
+    const searchString = searchParams?.get("search")
     useEffect(() => {
         const id = setTimeout(() => {
             if(inputString) {

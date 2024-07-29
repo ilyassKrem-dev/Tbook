@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserMiscController;
+
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
@@ -38,5 +40,10 @@ Route::controller(CommentControllere::class)
 Route::controller(FriendsController::class)
     ->group(function() {
         Route::post("/sendRequest","sendFriendRequest");
+        Route::post('/{id}/getFriendStatus',"getFriendStatus");
 
+    });
+Route::controller(UserMiscController::class)
+    ->group(function() {
+        Route::get("/{id}/notifications","getUserNotifications");
     });

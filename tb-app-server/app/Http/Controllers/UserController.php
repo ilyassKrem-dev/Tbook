@@ -10,6 +10,8 @@ use App\Models\post\Likes;
 use App\Models\post\Medias;
 use App\Models\post\Comment;
 use App\Helpers\Helpers;
+use App\Models\Friend;
+
 class UserController extends Controller
 {
     function login(Request $request) {
@@ -65,6 +67,12 @@ class UserController extends Controller
         if(!$user) {
             return response()->json(["message"=>"No user found"],404);
         }
+        $friends = Friend::where(function($query) use($user) {
+            $query->where("user",$user->id)
+                    ->orWhere("friend",$user->id);
+                        })
+                        ->where("status","friends")
+                        ->get();
         $userData = [
             "id"=>$user->id,
             "name"=>$user->name,
@@ -81,7 +89,7 @@ class UserController extends Controller
         return response()->json(
             [
                 "user"=>$userData,
-                "friends"=>[],
+                "friends"=>$friends,
             ],200);
     }
 

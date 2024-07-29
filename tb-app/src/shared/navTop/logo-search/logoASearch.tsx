@@ -11,7 +11,7 @@ export default function LogoASearch({w}:{w:number}) {
     const [focused,setFocused] = useState<boolean>(false)
     const inputRef = useRef<HTMLInputElement>(null)
     const searchParams = useSearchParams()
-    const searchString = searchParams.get("search")
+    const searchString = searchParams?.get("search")
     const handleShow = () => {
         setShow(true)
         handleFocus()
