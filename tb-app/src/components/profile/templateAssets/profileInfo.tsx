@@ -10,8 +10,10 @@ export default function ProfileInfo({userData,loggedInfo,view}:{
     view?:boolean
 }) {
     const {user,friends} = userData
+    
     const checkUser = user.id == loggedInfo?.id
-    const checkIfFreinds = friends.some(friend=>friend.id===loggedInfo?.id)
+    const checkIfFreinds = friends.some(friend=>friend.user===loggedInfo?.id || friend.friend === loggedInfo?.id)
+    
     return (
         <div className="flex  flex-col">
             <div className="relative flex flex-col lg:flex-row  lg:gap-5 px-6 max-lg:justify-center max-lg:items-center">

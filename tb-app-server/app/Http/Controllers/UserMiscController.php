@@ -9,7 +9,8 @@ class UserMiscController extends UserController
     function getUserNotifications($id) {
         $user = User::where("id",$id)->first();
         $requests = Friend::where('friend',$user->id)
-                    ->take(6)
+                    ->where("status","request")
+                    ->take(5)
                     ->get();
         $newData = [];
         foreach($requests as $request) {

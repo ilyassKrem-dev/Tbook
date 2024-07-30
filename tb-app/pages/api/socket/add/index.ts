@@ -24,7 +24,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponseServ
             return res.status(200).json({"status":"request"})
         }
     } catch (error) {
-        console.log(error)
+        
         return res.status(500).json(error)
     }
 } 

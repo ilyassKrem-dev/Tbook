@@ -41,9 +41,12 @@ Route::controller(FriendsController::class)
     ->group(function() {
         Route::post("/sendRequest","sendFriendRequest");
         Route::post('/{id}/getFriendStatus',"getFriendStatus");
+        Route::post("/removeFriend","removeFriend");
+        Route::post("/addFriend","addFriend");
 
     });
 Route::controller(UserMiscController::class)
     ->group(function() {
         Route::get("/{id}/notifications","getUserNotifications");
+        
     });
