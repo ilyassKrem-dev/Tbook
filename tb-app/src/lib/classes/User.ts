@@ -55,6 +55,7 @@ class User {
                 user_id:userId,
                 bio
             })
+            
             return res.data.message
         } catch (error:any) {
             

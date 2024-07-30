@@ -26,6 +26,7 @@ export default function Profile({user}:{
         }
         getUsers()
     },[username])
+ 
     return (
         <div>
             {userData&&

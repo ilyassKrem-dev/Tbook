@@ -18,11 +18,16 @@ export type PostUserType = {
 }
 
 export type userFriendsType = {
-    username:string;
-    name:string;
+    friend:{
+        id:string;
+        name:string;
+        username:string;
+        image:string|null;
+    };
+    user:string;
+    status:string;
     id:string;
-    image:string;
-    country:string;
+    status_by:string;
 }
 export type FullUserType = {
     id:string;

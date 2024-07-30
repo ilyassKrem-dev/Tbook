@@ -12,8 +12,8 @@ export default function ProfileInfo({userData,loggedInfo,view}:{
     const {user,friends} = userData
     
     const checkUser = user.id == loggedInfo?.id
-    const checkIfFreinds = friends.some(friend=>friend.user===loggedInfo?.id || friend.friend === loggedInfo?.id)
-    
+    const checkIfFreinds = friends.some(friend=> friend.friend.id===loggedInfo?.id)
+
     return (
         <div className="flex  flex-col">
             <div className="relative flex flex-col lg:flex-row  lg:gap-5 px-6 max-lg:justify-center max-lg:items-center">
@@ -25,7 +25,7 @@ export default function ProfileInfo({userData,loggedInfo,view}:{
                 view={view} />
                 <div className="flex flex-col gap-1 mt-1  flex-1 mb-4 lg:mb-1 lg:mt-4 items-center lg:items-start">
                     <h1 className="font-bold text-3xl capitalize">{user.name}</h1>
-                    <p className="text-gray-600">{friends.length} friends</p>
+                    <p className="text-gray-600">{friends.length} {friends.length === 1 ?"friend" :"friends"}</p>
                 </div>
                 {checkUser&&!view&&<ProfileButtons />}
                 {view&&!checkUser&&loggedInfo&&

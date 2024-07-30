@@ -24,7 +24,7 @@ export default function FriendBtn({userId,profileId,setFriends}:{
 }) {
     const [loading,setLoading] = useState<boolean>(false)
     const [decline,setDecline] = useState<boolean>(false)
-    const [status,setStatus] = useState<StatusType|null>(null)
+    const [status,setStatus] = useState<StatusType|null|boolean>(null)
     const {toast} = useToast()
     const handleSend = async() => {
         if(loading) return
@@ -35,9 +35,14 @@ export default function FriendBtn({userId,profileId,setFriends}:{
                 friend:profileId
             })
             if(res) {
-                setStatus(res.data.status)
-        
                 setLoading(false)
+                const status = res.data.status
+                if(status.status == "request") {
+                    
+                    return setStatus(res.data.status)
+                }
+                return setStatus(false)
+                
             }
         } catch (error:any) {
             setLoading(false)
@@ -93,7 +98,7 @@ export default function FriendBtn({userId,profileId,setFriends}:{
                     }
                 </button>
                 :
-                status.friend!==userId
+                (status as StatusType).friend!==userId
                 ?
                 <button className="flex items-center gap-2 font-semibold bg-blue-500 text-white rounded-lg p-2 px-3 hover-opacity cursor-pointer active:scale-90 h-[40px]">
                     <FaCheck />

@@ -72,7 +72,27 @@ class UserController extends Controller
                     ->orWhere("friend",$user->id);
                         })
                         ->where("status","friends")
+                        ->take(9)
                         ->get();
+        $newData = [];
+        foreach($friends as $friend) {
+            $userInfo = User::where("id",$friend->user)->first();
+            $friendInfo = User::where("id",$friend->friend)->first();
+            $getInfo = $userInfo->id === $user->id ?$friendInfo :$userInfo;
+            $getId = $userInfo->id === $user->id ?$userInfo :$friendInfo;
+            array_push($newData,[
+                "id"=>$friend->id ,
+                "user"=>$getId->id,
+                "friend"=>[
+                    "id"=>$getInfo->id,
+                    "name"=>$getInfo->name,
+                    "username"=>$getInfo->username,
+                    "image"=>$getInfo->image
+                ],
+                "status"=>$friend->status,
+                "status_by"=>$friend->status_by
+            ]);
+        }
         $userData = [
             "id"=>$user->id,
             "name"=>$user->name,
@@ -89,7 +109,7 @@ class UserController extends Controller
         return response()->json(
             [
                 "user"=>$userData,
-                "friends"=>$friends,
+                "friends"=>$newData,
             ],200);
     }
 
