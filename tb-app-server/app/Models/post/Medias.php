@@ -14,6 +14,7 @@ class Medias extends Model
         "type",
         "user_id",
         "post_id",
+        "message_id"
 
     ];
 }

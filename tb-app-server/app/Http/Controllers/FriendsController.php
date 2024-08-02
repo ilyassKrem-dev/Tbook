@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Friend;
 use App\Models\User;
-use App\Http\Requests\FreindRequest;
+use App\Http\Requests\FriendRequest;
 class FriendsController extends Controller
 {
     
 
-    function sendFriendRequest(FreindRequest $request) {
+    function sendFriendRequest(FriendRequest $request) {
         $data = $request->validated();
         Friend::create([
             "user"=>$data["user"],

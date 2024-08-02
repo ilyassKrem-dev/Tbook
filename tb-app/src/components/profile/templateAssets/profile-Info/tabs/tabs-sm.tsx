@@ -6,7 +6,7 @@ import { removeOverlay } from "@/lib/utils/hooks";
 
 export default function TabsSm({handleChangeRoute,sk}:{
     handleChangeRoute:(arg:string|null) => void;
-    sk:string|null
+    sk:string|null|undefined
 }) {
     const [show,setShow] = useState<boolean>(false)
     removeOverlay({

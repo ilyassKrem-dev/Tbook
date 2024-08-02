@@ -12,7 +12,7 @@ export default function ProfileTabs({view}:{
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const {w} = useSize()
-    const sk = searchParams.get("sk")
+    const sk = searchParams?.get("sk")
     const handleChangeRoute = (tname:string|null) => {
         if(!tname) {
             return router.push(`${pathname}`)

@@ -60,7 +60,7 @@ class UserController extends Controller
         ]);
     }
 
-    function getUsetData($username) {
+    function getUserData($username) {
         $user = User::where("username",$username)->first();
 
 
@@ -72,7 +72,6 @@ class UserController extends Controller
                     ->orWhere("friend",$user->id);
                         })
                         ->where("status","friends")
-                        ->take(9)
                         ->get();
         $newData = [];
         foreach($friends as $friend) {

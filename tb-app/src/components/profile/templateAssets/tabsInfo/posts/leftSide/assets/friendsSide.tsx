@@ -6,6 +6,7 @@ export default function FriendsSide({friends}:{
     friends:userFriendsType[]
 }) {
     const pathname = usePathname()
+ 
     return (
         <>
             <div className="bg-white rounded-lg p-3 font-bold flex-col gap-4  flex sm-shadow">

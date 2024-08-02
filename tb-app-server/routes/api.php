@@ -17,7 +17,7 @@ Route::controller(UserController::class)
         Route::post('/signin',"signin");
         Route::post('/login',"login");
         Route::post('/user',"fetchUser");
-        Route::get("/getuser/{username}","getUsetData");
+        Route::get("/getuser/{username}","getUserData");
         Route::patch("/addBio","addBio");
         Route::get("/{userId}/getUserPosts","getUserPosts");
         Route::put("/changePicture","changePicture");

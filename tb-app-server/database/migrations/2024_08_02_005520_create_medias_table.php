@@ -17,8 +17,10 @@ return new class extends Migration
             $table->enum('type', ['image', 'video',"audio"]);
             $table->unsignedBigInteger("user_id");
             $table->foreign('user_id')->references("id")->on("users");
-            $table->unsignedBigInteger("post_id");
+            $table->unsignedBigInteger("post_id")->nullable();
             $table->foreign('post_id')->references("id")->on("posts")->onDelete('cascade');
+            $table->unsignedBigInteger("message_id")->nullable();
+            $table->foreign('message_id')->references("id")->on("messages")->onDelete('cascade');
             $table->timestamps();
         });
     }
