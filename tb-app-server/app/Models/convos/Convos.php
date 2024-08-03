@@ -9,7 +9,7 @@ class Convos extends Model
 {
     use HasFactory,HasApiTokens;
     protected $table="convos";
-    protected $fillabel=[
+    protected $fillable=[
         "user1",
         "user2",
         "status",

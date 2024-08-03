@@ -86,7 +86,8 @@ class UserController extends Controller
                     "id"=>$getInfo->id,
                     "name"=>$getInfo->name,
                     "username"=>$getInfo->username,
-                    "image"=>$getInfo->image
+                    "image"=>$getInfo->image,
+                    "status"=>$friend->status,
                 ],
                 "status"=>$friend->status,
                 "status_by"=>$friend->status_by

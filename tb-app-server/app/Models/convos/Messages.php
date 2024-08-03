@@ -9,7 +9,7 @@ class Messages extends Model
 {
     use HasFactory,HasApiTokens;
     protected $table="messages";
-    protected $fillabel=[
+    protected $fillable=[
         "convo_id",
         "sender",
         "receiver",

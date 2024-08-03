@@ -22,7 +22,8 @@ export type PostMediaType = {
     url:string;
     type:"image"|"video"|"audio"
     user_id:string;
-    post_id:string;
+    post_id:string|null;
+    message_id:string|null;
     created_at:string;
     updated_at:string;
 }

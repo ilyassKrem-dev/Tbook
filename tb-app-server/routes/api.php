@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentControllere;
+use App\Http\Controllers\convos\ConvosController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -43,10 +44,15 @@ Route::controller(FriendsController::class)
         Route::post('/{id}/getFriendStatus',"getFriendStatus");
         Route::post("/removeFriend","removeFriend");
         Route::post("/addFriend","addFriend");
+        Route::get("/{id}/friends","fetchAllUserFriends");
 
     });
 Route::controller(UserMiscController::class)
     ->group(function() {
         Route::get("/{id}/notifications","getUserNotifications");
         
+    });
+Route::controller(ConvosController::class)
+    ->group(function() {
+        Route::post("/getConvo","findOrAddConvo");
     });

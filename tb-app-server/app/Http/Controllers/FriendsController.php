@@ -75,5 +75,35 @@ class FriendsController extends Controller
         $friend->update(["status"=>"friends"]);
         return response()->json(["success"=>true],200);
     }
-    
+    function fetchAllUserFriends($id) {
+        $user = User::where("id",$id)->first();
+        $friends = Friend::where(function($query) use($id) {
+            $query->where("user",$id)
+                    ->orWhere("friend",$id);
+        })
+            ->where("status","friends")
+            ->get();
+        $friendsList = [];
+        foreach($friends as $friend) {
+            $userInfo = User::where("id",$friend->user)->first();
+            $otherInfo = User::where("id",$friend->friend)->first();
+            $friendInfo = $user->id === $userInfo->id ? $otherInfo : $userInfo;
+            $info = [
+                "id"=>$friend->id,
+                "friend"=>[
+                    "id"=>$friendInfo->id,
+                    "status"=>$friendInfo->status,
+                    "name"=>$friendInfo->name,
+                    "username"=>$friendInfo->username,
+                    "image"=>$friendInfo->image
+                ],
+                "user"=>$user->id,
+                "status"=>$friend->status,
+                "status_by"=>$friend->status_by
+            ];
+            array_push($friendsList,$info);
+        }
+        return response()->json(["data"=>$friendsList],200);
+    }
+            
 }

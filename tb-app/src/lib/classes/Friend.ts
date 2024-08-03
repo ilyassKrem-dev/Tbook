@@ -125,6 +125,45 @@ class Friend {
             }
         }
     }
+    static async getAllFriends(user_id:string) {
+        let data = {
+            success:false,
+            error:'',
+            data:undefined
+        }
+        try {
+            const res = await axios.get(`${baseUrl}/${user_id}/friends`)
+            if(res) {
+                data = {
+                    success:true,
+                    error:"",
+                    data:res.data.data
+                }
+              
+                return data
+            } 
+            
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    data:null,
+                    error:"Internal server error"
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    data:undefined,
+                    error:err
+                }
+                
+                return data
+            }
+        }
+    }
 }
 
 export default Friend

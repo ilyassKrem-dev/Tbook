@@ -23,6 +23,7 @@ export type userFriendsType = {
         name:string;
         username:string;
         image:string|null;
+        status:string;
     };
     user:string;
     status:string;
