@@ -28,6 +28,6 @@ class ConvosController extends Controller
             ]);
             return response()->json(["data"=>$createdConvo],200);
         }
-        
+        return response()->json(["data"=>$convo],200);
     }
 }
