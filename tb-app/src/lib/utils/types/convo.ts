@@ -7,7 +7,8 @@ export type MessageType = {
     convo_id:string;
     sender:string;
     receiver:string;
-    content:string;
+    content:string|null;
+    reaction:string|null
     media:PostMediaType[];
     created_at:string;
     updated_at:string;

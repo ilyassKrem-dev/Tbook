@@ -5,6 +5,8 @@ import { ToastProvider } from "@/assets/Wrappers/toastWrapper";
 import AuthWrapper from "@/assets/Wrappers/authWrapper";
 import { SessionWrapper } from "@/assets/Wrappers/sessionWrapper";
 import { ConvoWrapper } from "@/assets/Wrappers/convoWrapper";
+import { SocketProvider } from "@/assets/Wrappers/socketWrapper";
+
 const figtree = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,9 +25,11 @@ export default function RootLayout({
         <ToastProvider>
           <AuthWrapper >
             <SessionWrapper>
-              <ConvoWrapper>
-                {children}
-              </ConvoWrapper>
+              <SocketProvider>
+                <ConvoWrapper>
+                  {children}
+                </ConvoWrapper>
+              </SocketProvider>
             </SessionWrapper>
           </AuthWrapper>
         </ToastProvider>

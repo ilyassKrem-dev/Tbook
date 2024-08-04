@@ -54,5 +54,7 @@ Route::controller(UserMiscController::class)
     });
 Route::controller(ConvosController::class)
     ->group(function() {
+
         Route::post("/getConvo","findOrAddConvo");
+        Route::post("/sendMsg","addMessage");
     });

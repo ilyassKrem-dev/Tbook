@@ -31,7 +31,7 @@ export const ConvoWrapper = ({children}:{
         user_id:"",other_id:""
     })
     const [convos,setConvos] = useState<ConvoType[]>([])
-    const [sideConvo,setSideConvo] = useState<ConvoType[]>([]);
+    const [sideConvos,setSideConvos] = useState<ConvoType[]>([]);
     const {user} = loginInfo()
     useEffect(() => {
         if(!ids.user_id) return
@@ -44,11 +44,14 @@ export const ConvoWrapper = ({children}:{
             )
             if(res?.success) {
                 const find = convos.find(conv => conv.id === (res.data as any).id)
+                const find2 = sideConvos.find(conv => conv.id === (res.data as any).id)
                 setIds({
                     user_id:"",other_id:""
                 })
-                if(find) {
-                    return
+                if(find) return
+                if(find2) {
+                    setConvos((prev:any) => [find2,...prev])
+                    return setSideConvos(prev => (prev.filter(convo=>convo.id!==find2.id )))
                 }
                 setConvos((prev:any) => ([res.data,...prev]))
             }
@@ -58,7 +61,6 @@ export const ConvoWrapper = ({children}:{
     const handleClick =(ids:IdsType) => {
         setIds(ids)
     }
-    console.log(convos)
     return (
         <convoContext.Provider value={
                         {
@@ -70,7 +72,9 @@ export const ConvoWrapper = ({children}:{
                         <ConvoTab 
                         convos={convos}
                         setConvos={setConvos}
-                        user={user}/>}
+                        user={user}
+                     
+                        setSideConvos={setSideConvos}/>}
         </convoContext.Provider>
     )
 }

@@ -8,6 +8,7 @@ use App\Models\convos\Messages;
 use App\Models\convos\Convos;
 use App\Models\post\Medias;
 use App\Models\User;
+use App\Http\Requests\MessageRequest;
 class ConvosController extends Controller
 {
     
@@ -48,6 +49,7 @@ class ConvosController extends Controller
             $medias = Medias::where("message_id",$message->id)->get();
             array_push($messagesInfo,[
                 "id"=>$message->id,
+                "convo_id"=>$message->convo_id,
                 "sender"=>$message->sender,
                 "receiver"=>$message->receiver,
                 "content"=>$message->content,
@@ -74,5 +76,45 @@ class ConvosController extends Controller
             "updated_at"=>$convo->updated_at
         ];
         return $response;
+    }
+
+    function addMessage(MessageRequest $request) {
+        $data = $request->validated();
+        $message = Messages::create(
+            [
+                "convo_id"=>$data["convo_id"],
+                "sender"=>$data["sender"],
+                "content"=>$data["content"],
+                "receiver"=>$data["receiver"],
+                "reaction"=>$data["reaction"]
+            ]
+            );
+        $allMedias = [];
+        if(count($data["medias"])>0) {
+            foreach($data["medias"] as $media) {
+                $md = Medias::create(
+                    [
+                        "url"=>$media["url"],
+                        "type"=>$media["type"],
+                        "user_id"=>$message->sender,
+                        "message_id"=>$message->id
+                    ]
+                    );
+                array_push($allMedias,$md);
+            }
+        }
+        $response = [
+            "id"=>$message->id,
+            "convo_id"=>$message->convo_id,
+            "sender"=>$message->sender,
+            "receiver"=>$message->receiver,
+            "content"=>$message->content,
+            "medias"=>$allMedias,
+            "reaction"=>$message->reaction,
+            "created_at"=>$message->created_at,
+            "updated_at"=>$message->updated_at
+        ];
+        
+        return response()->json(["data"=>$response],200);
     }
 }
