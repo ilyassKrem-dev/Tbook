@@ -2,7 +2,7 @@ import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 import { SetStateAction, useState, useEffect } from "react";
 import { BsEmojiSmileFill } from "react-icons/bs";
-import { HiOutlineFaceSmile } from "react-icons/hi2";
+
 
 
 

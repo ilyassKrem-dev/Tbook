@@ -9,7 +9,8 @@ export type MessageType = {
     receiver:string;
     content:string|null;
     reaction:string|null
-    media:PostMediaType[];
+    medias:PostMediaType[];
+    seen:boolean;
     created_at:string;
     updated_at:string;
 }

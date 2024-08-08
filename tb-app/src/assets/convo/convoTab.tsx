@@ -12,12 +12,13 @@ export default function ConvoTab({convos,setConvos,user,setSideConvos}:{
     setSideConvos:React.Dispatch<SetStateAction<ConvoType[]>>
 }) {
     const [mouseEntered,setMouseEntered] = useState<boolean>(false)
-    const {socket,isConnected} = useSocket()
+    const {socket} = useSocket()
    
     useEffect(() => {
         if(!socket) return
         convos.forEach(convo=>{
             const key = `${convo.id}-message-key`
+            const key2 = `${convo.id}-reaction-key`
             socket.on(key,(data:MessageType) => {
             
                 setConvos((prev:ConvoType[]) => {
@@ -30,17 +31,33 @@ export default function ConvoTab({convos,setConvos,user,setSideConvos}:{
                     return newData
                 })
             })
+            socket.on(key2,(data:any) => {
+                setConvos((prev:ConvoType[]) => {
+                    const newData = prev.map(convo => {
+                        if(convo.id !==data.convo_id) return convo
+                        const messages = convo.messages.map(message=> {
+                            if(message.id!==data.id) return message
+                            return {...message,reaction:data.reaction}
+                        })
+                        return {...convo,messages:messages}
+                    })
+                    return newData
+                })
+            })
 
         })
         
         return () => {
             convos.forEach(convo => {
                 const key = `${convo.id}-message-key`
+                const key2 = `${convo.id}-reaction-key`
                 socket.off(key)
+                socket.off(key2)
             })
            
         }
     },[socket])
+    console.log(convos)
     return (
         <>
             <div className="fixed bottom-0 right-20">

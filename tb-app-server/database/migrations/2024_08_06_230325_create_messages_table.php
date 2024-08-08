@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign("receiver")->references("id")->on("users");
             $table->string("content")->nullable();
             $table->string("reaction")->nullable();
+            $table->boolean('seen')->default(false);
             $table->timestamps();
         });
     }

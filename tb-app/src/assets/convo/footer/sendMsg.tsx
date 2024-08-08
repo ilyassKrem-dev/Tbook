@@ -39,7 +39,7 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent}:{
     const handleSend = async() => {
         if(text.length===0 && medias.length === 0||progress > 0) return
         let newMedias = []
-        setProgress(5)
+        setProgress(medias.length>0?5:50)
         if(medias.length>0) {
             await Promise.all(medias.map(async(media,index) => {
                 const uploadedFile = await startUpload(media.file);

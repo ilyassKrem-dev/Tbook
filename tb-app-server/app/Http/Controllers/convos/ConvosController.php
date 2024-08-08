@@ -54,6 +54,7 @@ class ConvosController extends Controller
                 "receiver"=>$message->receiver,
                 "content"=>$message->content,
                 "medias"=>$medias,
+                "seen"=>$message->seen ? true : false,
                 "reaction"=>$message->reaction,
                 "created_at"=>$message->created_at,
                 "updated_at"=>$message->updated_at
@@ -110,11 +111,29 @@ class ConvosController extends Controller
             "receiver"=>$message->receiver,
             "content"=>$message->content,
             "medias"=>$allMedias,
+            "seen"=>$message->seen ? true : false,
             "reaction"=>$message->reaction,
             "created_at"=>$message->created_at,
             "updated_at"=>$message->updated_at
         ];
         
         return response()->json(["data"=>$response],200);
+    }
+    function addReaction(Request $request) {
+        $data = $request->validate([
+            "user_id"=>"required",
+            "message_id"=>"required",
+            "reaction"=>"required"
+        ]);
+        $message = Messages::where("id",$data["message_id"])->first();
+        if(!$message) {
+            return response()->json(["error"=>"error"],404);
+        }
+        $message->update(["reaction"=>$data["reaction"]]);
+        return response()->json(["data"=>[
+            "id"=>$message->id,
+            "convo_id"=>$message->convo_id,
+            "reaction"=>$message->reaction
+        ]]);
     }
 }
