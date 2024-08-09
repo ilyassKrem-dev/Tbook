@@ -22,6 +22,11 @@ export const changeContentToLinks= (content:string,post?:boolean) => {
 
         }
     })
-
-    return changedContent
+    const emojiRegex = /(\p{Emoji_Presentation}|\p{Emoji}\u200D|\p{Extended_Pictographic})/gu;
+    const changedSecond = changedContent.replace(emojiRegex,(match:any) => {
+        return (
+            `<span class="font-noto">${match}</span>`
+        )
+    })
+    return changedSecond
 }

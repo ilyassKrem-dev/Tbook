@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Friend;
 use App\Models\User;
 use App\Http\Requests\FriendRequest;
+use App\Models\convos\Convos;
+use App\Models\convos\Messages;
+
 class FriendsController extends Controller
 {
     
@@ -88,6 +91,24 @@ class FriendsController extends Controller
             $userInfo = User::where("id",$friend->user)->first();
             $otherInfo = User::where("id",$friend->friend)->first();
             $friendInfo = $user->id === $userInfo->id ? $otherInfo : $userInfo;
+            $convo = Convos::where(function($query) use($friend,$user){
+                    $query->where(function($query) use($friend) {
+                        $query->where("user1",$friend->user)
+                                ->orWhere("user1",$friend->friend);
+                                })
+                            ->where("user2",$user->id);
+                })
+                ->orWhere(function($query) use($friend,$user){
+                    $query->where(function($query) use($friend) {
+                            $query->where("user2",$friend->user)
+                                ->orWhere("user2",$friend->friend);
+                                })
+                            ->where("user1",$user->id);
+                })->first();
+            $unseenMsgs = Messages::where("convo_id",$convo->id)
+                            ->where("receiver",$user->id)
+                            ->where("seen",false)
+                            ->count();
             $info = [
                 "id"=>$friend->id,
                 "friend"=>[
@@ -97,6 +118,8 @@ class FriendsController extends Controller
                     "username"=>$friendInfo->username,
                     "image"=>$friendInfo->image
                 ],
+                "unseenMsgs"=>$unseenMsgs,
+                "convoId"=>$convo->id,
                 "user"=>$user->id,
                 "status"=>$friend->status,
                 "status_by"=>$friend->status_by

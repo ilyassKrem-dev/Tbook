@@ -22,10 +22,12 @@ export default async function handler(req:NextApiRequest,res:NextApiResponseServ
             reaction
         })
         if(response.data) {
+            
             info.success=true
             const data = response.data.data
+       
             const key = `${data.convo_id}-reaction-key`
-            res.socket.server.io.emit(key,data)
+            res?.socket?.server?.io?.emit(key,data)
             return res.status(200).json(info)
         }
     } catch (error) {

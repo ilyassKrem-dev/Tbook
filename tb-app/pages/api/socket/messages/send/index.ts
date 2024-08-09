@@ -26,9 +26,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponseServ
             medias:medias
         })
         if(response.data) {
-           
             const key = `${convoId}-message-key`
-            
             res?.socket?.server?.io?.emit(key,response.data.data)
             info.success = true
             info.error = ""

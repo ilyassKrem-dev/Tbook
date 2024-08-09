@@ -58,4 +58,5 @@ Route::controller(ConvosController::class)
         Route::post("/getConvo","findOrAddConvo");
         Route::post("/sendMsg","addMessage");
         Route::post("/addReaction","addReaction");
+        Route::post("/setAllSeen","setAllSeen");
     });

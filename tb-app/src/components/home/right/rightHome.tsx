@@ -22,7 +22,7 @@ export default function  RightHome({user}:{
         getFriends()
     },[user])
     const startedScroll = ScrollDetector()
-  
+
     return (
         <motion.div
         initial={{paddingTop:"0px"}}

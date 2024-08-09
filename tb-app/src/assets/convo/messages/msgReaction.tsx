@@ -75,7 +75,7 @@ export default function MsgReaction({message_id,userId,isUser}:{
                     </motion.div>}
                 </AnimatePresence>
             </div>
-            {show&&<div className={`absolute bottom-8  ${isUser?"-right-20":"-left-24"}`}>
+            {show&&<div className={`absolute bottom-8  ${isUser?"-right-20":"-left-24"} z-30`}>
                 <EmojiPicker reactionsDefaultOpen={true} lazyLoadEmojis onReactionClick={handleReaction} width="50%"/>
             </div>}
         </div>

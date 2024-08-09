@@ -5,6 +5,10 @@ import MediaType from "@/shared/others/mediaType"
 import MsgReaction from "./msgReaction";
 import { getStringDate } from "@/lib/utils/simpleUtils";
 import { motion ,AnimatePresence } from "framer-motion";
+import { LuCheck,LuCheckCheck } from "react-icons/lu";
+import { changeContentToLinks } from "@/lib/utils/textUtils";
+
+
 interface GroupedMessages {
     date: string;
     messages: MessageType[];
@@ -20,9 +24,9 @@ export default function ConvoMessages({convo,user}:{
     useEffect(() => {
         const current = divRef.current
         if(current) {
-            current.scrollIntoView({behavior:"smooth"})
+            current.scrollIntoView({behavior:"smooth",block:"end"})
         }
-    },[])
+    },[messages])
     
     const groupedMessages = useMemo(() => {
         const grouped: GroupedMessages[] = [];
@@ -48,7 +52,7 @@ export default function ConvoMessages({convo,user}:{
         <div className="flex flex-col gap-3 p-2">
             {groupedMessages.map((group,index) => {
                 return (
-                    <div key={index+convo.id} className="flex flex-col gap-3">
+                    <div key={convo.id+index+index+convo.id} className="flex flex-col gap-3">
                         <div className="text-xs text-center text-black/50 relative flex justify-center items-center">
                             <p className="relative z-30 bg-white w-[90px]">{group.date}</p>
                             <div className="h-px w-full bg-black/50 absolute z-0">
@@ -56,12 +60,12 @@ export default function ConvoMessages({convo,user}:{
                             </div>
                         </div>
                         {group.messages.map((message,index) => {
-                            const {id,sender,receiver,content,medias,reaction} = message
+                            const {id,sender,receiver,content,medias,reaction,seen} = message
                             const data = sender === user.id ? user : other
                             const isUser = sender === user.id
-                            
+                            const text = content ? changeContentToLinks(content,false):""
                             return (
-                                <div key={index+message.id} className={`group w-full flex ${isUser?"justify-end":" justify-start"}`}>
+                                <div key={index+id+id+index} className={`group w-full flex ${isUser?"justify-end":" justify-start"}`}>
                                     <div className={` flex items-center gap-2 ${isUser?"order-2":"order-1"}`}>
                                         <div className={`rounded-full w-[28px] h-[28px] self-end ${isUser?"order-2":"order-1"}`}>
                                             <img 
@@ -70,6 +74,7 @@ export default function ConvoMessages({convo,user}:{
                                             className="w-full h-full rounded-full bg-white object-cover border" />
                                         </div>
                                         <div className={`flex flex-col gap-1 ${isUser?"order-1 bg-blue-500  text-white":"order-2 bg-black/10 text-black"} rounded-lg relative`}>
+                                            
                                             {medias.length>0&&<div className={`p-2 grid ${medias.length > 2 ? " grid-cols-2":""} gap-1`}>
                                                 {medias.slice(0,4).map((media,index) => {
                                                     return (
@@ -87,8 +92,16 @@ export default function ConvoMessages({convo,user}:{
                                                 })}
                                                 
                                             </div>}
-                                            <div className={`text-base  p-1 max-w-[200px] px-2 `}>
-                                                {content}
+                                            <div className={`flex`}>
+                                                {text&&<div className={`text-base  p-1 max-w-[200px] px-2 `} dangerouslySetInnerHTML={{__html:text}} />}
+
+                                                {isUser&&
+                                                <div className="self-end py-2 p-1">
+                                                    {!seen ? 
+                                                    <LuCheck />
+                                                    :
+                                                    <LuCheckCheck />}     
+                                                </div>}
                                             </div>
                                             <AnimatePresence>
                                                 {reaction&&

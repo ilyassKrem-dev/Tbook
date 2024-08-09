@@ -42,8 +42,9 @@ class ConvosController extends Controller
         $otherUserInfo = $userId === $user->id ? $otherUser : $user;
         $messages = Messages::where("convo_id",$convo->id)
                     ->take(15)
-                    ->orderBy("created_at","asc")
+                    ->orderBy("created_at","desc")
                     ->get();
+        $messages = $messages->reverse();
         $messagesInfo = [];
         foreach($messages as $message) {
             $medias = Medias::where("message_id",$message->id)->get();
@@ -135,5 +136,23 @@ class ConvosController extends Controller
             "convo_id"=>$message->convo_id,
             "reaction"=>$message->reaction
         ]]);
+    }
+    function setAllSeen(Request $request) {
+        $data = $request->validate([
+            "user_id"=>"required",
+            "convo_id"=>"required"
+        ]);
+        $messages = Messages::where("convo_id",$data["convo_id"])
+                            ->where("receiver",$data["user_id"])
+                            ->get();
+
+        foreach($messages as $message) {
+            $message->update(["seen"=>true]);
+        }
+        return response()->json(["data"=>[
+            "convo_id"=>$data["convo_id"],
+            "receiver"=>$data["user_id"],
+            "seen"=>true
+        ]],200);
     }
 }

@@ -14,6 +14,7 @@ class Messages extends Model
         "sender",
         "receiver",
         "reaction",
-        "content"
+        "content",
+        "seen"
     ];
 }

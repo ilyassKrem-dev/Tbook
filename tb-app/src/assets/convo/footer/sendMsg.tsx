@@ -26,9 +26,13 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent}:{
     handleSent:() => void
 }) {
     const [progress,setProgress] = useState<number>(0)
-    const {startUpload} = useUploadThing("media",{
-        onUploadProgress:(p) => setProgress(p)
-    })
+    const handleUpload = async(file:File[]) => {
+        if(medias.length === 0) return
+        const {startUpload} = useUploadThing("media",{
+            onUploadProgress:(p) => setProgress(p)
+        })
+        return await startUpload(file)
+    }
     const socketS = Servers.socketUrl
     const {text,medias} = content
 
@@ -42,7 +46,7 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent}:{
         setProgress(medias.length>0?5:50)
         if(medias.length>0) {
             await Promise.all(medias.map(async(media,index) => {
-                const uploadedFile = await startUpload(media.file);
+                const uploadedFile = await handleUpload(media.file);
                 if(uploadedFile && uploadedFile[0].url) {
                     newMedias[index] = {url:uploadedFile[0].url,type:media.type}
                 }

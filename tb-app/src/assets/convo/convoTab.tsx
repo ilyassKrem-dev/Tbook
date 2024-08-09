@@ -1,92 +1,92 @@
 import { ConvoType, MessageType } from "@/lib/utils/types/convo"
 import { UserType } from "@/lib/utils/types/user";
 import { SetStateAction, useEffect, useState } from "react"
-import ConvoHeader from "./convoHeader";
-import ConvoFooter from "./footer/convoFooter";
 import { useSocket } from "../Wrappers/socketWrapper";
-import ConvoMessages from "./messages/convoMessages";
+import Convo from "./convo";
 export default function ConvoTab({convos,setConvos,user,setSideConvos}:{
     convos:ConvoType[],
     setConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
     user:UserType;
     setSideConvos:React.Dispatch<SetStateAction<ConvoType[]>>
 }) {
-    const [mouseEntered,setMouseEntered] = useState<boolean>(false)
     const {socket} = useSocket()
-   
     useEffect(() => {
-        if(!socket) return
-        convos.forEach(convo=>{
-            const key = `${convo.id}-message-key`
-            const key2 = `${convo.id}-reaction-key`
-            socket.on(key,(data:MessageType) => {
-            
-                setConvos((prev:ConvoType[]) => {
-                    const newData = prev.map(convo => {
-                        if(convo.id === data.convo_id) {
-                            return {...convo,messages:[...convo.messages,data]}
-                        }
-                        return convo
+        if(!socket||!convos) return
+        const handleNewMessage = (data: MessageType) => {
+            setConvos(prev => prev.map(convo => 
+                convo.id === data.convo_id ? { ...convo, messages: [...convo.messages, data] } : convo
+            ));
+        };
+        const handleReaction = (data:any) => {
+        
+            setConvos((prev:ConvoType[]) => {
+                const newData = prev.map(convo => {
+                    if(convo.id !==data.convo_id) return convo
+                    const messages = convo.messages.map(message=> {
+                        if(message.id!==data.id) return message
+                        return {...message,reaction:data.reaction}
                     })
-                    return newData
+                    return {...convo,messages:messages}
                 })
+                return newData
             })
-            socket.on(key2,(data:any) => {
-                setConvos((prev:ConvoType[]) => {
-                    const newData = prev.map(convo => {
-                        if(convo.id !==data.convo_id) return convo
-                        const messages = convo.messages.map(message=> {
-                            if(message.id!==data.id) return message
-                            return {...message,reaction:data.reaction}
-                        })
-                        return {...convo,messages:messages}
-                    })
-                    return newData
-                })
-            })
+        }
+        const handleSeen = (data:any) => {
+            setConvos((prev:ConvoType[]) => {
+                const newData = prev.map(convo => {
+                    if(convo.id !==data.convo_id) return convo
+                    const messages = convo.messages.map(message=> {
+                        if(message.receiver!==data.receiver || message.seen) return message
 
-        })
+                        return {...message,seen:data.seen}
+                    })
+                    return {...convo,messages:messages}
+                })
+                return newData
+            })
+        }
+        const subscribeToEvents = () => {
+            convos.forEach((convo) => {
+              const messageKey = `${convo.id}-message-key`;
+              const reactionKey = `${convo.id}-reaction-key`;
+              const seenKey = `${convo.id}-seen-key`;
+      
+              socket.on(messageKey, handleNewMessage);
+              socket.on(reactionKey, handleReaction);
+              socket.on(seenKey, handleSeen);
+            });
+          };
+        const unsubscribeFromEvents = () => {
+        convos.forEach((convo) => {
+            const messageKey = `${convo.id}-message-key`;
+            const reactionKey = `${convo.id}-reaction-key`;
+            const seenKey = `${convo.id}-seen-key`;
+    
+            socket.off(messageKey, handleNewMessage);
+            socket.off(reactionKey, handleReaction);
+            socket.off(seenKey, handleSeen);
+        });
+        };
+        subscribeToEvents()
         
         return () => {
-            convos.forEach(convo => {
-                const key = `${convo.id}-message-key`
-                const key2 = `${convo.id}-reaction-key`
-                socket.off(key)
-                socket.off(key2)
-            })
+            unsubscribeFromEvents()
            
         }
-    },[socket])
-    console.log(convos)
+    },[socket,convos])
+    
     return (
         <>
             <div className="fixed bottom-0 right-20">
                 <div className="flex gap-5">
                     {convos.map((convo,index) => {
-                        const {messages,other} = convo
-                       
                         return (
-                            
-                            <div key={convo.id+index+index} 
-                            onMouseEnter={() => setMouseEntered(true)}
-                            onMouseLeave={() => setMouseEntered(false)}>
-                                <div className="bg-white h-[450px] rounded-t-lg w-[350px] shadow-xl flex flex-col">
-                                    <ConvoHeader 
-                                    convo={convo}
-                                    setConvos={setConvos}
-                                    setSideConvos={setSideConvos}
-                                    mouseEntered={mouseEntered}/>
-                                    <div className="flex-1 h-full overflow-y-auto custom-scrollbar">
-                                        <ConvoMessages 
-                                        convo={convo} user={user}/>
-                                    </div>
-                                    <ConvoFooter 
-                                    mouseEntered={mouseEntered}
-                                    user={user}
-                                    otherId={other.id}
-                                    convoId={convo.id}/>
-                                </div>
-                            </div>
+                            <Convo
+                            key={convo.id+index+convo.id+index+6} 
+                            convo={convo} 
+                            user={user} 
+                            setConvos={setConvos} 
+                            setSideConvos={setSideConvos}/>
                             
                         )
                     })}

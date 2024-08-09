@@ -20,6 +20,7 @@ class Convo {
                 other_id
             })
             if(res.data) {
+                const convo = res.data.data
                 data = {
                     success:true,
                     data:res.data.data,

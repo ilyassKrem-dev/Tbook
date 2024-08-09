@@ -6,6 +6,7 @@ import Convo from "@/lib/classes/Convo";
 import ConvoTab from "../convo/convoTab";
 import { loginInfo } from "./sessionWrapper";
 import { RxCross2 } from "react-icons/rx";
+import ConvoSide from "../convo/convoSide";
 type IdsType = {
     user_id:string;
     other_id:string;
@@ -76,21 +77,11 @@ export const ConvoWrapper = ({children}:{
                         user={user}
                      
                         setSideConvos={setSideConvos}/>}
-                        <div className="fixed bottom-4 right-4">
-                            <div className="group">
-                                <div className="w-[60px] h-[60px] rounded-full cursor-pointer bg-black/30 group relative">
-                                    <img 
-                                    src="/profile.jpg" 
-                                    alt=""
-                                    className="w-full h-full object-cover rounded-full border bg-white group-hover:opacity-70 transition-all duration-300" />
-                                    <div  className="absolute -top-2 right-0 group-hover:block hidden ">
-                                        <div className="rounded-full p-1 text-black bg-white text-sm  border hover:bg-black/60" >
-                                            <RxCross2 />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <ConvoSide 
+                        sideConvos={sideConvos} 
+                        setSideConvos={setSideConvos}
+                        setConvos={setConvos}
+                        user={user}/>
         </convoContext.Provider>
     )
 }
