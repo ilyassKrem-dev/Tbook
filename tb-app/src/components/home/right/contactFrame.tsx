@@ -33,7 +33,7 @@ export default function ContactFrame({userInfo,userId}:{
         }
         const unSubscribe = () => {
             const key = `${convoId}-message-key`
-            socket.off(key)
+            socket.off(key,handleChange)
         }
         subscribe()
 

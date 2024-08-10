@@ -45,15 +45,29 @@ export default function ConvoTab({convos,setConvos,user,setSideConvos}:{
                 return newData
             })
         }
+        const handleStatus = (data:any) => {
+            
+            setConvos((prev:ConvoType[]) => {
+                const newData = prev.map(convo => {
+                    if(data.convoId !== convo.id) return convo
+                    return {...convo,
+                        status:data.status,
+                        status_by:data.status_by
+                    }
+                })
+                return newData
+            })
+        }
         const subscribeToEvents = () => {
             convos.forEach((convo) => {
               const messageKey = `${convo.id}-message-key`;
               const reactionKey = `${convo.id}-reaction-key`;
               const seenKey = `${convo.id}-seen-key`;
-      
+              const blockKey = `${convo.id}-status-key`
               socket.on(messageKey, handleNewMessage);
               socket.on(reactionKey, handleReaction);
               socket.on(seenKey, handleSeen);
+              socket.on(blockKey,handleStatus)
             });
           };
         const unsubscribeFromEvents = () => {
@@ -61,10 +75,11 @@ export default function ConvoTab({convos,setConvos,user,setSideConvos}:{
             const messageKey = `${convo.id}-message-key`;
             const reactionKey = `${convo.id}-reaction-key`;
             const seenKey = `${convo.id}-seen-key`;
-    
+            const blockKey = `${convo.id}-status-key`
             socket.off(messageKey, handleNewMessage);
             socket.off(reactionKey, handleReaction);
             socket.off(seenKey, handleSeen);
+            socket.off(blockKey,handleStatus)
         });
         };
         subscribeToEvents()
@@ -74,7 +89,7 @@ export default function ConvoTab({convos,setConvos,user,setSideConvos}:{
            
         }
     },[socket,convos])
-    
+   
     return (
         <>
             <div className="fixed bottom-0 right-20">

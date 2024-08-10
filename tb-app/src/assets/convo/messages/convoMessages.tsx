@@ -1,12 +1,13 @@
 import { ConvoType, MessageType } from "@/lib/utils/types/convo"
 import { UserType } from "@/lib/utils/types/user"
-import { useEffect, useMemo, useRef, useState } from "react"
+import {useEffect, useMemo, useRef, useState } from "react"
 import MediaType from "@/shared/others/mediaType"
 import MsgReaction from "./msgReaction";
 import { getStringDate } from "@/lib/utils/simpleUtils";
 import { motion ,AnimatePresence } from "framer-motion";
 import { LuCheck,LuCheckCheck } from "react-icons/lu";
 import { changeContentToLinks } from "@/lib/utils/textUtils";
+import { MdBlock } from "react-icons/md";
 
 
 interface GroupedMessages {
@@ -14,19 +15,24 @@ interface GroupedMessages {
     messages: MessageType[];
 }
 
-export default function ConvoMessages({convo,user}:{
+export default function ConvoMessages({convo,user,status}:{
     convo:ConvoType,
     user:UserType,
+    status:{
+        stat:string|null,
+        by:string|null
+    }
     
 }) {
     const divRef = useRef<HTMLDivElement>(null)
     const {messages,other,id} = convo
+    const {stat,by} = status
     useEffect(() => {
         const current = divRef.current
         if(current) {
-            current.scrollIntoView({behavior:"smooth",block:"end"})
+            current.scrollIntoView({behavior:"smooth"})
         }
-    },[messages])
+    },[messages,stat])
     
     const groupedMessages = useMemo(() => {
         const grouped: GroupedMessages[] = [];
@@ -48,8 +54,11 @@ export default function ConvoMessages({convo,user}:{
         return grouped;
     }, [messages]);
     
+    
     return (
-        <div className="flex flex-col gap-3 p-2">
+        <div
+        
+        className="flex flex-col gap-3 p-2">
             {groupedMessages.map((group,index) => {
                 return (
                     <div key={convo.id+index+index+convo.id} className="flex flex-col gap-3">
@@ -129,7 +138,14 @@ export default function ConvoMessages({convo,user}:{
                                 </div>
                             )
                         })}
-                        <div ref={divRef}/>
-                    </div>
+            {stat==="block"&&<div className="flex justify-center items-center flex-col font-semibold border-t py-2 border-black/50">
+                <div className="text-3xl">
+                    <MdBlock/>
+                </div>
+                <p>{by!==user.id?"You have been blocked":`You blocked ${other.name}`}</p>
+                        
+            </div>}
+            <div ref={divRef}/>
+        </div>
     )
 }

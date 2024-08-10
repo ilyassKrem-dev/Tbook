@@ -18,12 +18,16 @@ type ContentType = {
 
 
 
-export default function SendMsg({content,userId,otherId,convoId,handleSent}:{
+export default function SendMsg({content,userId,otherId,convoId,handleSent,status}:{
     content:ContentType,
     userId:string;
     otherId:string;
     convoId:string;
-    handleSent:() => void
+    handleSent:() => void;
+    status:{
+        stat:string|null;
+        by:string|null
+    }
 }) {
     const [progress,setProgress] = useState<number>(0)
     const handleUpload = async(file:File[]) => {
@@ -39,9 +43,10 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent}:{
     const check = text.length>0 || medias.length>0
 
     const {toast} = useToast()
-
+    const {stat,by} = status
     const handleSend = async() => {
         if(text.length===0 && medias.length === 0||progress > 0) return
+        if(stat==="block") return
         let newMedias = []
         setProgress(medias.length>0?5:50)
         if(medias.length>0) {
@@ -79,21 +84,24 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent}:{
     }
     return (
         <>
-            {!check
-            ?
-            <div className="p-1 hover:bg-gray-300/30 rounded-full cursor-pointer transition-all duration-300 active:scale-95 ml-1">
-                <HiThumbUp />
-            </div>
-            :
-            <div className="p-1 hover:bg-gray-300/30 rounded-full cursor-pointer transition-all duration-300 active:scale-95 ml-1 "
-            
-            onClick={handleSend}>
-                {progress>0&&<div className="relative flex items-center justify-center">
-                    <LoadingAnimation />
-                    <p className="absolute text-xs text-black">{progress}</p>
+            {stat!=="block"&&<>
+                {!check 
+                ?
+                <div className="p-1 hover:bg-gray-300/30 rounded-full cursor-pointer transition-all duration-300 active:scale-95 ml-1">
+                    <HiThumbUp />
+                </div>
+                :
+                <div className="p-1 hover:bg-gray-300/30 rounded-full cursor-pointer transition-all duration-300 active:scale-95 ml-1 "
+                
+                onClick={handleSend}>
+                    {progress>0&&<div className="relative flex items-center justify-center">
+                        <LoadingAnimation />
+                        <p className="absolute text-xs text-black">{progress}</p>
+                    </div>}
+                    {!progress&&<IoSend />}
                 </div>}
-                {!progress&&<IoSend />}
-            </div>}
+            
+            </>}
         </>
     )
 }

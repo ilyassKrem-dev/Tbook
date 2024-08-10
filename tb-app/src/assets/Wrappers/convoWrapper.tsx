@@ -2,7 +2,7 @@
 
 import { useEffect,useState,useContext,createContext, SetStateAction } from "react"
 import { ConvoType } from "@/lib/utils/types/convo"
-import Convo from "@/lib/classes/Convo";
+import ConvoClass from "@/lib/classes/Convo";
 import ConvoTab from "../convo/convoTab";
 import { loginInfo } from "./sessionWrapper";
 import { RxCross2 } from "react-icons/rx";
@@ -38,7 +38,7 @@ export const ConvoWrapper = ({children}:{
     useEffect(() => {
         if(!ids.user_id) return
         const getConvo = async() => {
-            const res = await Convo.getConvo(
+            const res = await ConvoClass.getConvo(
                 {
                     user_id:ids.user_id,
                     other_id:ids.other_id

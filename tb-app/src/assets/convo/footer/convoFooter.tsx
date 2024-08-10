@@ -10,7 +10,9 @@ interface Props {
     mouseEntered:boolean;
     user:UserType;
     otherId:string;
-    convoId:string
+    convoId:string;
+    status:string|null;
+    statusBy:string|null
 }
 
 type ContentType = {
@@ -21,9 +23,10 @@ type ContentType = {
         type:"audio"|"image"|"video";  
         file:File[]  
     }[];
+  
 }
 
-export default function ConvoFooter({mouseEntered,user,otherId,convoId}:Props) {
+export default function ConvoFooter({mouseEntered,user,otherId,convoId,status,statusBy}:Props) {
     
     const [content,setContent] = useState<ContentType>({
         text:"",
@@ -86,7 +89,11 @@ export default function ConvoFooter({mouseEntered,user,otherId,convoId}:Props) {
                 convoId={convoId}
                 userId={user.id}
                 otherId={otherId}
-                handleSent={handleSent}/>
+                handleSent={handleSent}
+                status={{
+                    stat:status,
+                    by:statusBy
+                }}/>
             
             </div>
         </>

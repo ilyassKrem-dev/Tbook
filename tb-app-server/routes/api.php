@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentControllere;
 use App\Http\Controllers\convos\ConvosController;
+use App\Http\Controllers\convos\MessageController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -56,7 +57,14 @@ Route::controller(ConvosController::class)
     ->group(function() {
 
         Route::post("/getConvo","findOrAddConvo");
-        Route::post("/sendMsg","addMessage");
-        Route::post("/addReaction","addReaction");
-        Route::post("/setAllSeen","setAllSeen");
+       
     });
+
+Route::controller(MessageController::class)
+        ->group(function() {
+            Route::post("/sendMsg","addMessage");
+            Route::post("/addReaction","addReaction");
+            Route::post("/setAllSeen","setAllSeen");
+            Route::patch("/{convoId}/changeStatus","changeConvoStatus");
+            Route::get("/{convoId}/messages/{lastMsg}","getMoreMessages");
+        });
