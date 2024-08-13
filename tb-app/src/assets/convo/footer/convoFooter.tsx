@@ -21,7 +21,7 @@ type ContentType = {
         id:string;
         url:string;
         type:"audio"|"image"|"video";  
-        file:File[]  
+        file:File  
     }[];
   
 }

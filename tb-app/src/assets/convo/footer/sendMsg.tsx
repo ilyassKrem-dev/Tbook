@@ -12,7 +12,7 @@ type ContentType = {
     medias:{
         url:string;
         type:"audio"|"image"|"video";
-        file:File[]  
+        file:File
     }[]
 }
 
@@ -30,13 +30,10 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent,statu
     }
 }) {
     const [progress,setProgress] = useState<number>(0)
-    const handleUpload = async(file:File[]) => {
-        if(medias.length === 0) return
-        const {startUpload} = useUploadThing("media",{
-            onUploadProgress:(p) => setProgress(p)
-        })
-        return await startUpload(file)
-    }
+    const {startUpload} = useUploadThing("media",{
+        onUploadProgress:(p) => setProgress(p)
+    })
+    
     const socketS = Servers.socketUrl
     const {text,medias} = content
 
@@ -44,24 +41,27 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent,statu
 
     const {toast} = useToast()
     const {stat,by} = status
+
     const handleSend = async() => {
         if(text.length===0 && medias.length === 0||progress > 0) return
         if(stat==="block") return
-        let newMedias = []
+        let newMedias:any = []
         setProgress(medias.length>0?5:50)
         if(medias.length>0) {
             await Promise.all(medias.map(async(media,index) => {
-                const uploadedFile = await handleUpload(media.file);
+                const uploadedFile = await startUpload([media.file]);
+        
                 if(uploadedFile && uploadedFile[0].url) {
-                    newMedias[index] = {url:uploadedFile[0].url,type:media.type}
+                    newMedias[index] = {
+                        url:uploadedFile[0].url,
+                        type:media.type}
                 }
             }))
         }
-        
         try {
             const res = await axios.post(`${socketS}/messages/send`,{
                 content:text,
-                medias,
+                medias:newMedias,
                 otherId,
                 convoId,
                 userId

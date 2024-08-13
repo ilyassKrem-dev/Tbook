@@ -5,10 +5,13 @@ import LeftTabs from "./leftTabs/leftTabs"
 import { useSize } from "@/lib/utils/hooks"
 import RightHome from "./right/rightHome"
 import MiddleHome from "./middle/middleHome"
+
+
 export default function Home({user}:{
     user:UserType
 }) {
     const {w} = useSize()
+    
     return (
         <>
             <TopNav />  
@@ -20,6 +23,7 @@ export default function Home({user}:{
 
                 {w>830&&<RightHome user={user}/>}
             </div> }
+            
         </>
        
     )

@@ -26,7 +26,7 @@ class MessageRequest extends FormRequest
             "sender"=>"required",
             "receiver"=>"required",
             "reaction"=>"sometimes|nullable",
-            "content"=>"sometimes|nullable",
+            "content"=>"sometimes|nullable|string",
             "medias"=>"sometimes|nullable"
         ];
     }

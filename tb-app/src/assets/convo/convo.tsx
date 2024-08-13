@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useRef, useState } from "react"
+import { SetStateAction, useEffect, useMemo, useRef, useState } from "react"
 import ConvoHeader from "./convoHeader"
 import ConvoMessages from "./messages/convoMessages"
 import ConvoFooter from "./footer/convoFooter"
@@ -8,6 +8,7 @@ import axios from "axios"
 import Servers from "@/lib/classes/Servers"
 import LoadingAnimation from "@/shared/spinner"
 import ConvoClass from "@/lib/classes/Convo"
+import React from "react"
 interface Props {
     convo:ConvoType;
     setConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
@@ -15,11 +16,13 @@ interface Props {
     user:UserType
 }
 
-
+const ConvoHeaderMemo = React.memo(ConvoHeader);
+const ConvoFooterMemo = React.memo(ConvoFooter);
 export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
     const [mouseEntered,setMouseEntered] = useState<boolean>(false)
     const [loading,setLoading] = useState<boolean>(false)
     const [finished,setFinished] = useState<boolean>(false)
+    const [added,setAdded] = useState<boolean>(false)
     const [allMsgs,setAllMsgs] = useState<boolean>(false)  
     const msgsRef = useRef<HTMLDivElement>(null)
     const {messages,other} = convo
@@ -47,11 +50,11 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
         const current = msgsRef.current
         if(!current || !finished || allMsgs) return
         const top = current.scrollTop
-        if(top < 5) {
+        if(top < 1) {
             setFinished(false)
             setLoading(true)
             const FirstMsgId = messages[0].id
-            current.scrollTo(0,15)
+            const scrollPosition = current.scrollTop; 
             try {
                 const res = await ConvoClass.getMoreMsgs({
                     convoId:convo.id,
@@ -59,6 +62,7 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
                 })
                 setLoading(false)
                 if(res?.success) {
+                    setAdded(true)
                     if(res.data.length < 15) {
                         setAllMsgs(true)
                     }
@@ -70,7 +74,7 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
                         return newData
                     })
                 }
-               
+                current.scrollTop = scrollPosition + (current.scrollHeight - scrollPosition - e.target.clientHeight);
             } catch (error) {
                 setLoading(false)
                 
@@ -87,13 +91,24 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
         },100)
         return () => clearTimeout(id)
     },[])
+    const memoizedMessages = useMemo(() => (
+        <ConvoMessages
+            convo={convo}
+            user={user}
+            added={added}
+            status={{
+                stat: convo.status,
+                by: convo.status_by
+            }}
+        />
+    ), [convo, user, added]);
     return (
         
         <div  
         onMouseEnter={() => setMouseEntered(true)}
         onMouseLeave={() => setMouseEntered(false)}>
             <div className="bg-white h-[450px] rounded-t-lg w-[350px] shadow-xl flex flex-col">
-                <ConvoHeader 
+                <ConvoHeaderMemo 
                 convo={convo}
                 setConvos={setConvos}
                 setSideConvos={setSideConvos}
@@ -109,14 +124,9 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
                         </div>
                         
                     </div>}
-                    <ConvoMessages 
-                    convo={convo} user={user}
-                    status={{
-                        stat:convo.status,
-                        by:convo.status_by
-                    }}/>
+                    {memoizedMessages}
                 </div>
-                <ConvoFooter 
+                <ConvoFooterMemo 
                 mouseEntered={mouseEntered}
                 user={user}
                 otherId={other.id}

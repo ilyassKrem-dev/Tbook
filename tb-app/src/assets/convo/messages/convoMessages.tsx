@@ -8,31 +8,36 @@ import { motion ,AnimatePresence } from "framer-motion";
 import { LuCheck,LuCheckCheck } from "react-icons/lu";
 import { changeContentToLinks } from "@/lib/utils/textUtils";
 import { MdBlock } from "react-icons/md";
-
+import { showMedia } from "@/assets/Wrappers/mediaWrapper";
 
 interface GroupedMessages {
     date: string;
     messages: MessageType[];
 }
 
-export default function ConvoMessages({convo,user,status}:{
+export default function ConvoMessages({convo,user,status,added}:{
     convo:ConvoType,
     user:UserType,
     status:{
         stat:string|null,
         by:string|null
-    }
+    };
+    added:boolean
     
 }) {
+    
     const divRef = useRef<HTMLDivElement>(null)
     const {messages,other,id} = convo
     const {stat,by} = status
+    const {handleMediaClick} = showMedia()
+
     useEffect(() => {
+        if(added) return
         const current = divRef.current
         if(current) {
             current.scrollIntoView({behavior:"smooth"})
         }
-    },[messages,stat])
+    },[messages,stat,added])
     
     const groupedMessages = useMemo(() => {
         const grouped: GroupedMessages[] = [];
@@ -54,11 +59,10 @@ export default function ConvoMessages({convo,user,status}:{
         return grouped;
     }, [messages]);
     
-    
+
     return (
-        <div
-        
-        className="flex flex-col gap-3 p-2">
+        <div  
+        className="flex flex-col gap-3 p-2 pt-4">
             {groupedMessages.map((group,index) => {
                 return (
                     <div key={convo.id+index+index+convo.id} className="flex flex-col gap-3">
@@ -74,7 +78,7 @@ export default function ConvoMessages({convo,user,status}:{
                             const isUser = sender === user.id
                             const text = content ? changeContentToLinks(content,false):""
                             return (
-                                <div key={index+id+id+index} className={`group w-full flex ${isUser?"justify-end":" justify-start"}`}>
+                                <div key={index+id+id+index+Math.random()} className={`group w-full flex ${isUser?"justify-end":" justify-start"}`}>
                                     <div className={` flex items-center gap-2 ${isUser?"order-2":"order-1"}`}>
                                         <div className={`rounded-full w-[28px] h-[28px] self-end ${isUser?"order-2":"order-1"}`}>
                                             <img 
@@ -82,17 +86,22 @@ export default function ConvoMessages({convo,user,status}:{
                                             alt={data.name + " image"}
                                             className="w-full h-full rounded-full bg-white object-cover border" />
                                         </div>
-                                        <div className={`flex flex-col gap-1 ${isUser?"order-1 bg-blue-500  text-white":"order-2 bg-black/10 text-black"} rounded-lg relative`}>
+                                        <div className={`flex flex-col gap-1 ${isUser?"order-1 bg-blue-500  text-white":"order-2 bg-black/10 text-black"} rounded-lg relative `}>
                                             
-                                            {medias.length>0&&<div className={`p-2 grid ${medias.length > 2 ? " grid-cols-2":""} gap-1`}>
+                                            {medias.length>0&&<div className={`p-2 grid ${medias.length > 1 ? " grid-cols-2":""} gap-1`}>
                                                 {medias.slice(0,4).map((media,index) => {
+                                                    
                                                     return (
-                                                        <div key={media.id+index+media.id+1} className="w-[80px] h-[80px] relative">
+                                                        <div key={media.id+index+media.id+1} className="w-[85px] h-[85px] relative cursor-pointer hover:bg-black/20 rounded-md group/image transition-all duration-300 active:scale-95" onClick={() => handleMediaClick(
+                                                            {info:(isUser?user:other),
+                                                            media,
+                                                            medias
+                                                            })}>
                                                             <MediaType
                                                             type={media.type}
                                                             media={media.url}
-                                                            className="w-full object-fill h-full rounded-md" />
-                                                            {medias.length>4&&index==4&&
+                                                            className="w-full object-fill h-full rounded-md group-hover/image:opacity-80 transition-all duration-300 border bg-white" />
+                                                            {medias.length>4&&index==3&&
                                                             <div className="absolute top-0 bottom-0 right-0 left-0 bg-black/50 rounded-md flex items-center justify-center font-semibold text-lg">
                                                                 {medias.length - 4}+
                                                             </div>}
@@ -101,7 +110,7 @@ export default function ConvoMessages({convo,user,status}:{
                                                 })}
                                                 
                                             </div>}
-                                            <div className={`flex`}>
+                                            <div className={`flex ${!text? "self-end":""}`}>
                                                 {text&&<div className={`text-base  p-1 max-w-[200px] px-2 `} dangerouslySetInnerHTML={{__html:text}} />}
 
                                                 {isUser&&
@@ -147,5 +156,6 @@ export default function ConvoMessages({convo,user,status}:{
             </div>}
             <div ref={divRef}/>
         </div>
+       
     )
 }

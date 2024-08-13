@@ -46,6 +46,7 @@ Route::controller(FriendsController::class)
         Route::post("/removeFriend","removeFriend");
         Route::post("/addFriend","addFriend");
         Route::get("/{id}/friends","fetchAllUserFriends");
+        Route::get("/{id}/allfriends","getFriendsAndRequests");
 
     });
 Route::controller(UserMiscController::class)

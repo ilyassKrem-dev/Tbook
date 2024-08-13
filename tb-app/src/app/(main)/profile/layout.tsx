@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import { SocketProvider } from "@/assets/Wrappers/socketWrapper";
-import "../globals.css";
+import "../../globals.css";
 import { ToastProvider } from "@/assets/Wrappers/toastWrapper";
 import AuthWrapper from "@/assets/Wrappers/authWrapper";
 import { SessionWrapper } from "@/assets/Wrappers/sessionWrapper";
 import { ConvoWrapper } from "@/assets/Wrappers/convoWrapper";
+import { MediaWrapper } from "@/assets/Wrappers/mediaWrapper";
 const figtree = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,13 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={figtree.className + " h-screen bg-gray-1"}>
-        <ToastProvider>
+      <ToastProvider>
           <AuthWrapper >
             <SessionWrapper>
               <SocketProvider>
-                <ConvoWrapper>
-                  {children}
-                </ConvoWrapper>
+                <MediaWrapper>
+                  <ConvoWrapper>
+                      {children}
+                  </ConvoWrapper>
+                </MediaWrapper>
               </SocketProvider>
             </SessionWrapper>
           </AuthWrapper>

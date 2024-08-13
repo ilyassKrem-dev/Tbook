@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helpers;
 use Illuminate\Http\Request;
 use App\Models\Friend;
 use App\Models\User;
@@ -127,6 +128,50 @@ class FriendsController extends Controller
             array_push($friendsList,$info);
         }
         return response()->json(["data"=>$friendsList],200);
+    }
+
+    function getFriendsAndRequests($id) {
+        $us = User::where("id",$id)->first();
+        $requests = Friend::where("friend",$id)
+                            ->where("status","request")
+                            ->get();
+        $friendReq = Helpers::addInfoToFriends($requests,true);
+        $friendIds  = Friend::where(function($query) use($id) {
+            $query->where("user", $id)
+                  ->orWhere("friend", $id);
+        })
+            ->where("status", "friends")
+            ->pluck('user')
+            ->merge(Friend::where(function($query) use($id) {
+                $query->where("user", $id)
+                    ->orWhere("friend", $id);
+            })
+            ->where("status", "friends")
+            ->pluck('friend'))
+            ->unique()
+            ->filter(function($friendId) use($id) {
+                return $friendId != $id;
+            })
+            ->values(); 
+            
+        $otherFriends = User::where("id","!=",$id)
+            ->orderByRaw( 
+            "CASE WHEN country = ? THEN 0 ELSE 1 END, country",[$us->country]
+            )
+            ->inRandomOrder()
+            ->take(40)
+            ->get()
+            ->filter(function($user) use ($friendIds) {
+                return !$friendIds->contains($user->id);
+            });
+            
+        
+        $otherFriendsInfo = Helpers::addInfoToFriends($otherFriends,false);
+        $response = [
+            "requests"=>$friendReq,
+            "others"=>$otherFriendsInfo
+        ];
+        return response()->json(["data"=>$response],200);
     }
             
 }

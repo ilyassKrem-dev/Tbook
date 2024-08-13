@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Helpers;
+
+use App\Models\Friend;
 use App\Models\User;
 use App\Models\post\Likes;
 use App\Models\post\Comment;
@@ -27,6 +29,37 @@ class Helpers {
             "parent_id"=>$comment->parent_id
         ];
         return $newComment;
+    }
+
+    static function addInfoToFriends($requests,$isRequest) {
+        $friendReq = [];
+        if($isRequest) {
+            foreach($requests as $request) {
+                $user = User::where("id",$request->user)->first();
+                array_push($friendReq,[
+                    "id"=>$request->id,
+                    "status"=>$request->status,
+                    "user"=>[
+                        "id"=>$user->id,
+                        "name"=>$user->name,
+                        "username"=>$user->username,
+                        "image"=>$user->image,
+                        "country"=>$user->country
+                    ]
+                ]);
+            }
+            return $friendReq;
+        }
+        foreach($requests as $request) {
+            array_push($friendReq,[
+                "id"=>$request->id,
+                "name"=>$request->name,
+                "username"=>$request->username,
+                "image"=>$request->image,
+                "country"=>$request->country
+            ]);
+        } 
+        return $friendReq;
     }
 }
 
