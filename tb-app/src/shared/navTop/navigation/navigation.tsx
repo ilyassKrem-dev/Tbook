@@ -30,12 +30,11 @@ const navs = [
 ]
 export default function Navigation() {
     const pathname = usePathname()
-
     return (
         <div className="">
             <div className="flex items-center gap-2">
                 {navs.map((nav,index) => {
-                    const path = pathname === nav.path
+                    const path = "/"+pathname?.split("/")[1] === nav.path
                     return (
                         <Link key={index} href={nav.path} className={`py-1  ${path?"border-b-blue-500 border-b-4":""} relative group flex justify-center items-center`}>
                             <div className={`text-2xl py-3 px-10 hover:bg-gray-1 rounded-lg transition-all duration-300 active:bg-gray-300`}>

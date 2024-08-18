@@ -5,10 +5,11 @@ import CoverImage from "./templateAssets/coverImage";
 import ProfileInfo from "./templateAssets/profileInfo";
 import TabsInfo from "./templateAssets/tabsInfo/tabsInfo";
 import { useSize } from "@/lib/utils/hooks";
-export default function ProfileTemplate({userData,loggedInfo,view}:{
+export default function ProfileTemplate({userData,loggedInfo,view,fromRequest}:{
     userData:UserDataType;
     loggedInfo:UserType|null;
-    view?:boolean
+    view?:boolean;
+    fromRequest?:boolean
 }) {
     const {user,friends} = userData
     const {w} = useSize()
@@ -26,7 +27,8 @@ export default function ProfileTemplate({userData,loggedInfo,view}:{
                         <ProfileInfo 
                         userData={userData}
                         loggedInfo={loggedInfo}
-                        view={view}/>
+                        view={view}
+                        fromRequest={fromRequest}/>
                     
                     </div>
                     

@@ -80,6 +80,7 @@ html {
   justify-content: center;
   align-items: center;
   height: 100%;
+  transform: tra;
 }
 
 .spinner {
@@ -105,3 +106,28 @@ input[data-autocompleted] {
     background-color: transparent !important;
 }
 
+.hair-icon::before {
+  background-color: rgb(255 255 255 / 0.5);
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: -5%;
+  transform: translateX(15px);
+  height: 20px;
+  z-index: auto;
+  width: 20px;
+  
+  border-radius: 999999px;
+}
+.hair-icon::after {
+  background-color: rgb(255 255 255 / 0.5);
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -46%;
+  height: 25px;
+  z-index: auto;
+  width: 25px;
+  
+  border-radius: 999999px;
+}

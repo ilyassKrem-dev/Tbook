@@ -36,7 +36,7 @@ export default function TabsSm({handleChangeRoute,sk}:{
                     exit={{opacity:0,scale:0.8}}
                     transition={{duration:0.2,ease:"easeIn"}}
                     
-                    className="absolute -bottom-24">
+                    className="absolute -bottom-24 z-40">
                         <div className="flex flex-col gap-1 bg-white shadow-[0px_0px_3px_1px_rgba(232,229,229,1)] rounded-lg p-2">
                             {smTabs.map((tab,index) => {
                                 return (

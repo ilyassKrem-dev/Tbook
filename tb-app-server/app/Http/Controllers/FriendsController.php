@@ -153,7 +153,17 @@ class FriendsController extends Controller
                 return $friendId != $id;
             })
             ->values(); 
-            
+        $requestsFrom = Friend::where("friend",$id)
+                            ->where("status","request")
+                            ->pluck("user")
+                            ->merge(Friend::where("user",$id)
+                            ->where("status","request")
+                            ->pluck("friend"))
+                            ->unique()
+                            ->filter(function($friendId) use($id) {
+                                return $friendId != $id;
+                            })
+                            ->values();
         $otherFriends = User::where("id","!=",$id)
             ->orderByRaw( 
             "CASE WHEN country = ? THEN 0 ELSE 1 END, country",[$us->country]
@@ -163,6 +173,9 @@ class FriendsController extends Controller
             ->get()
             ->filter(function($user) use ($friendIds) {
                 return !$friendIds->contains($user->id);
+            })
+            ->filter(function($user) use($requestsFrom) {
+                return !$requestsFrom->contains($user->id);
             });
             
         

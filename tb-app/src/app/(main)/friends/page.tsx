@@ -1,5 +1,5 @@
 "use client"
-import Friends from "@/components/friends/friends"
+import Friends from "@/components/friends/home/friends"
 
 
 

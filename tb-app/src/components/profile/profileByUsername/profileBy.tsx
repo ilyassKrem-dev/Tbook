@@ -9,8 +9,9 @@ import TopNav from "@/shared/navTop/topNav"
 import Login from "@/assets/account/login/login"
 import { RxCross2 } from "react-icons/rx"
 import NoAuthNav from "@/assets/unAuth/noAuthNab"
-export default function ProfileBy({userName}:{
-    userName:string
+export default function ProfileBy({userName,fromRequest}:{
+    userName:string;
+    fromRequest?:boolean
 }) {
     const [profileInfo,setProfileInfo] = useState<UserDataType>()
     const [show,setShow] = useState<boolean>(false)
@@ -37,6 +38,7 @@ export default function ProfileBy({userName}:{
                 userData={profileInfo}
                 loggedInfo={user}
                 view={Boolean(userName)}
+                fromRequest={fromRequest}
             />}
             {show&&<div className="fixed top-0 right-0 left-0 bottom-0 bg-white/70 z-50 flex justify-center items-center no-doc-scroll" onClick={() => setShow(false)}>
                 <div className="sm-shadow rounded-lg border border-black/10 relative" onClick={(e) => e.stopPropagation()}>

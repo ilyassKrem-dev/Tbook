@@ -5,10 +5,11 @@ import ProfileButtons from "./profile-Info/profileImage/btns/profileButtons";
 import ProfileTabs from "./profile-Info/tabs/profileTabs";
 import ProfileViewBtns from "./profile-Info/profileImage/btns/profileViewBtns";
 import { usePathname } from "next/navigation";
-export default function ProfileInfo({userData,loggedInfo,view}:{
+export default function ProfileInfo({userData,loggedInfo,view,fromRequest}:{
     userData:UserDataType;
     loggedInfo:UserType|null;
-    view?:boolean
+    view?:boolean;
+    fromRequest?:boolean
 }) {
     const {user,friends} = userData
     
@@ -29,7 +30,7 @@ export default function ProfileInfo({userData,loggedInfo,view}:{
                     <Link href={`${pathname}?sk=friends`} className="text-gray-600 hover:underline transition-all duration-300">{friends.length} {friends.length === 1 ?"friend" :"friends"}</Link>
                 </div>
                 {checkUser&&!view&&<ProfileButtons />}
-                {view&&!checkUser&&loggedInfo&&
+                {!fromRequest&&view&&!checkUser&&loggedInfo&&
                 <ProfileViewBtns 
                 profileId={user.id}
                 isFriends={checkIfFreinds}

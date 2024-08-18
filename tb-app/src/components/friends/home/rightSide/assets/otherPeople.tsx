@@ -23,20 +23,12 @@ export default function OtherPeople({others,loggedInfo,setFriendsR}:{
                 user:loggedInfo.id,
                 friend:other_id
             })
-            if(res) {
+            if(res.data) {
                 setLoading(0)
-                const status = res.data.status
-                if(status.status == "request") {
-                    setFriendsR(prev => {
-                        const newData = prev.others.filter(oth=>oth.id!==other_id)
-                        return {...prev,others:newData}
-                    })
-                    toast({
-                        varient:"success",
-                        title:"Sent",
-                        description:"Friend request sent."
-                    })
-                }
+                setFriendsR(prev => {
+                    const newData = prev.others.filter(oth=>oth.id!==other_id)
+                    return {...prev,others:newData}
+                })
                 
             }
         } catch (error:any) {
@@ -55,10 +47,10 @@ export default function OtherPeople({others,loggedInfo,setFriendsR}:{
         })
     }
     return (
-        <section className="flex gap-3 flex-col border-b pb-8 border-black/20">
+        <section className="flex gap-3 flex-col pb-8 ">
             <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold">Other people</h1>
-                <Link href={"/friends/suggestion"} className=" text-lg text-blue-500 p-2 rounded-md hover:bg-gray-300/40 transition-all duration-300 active:scale-95">
+                <h1 className=" text-xl md:text-2xl font-bold">Other people</h1>
+                <Link href={"/friends/suggestion"} className="text-base md:text-lg text-blue-500 p-2 rounded-md hover:bg-gray-300/40 transition-all duration-300 active:scale-95">
                     See all
                 </Link>
             </div>
@@ -68,14 +60,14 @@ export default function OtherPeople({others,loggedInfo,setFriendsR}:{
                     const check = user.id === loading
                     return (
                         <div  key={index} className="rounded-lg flex flex-col gap-1 bg-white border shadow-md border-black/20">
-                            <Link href={`/friends/requests/?profile_id=${user.id}`} className="w-[201px] h-[201px] ">
+                            <Link href={`/friends/requests/?profile=${user.username}`} className="w-[150px] md:w-[201px] h-[150px] md:h-[201px] ">
                                 <img 
                                 src={image??"/profile.jpg"}
                                 alt={name + " profile img"}
                                 className="rounded-t-lg bg-white border w-full h-full object-cover" />
                             </Link>
                             <div className="p-2 px-3 flex gap-5 flex-col">
-                                <Link href={`/friends/requests/?profile_id=${user.id}`} className="font-bold hover:underline transition-all duration-300">{user.name}</Link>
+                                <Link href={`/friends/requests/?profile=${user.username}`} className="font-bold hover:underline transition-all duration-300">{user.name}</Link>
                                 <div className="flex flex-col gap-2">
                                     <button className="bg-blue-100/60 text-blue-600 rounded-md p-1 py-2 hover-opacity active:scale-95 font-semibold" onClick={() => handleAddFriend(id)}>
                                         {check?<LoadingAnimation/>:"Add friend"}
