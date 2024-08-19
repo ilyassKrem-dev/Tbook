@@ -129,11 +129,12 @@ class Friend {
         let data = {
             success:false,
             error:'',
-            data:undefined
+            data:[]
         }
         try {
             const res = await axios.get(`${baseUrl}/${user_id}/friends`)
             if(res) {
+                
                 data = {
                     success:true,
                     error:"",
@@ -148,7 +149,7 @@ class Friend {
                 
                 return {
                     success:null,
-                    data:null,
+                    data:[],
                     error:"Internal server error"
                 }
             }
@@ -156,7 +157,7 @@ class Friend {
                 const err = error.response.data
                 data = {
                     success:false,
-                    data:undefined,
+                    data:[],
                     error:err
                 }
                 

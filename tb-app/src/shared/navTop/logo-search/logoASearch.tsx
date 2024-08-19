@@ -28,8 +28,6 @@ export default function LogoASearch({w}:{w:number}) {
         tab:".search-tab",
         setShow:setShow
     })
-    
-    console.log(show)
     return (
         <div className={`py-2 flex gap-2 items-center  left-0 pl-3 ${w>953 ?"absolute ":""} search-tab`}>
             <Link href={"/"} className="bg-blue-600 text-white  rounded-full text-2xl font-bold p-1 px-3">

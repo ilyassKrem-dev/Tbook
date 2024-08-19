@@ -17,7 +17,7 @@ export default function ProfileTabs({view}:{
         //@ts-ignore
         const queries = new URLSearchParams(Array.from(searchParams.entries()))
         if(!tname) {
-            console.log(tname)
+            
             queries.delete("sk")
             return router.push(`${pathname}/?${queries.toString()}`)
         }

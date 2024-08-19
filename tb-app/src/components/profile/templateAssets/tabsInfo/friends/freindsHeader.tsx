@@ -23,10 +23,10 @@ export default function FriendsHeader({handleSearch}:{
                         <IoSearch className="text-xl text-black/30"/>
                     </div>
                 </div>
-                <Link href={"/freinds"} className="text-blue-400 hover:bg-gray-300/30 p-2 px-3 rounded-md  font-semibold transition-all duration-300">
+                <Link href={"/friends"} className="text-blue-400 hover:bg-gray-300/30 p-2 px-3 rounded-md  font-semibold transition-all duration-300">
                     Friend requests
                 </Link>
-                <Link href={"/freinds"} className="text-blue-400 hover:bg-gray-300/30 p-2 px-3 rounded-md  font-semibold transition-all duration-300">
+                <Link href={"/friends"} className="text-blue-400 hover:bg-gray-300/30 p-2 px-3 rounded-md  font-semibold transition-all duration-300">
                     Find friends
                 </Link>
             </div>
