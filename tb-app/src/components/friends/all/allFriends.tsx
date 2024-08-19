@@ -8,7 +8,7 @@ import AllLeftSide from "./leftSide/allLeftSide"
 
 export default function AllFriends() {
     const [friends,setFriends] = useState<userFriendsType[]>([])
-    const {user,loginStatus} = loginInfo()
+    const {user} = loginInfo()
     useEffect(() => {
         if(!user) return
         const getRequests = async() => {
@@ -27,7 +27,6 @@ export default function AllFriends() {
                     <AllLeftSide 
                     setFriends={setFriends} 
                     friends={friends} loggedInfo={user}/>
-                    {/* <SuggestionLeft others={others} setOthers={setOthers} loggedInfo={user}/> */}
                 </div>
                 <RightProfileTemplate />
             </div>}

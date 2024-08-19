@@ -47,6 +47,7 @@ Route::controller(FriendsController::class)
         Route::post("/addFriend","addFriend");
         Route::get("/{id}/friends","fetchAllUserFriends");
         Route::get("/{id}/allfriends","getFriendsAndRequests");
+        Route::get("/{id}/userRequests","getUserRequests");
 
     });
 Route::controller(UserMiscController::class)

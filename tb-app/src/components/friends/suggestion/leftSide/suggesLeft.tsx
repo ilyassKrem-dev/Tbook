@@ -10,12 +10,12 @@ import { removeOverlay, useSize } from "@/lib/utils/hooks"
 import BurgerCross from "../../shared/burgerCross"
 import { usePathname } from "next/navigation"
 import axios from "axios"
+import { LeftTopInfoLg, LeftTopInfoSm } from "../../shared/topLeftInfo"
 export default function SuggestionLeft({loggedInfo,others,setOthers}:{
     loggedInfo:UserType;
     others:OtherType[];
     setOthers:React.Dispatch<SetStateAction<OtherType[]>>
 }) {
-    const [showReq,setShowReq] = useState<boolean>(false)
     const [show,setShow] = useState<boolean>(false)
     const [loading,setLoading] = useState<number>(0)
     const handleConfrim = async(e:any,other_id:number) => {
@@ -47,15 +47,7 @@ export default function SuggestionLeft({loggedInfo,others,setOthers}:{
     return (
         <LeftTemplate>
             {w>767&&<div className="flex flex-col gap-3 p-4 px-5">
-                <div className="flex items-center gap-4">
-                    <Link href={"/friends/"} className="text-xl text-black/60 hover:bg-gray-300/60 p-2 transition-all duration-300 rounded-full active:scale-95">
-                        <FaArrowLeft />
-                    </Link>
-                    <div>
-                        <span className="text-black/50 text-sm">Friend</span>
-                        <h1 className="text-2xl font-bold">Suggestions</h1>
-                    </div> 
-                </div>
+                <LeftTopInfoLg tab="suggestion"/>
     
                 <div className="flex flex-col overflow-y-scroll custom-scrollbar pb-10">
                     {others.map((req,index) => {
@@ -89,19 +81,7 @@ export default function SuggestionLeft({loggedInfo,others,setOthers}:{
                 </div>
             </div>}
             {w<=767&&<div className="flex flex-col gap-3 p-2 shadow-md suggest-nav">
-                <div className="flex justify-between items-center gap-4">
-                    <div className="flex items-center gap-4">
-                        <Link href={"/friends/"} className="text-xl text-black/60 hover:bg-gray-300/60 p-2 transition-all duration-300 rounded-full active:scale-95">
-                            <FaArrowLeft />
-                        </Link>
-                        <div className="flex items-center gap-1">
-                            <h1 className="text-xl md:text-2xl font-bold">Suggestions</h1>
-                            <span className="text-black/50 text-sm mt-1">/ Friend</span>
-                        </div>
-
-                    </div>
-                    <BurgerCross setShow={setShow} show={show}/>
-                </div>
+                <LeftTopInfoSm setShow={setShow} show={show} tab="suggestion"/>
                 {show&&
                 <div
                 
@@ -122,7 +102,6 @@ export default function SuggestionLeft({loggedInfo,others,setOthers}:{
                                     <div className="flex flex-col gap-2 flex-1">
                                         <div className="flex justify-between items-center">
                                             <p className="font-semibold">{name}</p>
-                                            <p className="text-black/50 text-sm">1d</p>
                                         </div>
                                         
                                         <div className="flex items-center gap-2">

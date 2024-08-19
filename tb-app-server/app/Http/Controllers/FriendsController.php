@@ -186,5 +186,26 @@ class FriendsController extends Controller
         ];
         return response()->json(["data"=>$response],200);
     }
-            
+    function getUserRequests($id) {
+        $currentUser = User::where("id",$id)->first();
+        $requests = Friend::where("user",$currentUser->id)
+                        ->where("status","request")
+                        ->get();
+        $friendsInfo = [];
+        foreach($requests as $request) {
+            $user = User::where("id",$request->friend)->first();
+            array_push($friendsInfo,[
+                "id"=>$request->id,
+                "status"=>$request->status,
+                "user"=>[
+                    "id"=>$user->id,
+                    "name"=>$user->name,
+                    "username"=>$user->username,
+                    "image"=>$user->image,
+                    "country"=>$user->country
+                ]
+            ]);
+        }
+        return response()->json(["data"=>$friendsInfo],200);
+    }     
 }
