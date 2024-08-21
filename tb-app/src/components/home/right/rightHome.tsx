@@ -10,6 +10,7 @@ import ContactFrame from "./contactFrame";
 export default function  RightHome({user}:{
     user:UserType
 }) {
+    const [savedData,setSavedData] = useState<userFriendsType[]>([])
     const [friends,setFriends] = useState<userFriendsType[]>([])
     useEffect(() => {
         if(!user) return
@@ -17,6 +18,7 @@ export default function  RightHome({user}:{
             const res = await Friend.getAllFriends(user.id)
             if(res?.success) {
                 setFriends(res.data as any)
+                setSavedData(res.data as any)
             }
         }
         getFriends()
@@ -30,7 +32,7 @@ export default function  RightHome({user}:{
         transition={{duration:0.2,ease:"easeInOut"}}
         className={`md:w-[280px] 2xl:w-[350px] h-screen   pb-8 hidden md:block sticky top-0 bottom-0`}>
             <div className="h-full overflow-y-scroll custom-scrollbar">
-                <TopOfRight />
+                <TopOfRight setFriends={setFriends} friends={savedData}/>
                 <div className="flex flex-col">
                     {friends.length>0&&friends.map((info,index) => {
                         return (
