@@ -2,7 +2,7 @@ import axios from "axios"
 import Servers from "./Servers"
 const baseUrl = Servers.laravelURl
 class User {
-    private username:string
+    protected username:string
 
 
     constructor(username:string) {

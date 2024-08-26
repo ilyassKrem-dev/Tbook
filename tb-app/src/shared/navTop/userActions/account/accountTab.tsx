@@ -67,7 +67,7 @@ export  default function AccountTab({user}:{
                                 alt=""
                                 className="w-full h-full bg-white rounded-full border object-cover" />
                             </div>
-                            <p className="font-bold truncate max-w-[200px] capitalize trxt-lg cursor-pointer">{user.name}</p>
+                            <p className="font-bold truncate max-w-[200px] capitalize trxt-lg cursor-pointer">{user.username}</p>
                         </div>
                         {accTabs.map((tab,index) => {
                             return (

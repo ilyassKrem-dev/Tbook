@@ -69,3 +69,36 @@ export const TabsAndLinks = [
         ]
     }
 ]
+
+
+
+
+export const HomeTabs = [
+    {
+        title:"Blocking",
+        desc:"Review people you've previously blocked or add someone to your blocked list.",
+        imgSrc:"https://static.xx.fbcdn.net/rsrc.php/v3/y6/r/anqW39IncZR.png",
+        link:"/settings/?tab=blocking"
+    },
+    {
+        title:"Info",
+        desc:"View your profile informations or change them .",
+        imgSrc:"https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/YV2utMU-Nrt.png",
+        link:"/settings/?tab=info"
+    },
+    {
+        title:"Dark mode",
+        desc:"Choose if you want to use dark mode.",
+        imgSrc:"https://static.xx.fbcdn.net/rsrc.php/v3/yn/r/HGA7ZYQ-hFh.png",
+        link:"/settings/?tab=accessibility"
+    }
+]
+
+export const HomeOthers = [
+    {
+        title:"Posts",
+        desc:"Change your posts visibility.",
+        imgSrc:"/post.png",
+        link:"/settings/?tab=posts"
+    }
+]

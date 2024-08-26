@@ -16,7 +16,7 @@ export default function SettingsLeftSide() {
     }
 
     return (
-        <div className="fixed top-14 bottom-0 bg-white border-r border-r-black/20 w-[400px] left-0 right-0">
+        <div className="fixed top-14 bottom-0 bg-white border-r border-r-black/20 md:w-[400px] left-0 right-0 shadow-xl">
             <div className="p-3 flex flex-col h-full">
                 <div className={`flex flex-col gap-3 mt-4  pb-4 border-black/30 ${scrolled?"border-b":""}`}>
                     <h1 className="font-[800] text-2xl">Settings & privacy</h1>
@@ -36,7 +36,7 @@ export default function SettingsLeftSide() {
                                         const {icon,link,name} = tab2
                                         return (
                                         <Link href={`/profile${link}`} key={index} className="p-2  flex text-lg gap-4 rounded-md hover:bg-black/5 items-center transition-all duration-300 active:scale-95 cursor-pointer">
-                                            <div className="text-2xl">
+                                            <div className="text-3xl">
                                                 {icon}
                                             </div>
                                             <p className="font-[500] cursor-pointer">{name}</p>
