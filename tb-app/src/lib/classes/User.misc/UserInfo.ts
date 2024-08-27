@@ -1,6 +1,6 @@
 import axios from "axios";
-import User from "./User";
-import Servers from "./Servers";
+import User from "../User";
+import Servers from "../Servers";
 
 type InfoChange = {
     value:string;

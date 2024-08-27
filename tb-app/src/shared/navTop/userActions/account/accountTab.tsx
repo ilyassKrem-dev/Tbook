@@ -1,5 +1,5 @@
 import { UserType } from "@/lib/utils/types/user"
-import { useEffect, useState } from "react"
+import {  useState } from "react"
 import { IoMdSettings } from "react-icons/io";
 import { MdDarkMode } from "react-icons/md";
 import { motion,AnimatePresence } from "framer-motion";
@@ -60,7 +60,7 @@ export  default function AccountTab({user}:{
                 transition={{duration:0.2,ease:"easeInOut"}} 
                 className="absolute top-[2.5rem] right-0">
                     <div className="bg-white shadow-[0px_0px_3px_1px_rgba(232,229,229,1)] rounded-lg p-2">
-                        <div className="p-2  rounded-lg shadow-md flex items-center gap-2 border border-black/5 hover:bg-gray-300/30 py-3 cursor-pointer transition-all duration-300 bg-white">            
+                        <Link href={"/profile/"} className="p-2  rounded-lg shadow-md flex items-center gap-2 border border-black/5 hover:bg-gray-300/30 py-3 cursor-pointer transition-all duration-300 bg-white">            
                             <div className="w-[36px] h-[36px]">
                                 <img 
                                 src={user.image??"/profile.jpg"} 
@@ -68,7 +68,7 @@ export  default function AccountTab({user}:{
                                 className="w-full h-full bg-white rounded-full border object-cover" />
                             </div>
                             <p className="font-bold truncate max-w-[200px] capitalize trxt-lg cursor-pointer">{user.username}</p>
-                        </div>
+                        </Link>
                         {accTabs.map((tab,index) => {
                             return (
                                 <Link onClick={() => hadnleSignout(tab.name)} key={index} href={tab.link} className="flex items-center justify-between w-[200px] max-[360px]:w-[180px] md:w-[250px] cursor-pointer p-2 hover:bg-gray-300/80 rounded-md transition-all duration-300 active:bg-gray-300">

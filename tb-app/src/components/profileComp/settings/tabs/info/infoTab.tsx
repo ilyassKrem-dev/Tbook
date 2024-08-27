@@ -1,6 +1,5 @@
 import { UserType } from "@/lib/utils/types/user"
 import { FaEdit } from "react-icons/fa"
-import ToInput from "./assets/toInput"
 import Infos from "./assets/infos"
 import { useState } from "react"
 import Link from "next/link"
@@ -9,7 +8,7 @@ export default function InfoTab({user}:{
     user:UserType
 }) {    
     const [showInput,setShowInput] = useState<string>("")
-    console.log(user)
+   
     return (
         <div className="p-8 lg:p-12">
             <h1 className="font-bold text-xl">Account informations</h1>

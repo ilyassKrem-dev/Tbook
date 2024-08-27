@@ -33,7 +33,8 @@ Route::controller(UserInfoController::class)
 Route::controller(UserMiscController::class)
     ->group(function() {
         Route::get("/{id}/notifications","getUserNotifications");
-        
+        Route::get("/{username}/get_unblocked","getUnblockedConvos");
+        Route::post("/{username}/block","blockConvo");
     });
 Route::controller(PostController::class)
     ->group(function() {

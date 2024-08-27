@@ -2,7 +2,7 @@ import { ChangeEvent, SetStateAction, useCallback, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 
 import { useSession } from "next-auth/react";
-import UserInfo from "@/lib/classes/UserInfo";
+import UserInfo from "@/lib/classes/User.misc/UserInfo";
 
 
 export default function ToInput({value,placeHolder,setShow,type}:{

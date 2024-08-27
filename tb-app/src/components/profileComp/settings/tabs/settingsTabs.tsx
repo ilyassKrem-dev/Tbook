@@ -4,7 +4,7 @@ import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
 import { FaArrowLeft } from "react-icons/fa6"
 import { TabsAndLinks } from "../misc/tabs&links"
 import { useRouter } from "next/navigation"
-
+import BlockingTab from "./blocking/blockingTab"
 
 export default function SettingsTabs({tab}:{
     tab:string
@@ -26,7 +26,8 @@ export default function SettingsTabs({tab}:{
             </div>}
             {user&&
             <div className="max-w-[930px] mx-auto bg-white rounded-lg">
-                {tab==="info"&&<InfoTab user={user}/>}    
+                {tab==="info"&&<InfoTab user={user}/>}   
+                {tab==="blocking"&&<BlockingTab />}
             </div>}
         </div>
     )
