@@ -1,23 +1,25 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { FaArrowLeft, FaPlus } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { RiUserForbidFill } from "react-icons/ri";
 import AddBlock from "./addBlock";
 import { AnimatePresence,motion } from "framer-motion";
-
-
+import ShowBlocked from "./showBlocked";
 
 export default function MsgBlockOverlay({setShow}:{
     setShow:React.Dispatch<SetStateAction<boolean>>
 }) {
     const [page,setPage] = useState<number>(0)
-
+    const [showBlocked,setShowBlocked] = useState<boolean>(false)
+    
     return (
         <>
             {ReactDOM.createPortal(
-            <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center bg-white/70">
-                <div className="bg-white rounded-lg max-w-[500px] w-full shadow-lg h-fit">
+            <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center bg-white/70" onClick={() => setShow(false)}>
+                <div className="bg-white rounded-lg max-w-[500px] w-full shadow-lg h-fit block_messages" onClick={(e) => {
+                    e.stopPropagation()
+                }}>
                     <div className="flex flex-col gap-3">
                         <div className="flex justify-center items-center relative p-3 border-b">
                             <AnimatePresence>
@@ -46,12 +48,13 @@ export default function MsgBlockOverlay({setShow}:{
                                     </div>
                                     <p className=" text-blue-500 font-bold cursor-pointer text-[1.1rem]">Add to blocked list</p>
                                 </div>
-                                <div className="flex gap-4 items-center hover:bg-gray-1 p-2 rounded-md cursor-pointer transition-all duration-300">
+                                {!showBlocked&&<div className="flex gap-4 items-center hover:bg-gray-1 p-2 rounded-md cursor-pointer transition-all duration-300" onClick={() => setShowBlocked(true)}>
                                     <div className="text-2xl text-black bg-gray-1 p-2 rounded-full w-fit">
                                         <RiUserForbidFill />
                                     </div>
                                     <p className=" text-black font-bold cursor-pointer text-[1.1rem]">See your blocked list</p>
-                                </div>
+                                </div>}
+                                {showBlocked&&<ShowBlocked />}
                             </div>
                         </div>}
                         {page===1&&

@@ -12,9 +12,11 @@ export default function SettingsTabs({tab}:{
     const {user} = loginInfo()
     const {w} = useSize()
     const tabName = TabsAndLinks.find(
-        (link)=>link.tabs.find(tab=>tab.link.split("=")[1])?.link.split("=")[1] === tab
+        (link)=>link.tabs.find(ta=>ta.link.split("=")[1] === tab)?.link.split("=")[1] === tab
         )
+    
     const router = useRouter()
+    
     return (
         <div className="lg:p-4">
             {w<=767&&<div className="flex justify-center items-center relative mt-4 p-3 bg-white rounded-t-lg border-b">

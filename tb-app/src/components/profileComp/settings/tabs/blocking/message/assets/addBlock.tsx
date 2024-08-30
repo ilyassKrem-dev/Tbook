@@ -34,7 +34,7 @@ export default function AddBlock() {
     }
     const handleBlock = async(convo_id:number) => {
         if(!user) return
-        const res = await new UserMisc(user?.username).blockUser(convo_id)
+        const res = await new UserMisc(user?.username).blockUser(convo_id,"block")
         if(res?.success) {
             setConvos(prev => (prev.filter(convo => convo.id !== convo_id)))
         }

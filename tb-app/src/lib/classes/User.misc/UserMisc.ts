@@ -44,8 +44,44 @@ class UserMisc extends User {
             }
         }
     }
-
-    async blockUser(convo_id:number) {
+    async getBlockedconvoUsers(search:string|null) {
+        let data = {
+            success:false,
+            error:"",
+            msg:"",
+            data:[]
+        }
+        try {
+            const res = await axios.get(`${baseUrl}/${this.username}/get_blocked${search?`?search=${search}`:""}`)
+            if(res.data) {
+                data.success = true
+                data.data = res.data.data
+                return data
+            }
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    msg:"",
+                    error:"Internal server error",
+                    data:[]
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    msg:"",
+                    error:err.message,
+                    data:[]
+                }
+                
+                return data
+            }
+        }
+    }
+    async blockUser(convo_id:number,type:string) {
         let data = {
             success:false,
             error:"",
@@ -53,7 +89,8 @@ class UserMisc extends User {
         }
         try {
             const res = await axios.post(`${baseUrl}/${this.username}/block`,{
-                convo_id
+                convo_id,
+                type
             })
             if(res.data) {
                 data.success = true

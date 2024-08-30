@@ -9,6 +9,7 @@ export default function BlockingTab() {
             <h1 className="font-bold text-xl">Blocking</h1>
             <div  className="mt-4 flex flex-col gap-4">
                 <h2 className="font-semibold text-lg">Manage Blocking</h2>
+                
                 <BlockedMessages />
 
             </div>

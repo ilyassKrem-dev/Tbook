@@ -35,7 +35,7 @@ export default function MediaFull({clickedMedia,handleMediaClick}:{
     const handleClose = () => {
         handleMediaClick(null)
     }
-
+    
     const handleSwitch = (dirc:string) => {
         const findIndex = medias.indexOf(showenMedia)
        
