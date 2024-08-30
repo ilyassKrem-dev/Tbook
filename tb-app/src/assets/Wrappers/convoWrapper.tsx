@@ -7,6 +7,7 @@ import ConvoTab from "../convo/convoTab";
 import { loginInfo } from "./sessionWrapper";
 import { RxCross2 } from "react-icons/rx";
 import ConvoSide from "../convo/convoSide";
+import { useSize } from "@/lib/utils/hooks";
 type IdsType = {
     user_id:string;
     other_id:string;
@@ -63,6 +64,7 @@ export const ConvoWrapper = ({children}:{
     const handleClick =(ids:IdsType) => {
         setIds(ids)
     }
+    const {w} = useSize()
     return (
         <convoContext.Provider value={
                         {
@@ -70,18 +72,18 @@ export const ConvoWrapper = ({children}:{
                         }}>
 
                         {children}
-                        {user&&convos.length>0&&
+                        {user&&w>767&&convos.length>0&&
                         <ConvoTab 
                         convos={convos}
                         setConvos={setConvos}
                         user={user}
                      
                         setSideConvos={setSideConvos}/>}
-                        <ConvoSide 
+                        {w>767&&<ConvoSide 
                         sideConvos={sideConvos} 
                         setSideConvos={setSideConvos}
                         setConvos={setConvos}
-                        user={user}/>
+                        user={user}/>}
         </convoContext.Provider>
     )
 }

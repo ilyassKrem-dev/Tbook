@@ -14,7 +14,7 @@ class MessageController extends ConvosController
 {
     function addMessage(MessageRequest $request) {
         $data = $request->validated();
-        if((empty($data["content"]) && empty($data["medias"])) || $data["medias"][0] === null) {
+        if((empty($data["content"]) && count($data["medias"])===0)) {
             return response()->json([],500);
         }
         $message = Messages::create(
