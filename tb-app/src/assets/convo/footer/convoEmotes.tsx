@@ -63,14 +63,14 @@ export default function ConvoEmotes({setInput,setContent,className,content}:{
     },[clicked])
     return (
         <>
-            <div className={`absolute right-1 text-lg cursor-pointer transition-all duration-300 hover:bg-gray-300/40 p-1 rounded-full emojy-tab`}>
+            <div className={`absolute right-1 text-lg cursor-pointer transition-all duration-300 hover:bg-gray-300/40 p-1 rounded-full emojy-tab z-40`}>
                 <div className="relative">
                     <BsEmojiSmileFill   onClick={() => {
                     setClicked(true)
                     setShowPicker(prev=>!prev)}}/>
                
                     {showPicker && (
-                        <div className="absolute -top-[29rem] md:-left-[12rem] -left-[11rem] max-[300px]:-left-[11rem] background">
+                        <div className="absolute -top-[29rem]  -left-[12.5rem] max-[300px]:-left-[11rem] background">
                             <EmojiPicker lazyLoadEmojis width={pickerWidth} onEmojiClick={handleEmojyClick}/>
                         </div>
                     )}

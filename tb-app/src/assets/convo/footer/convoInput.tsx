@@ -1,6 +1,7 @@
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import ConvoEmotes from "./convoEmotes";
+import { useSize } from "@/lib/utils/hooks";
 type ContentType = {
     text:string;
     medias:{
@@ -17,7 +18,9 @@ export default function ConvoInput({content,setContent,input,setInput}:{
     content:string;
     setContent:React.Dispatch<SetStateAction<ContentType>>
 }) {
+    const {w} = useSize()
     const divRef = useRef<HTMLDivElement>(null)
+    const parentRef = useRef<HTMLDivElement>(null)
     const handleInput = (e:any) => {
         const htmlText = e.target.innerHTML;
         const text = e.target.innerText;
@@ -39,20 +42,50 @@ export default function ConvoInput({content,setContent,input,setInput}:{
           selection?.addRange(range);
         }
       }, [input]);
+    const handleClick = () => {
+        if (divRef.current) {
+            const range = document.createRange();
+            const selection = window.getSelection();
+            const content = divRef.current;
+
+        
+            selection?.removeAllRanges();
+
+            
+            range.selectNodeContents(content);
+            range.collapse(false);
+
+           
+            selection?.addRange(range);
+
+          
+            content.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    }
+    useEffect(() => {
+        const current = parentRef.current
+        if(!current) return
+        const parentWidth = current.clientWidth
+        if (divRef.current) {
+            divRef.current.style.maxWidth = `${parentWidth - 100}px`;
+       
+        }
+    },[parentRef,w])
     return (
         <>
+        
             <div
             className={`relative flex items-end justify-end w-full rounded-xl  bg-gray-300/40 `}>
                 <div
-                 
-                className="rounded-xl   text-base focus-within:outline-none text-black p-1 pl-3 pr-10 w-full max-h-[180px] overflow-y-auto custom-scrollbar"
+                ref={parentRef}
+                className="rounded-xl   text-base focus-within:outline-none text-black p-1 pl-3 pr-10 w-full max-h-[180px] overflow-y-auto custom-scrollbar cursor-text" onClick={handleClick}
                 >
                     <div
                     ref={divRef} 
                     onInput={handleInput} 
                     contentEditable
                     dangerouslySetInnerHTML={{__html:input}} 
-                    className="w-full focus-within:outline-none  max-w-[210px]  text-sm relative z-10"
+                    className={`w-full focus-within:outline-none    text-sm relative z-10 ${content.length>0?"min-w-[200px]":"min-w-[150px]"}`}
                     ></div>
                 </div>
                 <ConvoEmotes 

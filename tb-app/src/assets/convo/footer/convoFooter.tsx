@@ -5,6 +5,7 @@ import OtherBtns from "./otherBtns";
 import SendMsg from "./sendMsg";
 import MediaType from "@/shared/others/mediaType";
 import { RxCross2 } from "react-icons/rx";
+import React from "react";
 
 interface Props {
     mouseEntered:boolean;
@@ -25,7 +26,9 @@ type ContentType = {
     }[];
   
 }
-
+const ConvoInputMemo = React.memo(ConvoInput)
+const OtherBtnsMemo = React.memo(OtherBtns)
+const SendMsgMemo = React.memo(SendMsg)
 export default function ConvoFooter({mouseEntered,user,otherId,convoId,status,statusBy}:Props) {
     
     const [content,setContent] = useState<ContentType>({
@@ -75,16 +78,16 @@ export default function ConvoFooter({mouseEntered,user,otherId,convoId,status,st
             }
 
             <div className={`p-2 flex items-center border-t text-2xl ${mouseEntered ? "text-blue-500":"text-black/30"} justify-end`}>
-                <OtherBtns 
+                <OtherBtnsMemo 
                 text={text} 
                 medias={medias}
                 setContent={setContent}/>
-                <ConvoInput
+                <ConvoInputMemo
                 input={input}
                 setInput={setInput} 
                 content={content.text}
                 setContent={setContent}/>
-                <SendMsg 
+                <SendMsgMemo 
                 content={content}
                 convoId={convoId}
                 userId={user.id}

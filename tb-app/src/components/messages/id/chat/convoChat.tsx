@@ -1,31 +1,31 @@
-import { SetStateAction, useEffect, useMemo, useRef, useState } from "react"
-import ConvoHeader from "./convoHeader"
-import ConvoMessages from "./messages/convoMessages"
-import ConvoFooter from "./footer/convoFooter"
-import { UserType } from "@/lib/utils/types/user"
+
+import ConvoMessages from "@/assets/convo/messages/convoMessages";
+import ConvoClass from "@/lib/classes/Convo";
+import Servers from "@/lib/classes/Servers";
 import { ConvoType } from "@/lib/utils/types/convo"
-import axios from "axios"
-import Servers from "@/lib/classes/Servers"
-import LoadingAnimation from "@/shared/spinner"
-import ConvoClass from "@/lib/classes/Convo"
-import React from "react"
+import { UserType } from "@/lib/utils/types/user";
+import LoadingAnimation from "@/shared/spinner";
+import axios from "axios";
+import { SetStateAction, useEffect, useMemo, useRef, useState } from "react"
+import ConvoFooter from "@/assets/convo/footer/convoFooter";
+import React from "react";
+import ChatHeader from "./chatHeader";
 interface Props {
-    convo:ConvoType;
-    setConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
-    setSideConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
+    convo:ConvoType,
+    setConvo:React.Dispatch<SetStateAction<ConvoType|undefined>>;
     user:UserType
 }
-
-const ConvoHeaderMemo = React.memo(ConvoHeader);
-const ConvoFooterMemo = React.memo(ConvoFooter);
-export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
+const ConvoHeader = React.memo(ChatHeader)
+const ConvoFooterMemo = React.memo(ConvoFooter)
+export default function ConvoChat({convo,setConvo,user}:Props) {
+    
+    const {other,messages} = convo
+    const msgsRef = useRef<HTMLDivElement>(null)
+    const [added,setAdded] = useState<boolean>(false)
     const [mouseEntered,setMouseEntered] = useState<boolean>(false)
+    const [allMsgs,setAllMsgs] = useState<boolean>(false)  
     const [loading,setLoading] = useState<boolean>(false)
     const [finished,setFinished] = useState<boolean>(false)
-    const [added,setAdded] = useState<boolean>(false)
-    const [allMsgs,setAllMsgs] = useState<boolean>(false)  
-    const msgsRef = useRef<HTMLDivElement>(null)
-    const {messages,other} = convo
     const socketUrl = Servers.socketUrl
     
     useEffect(() => {
@@ -51,6 +51,7 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
         if(!current || !finished || allMsgs) return
         const top = current.scrollTop
         if(top < 1) {
+          
             setFinished(false)
             setLoading(true)
             const FirstMsgId = messages[0].id
@@ -60,17 +61,12 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
                     convoId:convo.id,
                     lastMsgId:FirstMsgId
                 })
+               
                 setLoading(false)
                 if(res?.success) {
                     setAdded(true)
-                   
-                    setConvos((prev:any[]) => {
-                        const newData = prev.map(cnv => {
-                            if(cnv.id !== convo.id) return cnv
-                            return {...cnv,messages:[...res.data,...cnv.messages]}
-                        })
-                        return newData
-                    })
+                    setConvo((prev:any) => ({...prev,messages:[...res.data,...prev?.messages]}))
+                    current.scrollTop = (scrollPosition+10)*(res.data.length);
                     if(res.data.length < 15) {
                         setAllMsgs(true)
                         current.scrollTop = (scrollPosition+10)*(res.data.length);
@@ -78,7 +74,7 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
                         current.scrollTop = scrollPosition + (current.scrollHeight - scrollPosition - e.target.clientHeight)
                     }
                 }
-               
+                
             } catch (error) {
                 setLoading(false)
                 
@@ -88,12 +84,12 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
         }
         
     } 
- 
+    
     useEffect(() => {
         if(finished) return
         const id = setTimeout(() => {
             setFinished(true)
-        },100)
+        },500)
         return () => clearTimeout(id)
     },[finished])
     const memoizedMessages = useMemo(() => (
@@ -108,16 +104,11 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
         />
     ), [convo, user, added]);
     return (
-        
-        <div  
+        <div className="bg-white h-full flex flex-col border-x shadow-lg" 
         onMouseEnter={() => setMouseEntered(true)}
         onMouseLeave={() => setMouseEntered(false)}>
-            <div className="bg-white h-[450px] rounded-t-lg w-[350px] shadow-xl flex flex-col">
-                <ConvoHeaderMemo 
+                <ConvoHeader 
                 convo={convo}
-                setConvos={setConvos}
-                setSideConvos={setSideConvos}
-                mouseEntered={mouseEntered}
                 user={user}/>
                 <div
                 ref={msgsRef} 
@@ -131,15 +122,16 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
                     </div>}
                     {memoizedMessages}
                 </div>
-                <ConvoFooterMemo 
-                mouseEntered={mouseEntered}
-                user={user}
-                otherId={other.id}
-                convoId={convo.id}
-                status={convo.status}
-                statusBy={convo.status_by}/>
-            </div>
+                <div className="bg-white">
+                    <ConvoFooterMemo 
+                    mouseEntered={mouseEntered}
+                    user={user}
+                    otherId={other.id}
+                    convoId={convo.id}
+                    status={convo.status}
+                    statusBy={convo.status_by}/>
+
+                </div>
         </div>
-        
     )
 }

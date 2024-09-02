@@ -4,7 +4,7 @@ import { CgMenuGridR } from "react-icons/cg";
 import AccountTab from "./account/accountTab";
 import { UserType } from "@/lib/utils/types/user"
 import Notifications from "./notifcations/notifications";
-
+import Link from "next/link";
 export default function UserActions({user,w}:{
     user:UserType;
     w:number
@@ -16,9 +16,9 @@ export default function UserActions({user,w}:{
                 <div className="h-full rounded-full p-2 text-2xl bg-white-1 active:scale-90 hover:bg-gray-300 cursor-pointer">
                     <CgMenuGridR />
                 </div>
-                <div className="h-full rounded-full p-2 text-2xl bg-white-1 active:scale-90 hover:bg-gray-300 cursor-pointer">
+                <Link href={"/messages"} className="h-full rounded-full p-2 text-2xl bg-white-1 active:scale-90 hover:bg-gray-300 cursor-pointer">
                     <BiSolidMessageRoundedDetail />
-                </div>
+                </Link>
                 {w>400&&
                 <Notifications userId={user.id}/>}
                 <AccountTab user={user}/>

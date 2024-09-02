@@ -35,7 +35,17 @@ class ConvosController extends Controller
         $response = ConvosController::changeConvo($convo,$data["user_id"],$data["other_id"]);
         return response()->json(["data"=>$response],200);
     }
-
+    function getConvo($user_id,$convo_id) {
+        $convo = Convos::where("id",$convo_id)
+                ->first();
+        if(!$convo) {
+            return response()->json(["error"=>"No converstaion found"],404);
+        }
+        $user = User::where("id",$user_id)->first();
+        $otherUser = $user->id===$convo->user1 ?$convo->user2 : $convo->user1;
+        $response = ConvosController::changeConvo($convo,$user->id,$otherUser);
+        return response()->json(["data"=>$response],200);
+    }
     static function changeConvo(Convos $convo,$userId,$other_id) {
         $user = User::where("id",$userId)->first();
         $otherUser = User::where("id",$other_id)->first();
@@ -79,6 +89,51 @@ class ConvosController extends Controller
         ];
         return $response;
     }
-
+    function getAllConvos($id) {
+        $user = User::where("id",$id)->first();
+        if(!$user) {
+            return response()->json(["error"=>'No user found'],404);
+        }
+        $convos = Convos::where(function($query) use($user) {
+            $query->where("user1",$user->id)
+                    ->orWhere("user2",$user->id);
+        })
+                ->get();
+        $allConvos = [];
+        foreach($convos as $convo) {
+            $user1 = User::where("id",$convo->user1)->first();
+            $user2 = User::where("id",$convo->user2)->first();
+            $getOtherUser = $user1->id === $user->id ?$user2 : $user1;
+            $lastMsg = Messages::where("convo_id",$convo->id)
+                                ->orderBy("created_at","desc")
+                                ->first()
+                                ;
+            $medias = Medias::where("message_id",$lastMsg->id)->get();
+            array_push($allConvos,[
+                'id'=>$convo->id,
+                "user"=>$user->id,
+                "other"=>[
+                    "id"=>$getOtherUser->id,
+                    "name"=>$getOtherUser->name,
+                    "username"=>$getOtherUser->username,
+                    "image"=>$getOtherUser->image,
+                    "status"=>$getOtherUser->status
+                ],
+                "message"=>[
+                    "id"=>$lastMsg->id,
+                    "convo_is"=>$lastMsg->convo_id,
+                    "sender"=>$lastMsg->sender,
+                    "receiver"=>$lastMsg->receiver,
+                    "medias"=>$medias,
+                    "content"=>$lastMsg->content,
+                    "created_at"=>$lastMsg->created_at,
+                    "updated_at"=>$lastMsg->updated_at
+                ],
+                "status"=>$convo->status,
+                "status_by"=>$convo->status_by
+            ]);
+        }
+        return response()->json(["data"=>$allConvos],200);
+    }
     
 }

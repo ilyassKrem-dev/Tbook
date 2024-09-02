@@ -66,7 +66,8 @@ Route::controller(ConvosController::class)
     ->group(function() {
 
         Route::post("/getConvo","findOrAddConvo");
-       
+        Route::get("/{id}/convos","getAllConvos");
+        Route::get("/{user_id}/convo/{convo_id}","getConvo");
     });
 
 Route::controller(MessageController::class)
