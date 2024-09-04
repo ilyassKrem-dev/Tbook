@@ -11,6 +11,7 @@ use App\Models\post\Medias;
 use App\Models\post\Comment;
 use App\Helpers\Helpers;
 use App\Models\Friend;
+use App\Models\Privacy;
 
 class UserController extends Controller
 {
@@ -40,6 +41,7 @@ class UserController extends Controller
             "username"=>$data['username'],
             "birthdate"=>$birthdate
         ]);
+        Privacy::create(["user"=>$user->id]);
         return response()->json([
             "email"=>$user->email,
         ]);

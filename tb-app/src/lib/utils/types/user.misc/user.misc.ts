@@ -12,3 +12,11 @@ export type UnblockedConvosType = {
         username:string
     }
 }
+
+export type UserPrivacyType ={
+    id:number;
+    user:number;
+    posts:"friends"|"public"|"me";
+    search:"friends"|"anywhere"|"friends_of";
+    notification:"all"|"posts"|"messages"
+}

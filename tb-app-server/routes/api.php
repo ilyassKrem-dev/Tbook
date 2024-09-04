@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\user\PrivacyController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\UserMiscController;
 
@@ -77,4 +78,10 @@ Route::controller(MessageController::class)
             Route::post("/setAllSeen","setAllSeen");
             Route::patch("/{convoId}/changeStatus","changeConvoStatus");
             Route::get("/{convoId}/messages/{lastMsg}","getMoreMessages");
+        });
+Route::controller(PrivacyController::class)
+        ->group(function() {
+
+            Route::get("/profile/{id}/privacy","getPostsPrivacy");
+            Route::patch("/profile/{id}/privacy/posts/view","updatePostsPrivacy");
         });
