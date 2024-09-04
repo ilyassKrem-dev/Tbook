@@ -15,7 +15,7 @@ export default function RightSide({userInfo,user}:{
     
     useEffect(() => {
         const getPosts = async() => {
-            const res = await User.getUserPosts(userInfo.id)
+            const res = await User.getUserPosts(userInfo.id,(user?.id || null))
             if(res?.success) {
                 setPosts(res.data)
             }

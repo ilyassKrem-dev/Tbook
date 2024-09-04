@@ -23,7 +23,7 @@ Route::controller(UserController::class)
         Route::post('/user',"fetchUser");
         Route::get("/getuser/{username}","getUserData");
         Route::patch("/addBio","addBio");
-        Route::get("/{userId}/getUserPosts","getUserPosts");
+        Route::get("/{userId}/getUserPosts/{loggedId}","getUserPosts");
         Route::put("/changePicture","changePicture");
         Route::get("/results","getSearchResults");
     });
@@ -42,7 +42,7 @@ Route::controller(PostController::class)
     ->group(function() {
         Route::post('/addpost',"addPost");
         Route::post("/likePost","likePost");
-        Route::get("/getAllPosts","getAllPosts");
+        Route::get("/{id}/getAllPosts","getAllPosts");
         
     });
 Route::controller(CommentControllere::class)

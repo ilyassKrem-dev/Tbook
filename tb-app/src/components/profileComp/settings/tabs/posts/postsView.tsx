@@ -7,27 +7,8 @@ import { IoLockClosed } from "react-icons/io5";
 import ReactDOM from "react-dom";
 import { RxCross2 } from "react-icons/rx";
 import UserPivacy from "@/lib/classes/User.misc/UserPrivacy";
+import { radiosAndIcons } from "@/shared/others/otherLists";
 
-const radiosAndIcons = [
-    {
-        name:"friends",
-        icon:<FaUserFriends />,
-        desc:"Your friends on Tbook",
-        value:"friends"
-    },
-    {
-        name:"public",
-        icon:<TiWorld />,
-        desc:"Anyone on Tbook",
-        value:"public"
-
-    },{
-        name:"only me",
-        icon:<IoLockClosed/>,
-        desc:"",
-        value:"me"
-    }
-]
 type ViewType = "public"|"friends"|"me"
 export default function PostsView({user,viewSettings}:{
     user:UserType;

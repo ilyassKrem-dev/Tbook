@@ -56,11 +56,13 @@ export default function Emotes({setTranformedText,setPostText,className}:{
     },[clicked])
     return (
         <>
-            <div className={`absolute bottom-2 right-6 ${className ? className : "text-3xl"}  text-gray-500/80 cursor-pointer hover-opacity emojy-tab z-40`}>
+            <div className={`absolute bottom-2 right-6 ${className ? className : "text-3xl"}  text-gray-500/80 cursor-pointer  emojy-tab z-40`}>
                 <div className="relative">
-                    <HiOutlineFaceSmile onClick={() => {
+                    <div className="hover-opacity">
+                        <HiOutlineFaceSmile onClick={() => {
                         setClicked(true)
                         setShowPicker(prev=>!prev)}}/>
+                    </div>
                     {showPicker && (
                         <div className="absolute -top-[29rem] md:-left-[12rem] -left-[11rem] max-[300px]:-left-[11rem] background">
                             <EmojiPicker lazyLoadEmojis width={pickerWidth} onEmojiClick={handleEmojiClick} />

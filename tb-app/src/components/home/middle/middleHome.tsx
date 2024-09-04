@@ -10,14 +10,15 @@ export default function MiddleHome({userDetails}:{
 }) {
     const [posts,setPosts] = useState<DefaultPostType[]>([])
     useEffect(() => {
+        if(!userDetails)  return
         const fetchAllPosts = async() => {
-            const res = await Posts.getAllPosts()
+            const res = await Posts.getAllPosts(userDetails.id)
             if(res?.success) {
                 setPosts(res.data)
             }
         }
         fetchAllPosts()
-    },[])
+    },[userDetails])
     return (
         <div className="flex-1 h-full max-w-[710px] mx-auto flex flex-col gap-5">
             <div>

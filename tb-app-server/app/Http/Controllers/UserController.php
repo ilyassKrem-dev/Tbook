@@ -129,8 +129,40 @@ class UserController extends Controller
         $user->update(["bio"=>$data['bio']]);
         return response()->json(['message'=>"Added"],200);
     }
-    function getUserPosts($userId) {
-        $posts = Posts::where("user_id",$userId)->get();
+    function getUserPosts($userId,$loggedId) {
+        $postsQuery = Posts::where("user_id",$userId);
+        $friends = Friend::where(function($query) use($userId) {
+            $query->where("user",$userId)
+                    ->orWhere("friend",$userId);
+        })
+                ->where("status","friends")
+                ->pluck("user")
+                ->merge(Friend::where(function($query) use($userId) {
+                    $query->where("user",$userId)
+                            ->orWhere("friend",$userId);
+                })
+                    ->where("status","friends")
+                    ->pluck("friend")
+                    ->unique())
+                ->values();
+        if(count($friends)==0) {
+            $friends = [intval($userId)];
+        } 
+        if($loggedId ==="-1") {
+            $posts = $postsQuery->where('status',"public")->get();
+        } else if ($userId==$loggedId) {
+            $posts = $postsQuery->get();
+        } else {
+            $posts = $postsQuery->query()->when(!empty($friends),function($query) use($friends) {
+                return $query->where(function($query) use($friends) {
+                    $query->where("status","public")
+                            ->orWhereIn("user_id",$friends);
+                });
+            },function($query) {
+                    $query->where("status","public");
+            })
+            ->get();
+        }
         $medias = [];
         $likes = [];
         $newPosts = [];

@@ -92,14 +92,15 @@ class Posts {
             }
         }
     }
-    static async getAllPosts() {
+    static async getAllPosts(userId:string) {
         let data = {
             success:false,
             error:'',
             data:[]
         }
         try {
-            const res = await axios.get(`${baseUrl}/getAllPosts`)
+            const res = await axios.get(`${baseUrl}/${userId}/getAllPosts`)
+           
             if(res) {
                 data = {
                     success:true,

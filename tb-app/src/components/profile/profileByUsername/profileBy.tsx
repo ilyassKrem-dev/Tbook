@@ -27,12 +27,21 @@ export default function ProfileBy({userName,fromRequest}:{
         getInfo()
     },[user,userName])
     useEffect(() => {
-        if(user||loginStatus=="loading") return
+        if(user||loginStatus==null) return
         setShow(true)
     },[loginStatus,user])
+    
     return (
         <div>
-            {user?<TopNav />:<NoAuthNav />}
+            {loginStatus!==null
+            &&
+            <>
+                {user
+                ?
+                <TopNav />
+                :
+                <NoAuthNav />}
+            </>}
             {profileInfo&&
             <ProfileTemplate 
                 userData={profileInfo}

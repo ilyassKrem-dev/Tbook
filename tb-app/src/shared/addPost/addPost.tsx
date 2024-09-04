@@ -8,6 +8,8 @@ import SetPostWatch from "./assets/setPostWatch";
 import MediaType from "../others/mediaType";
 import { UserType } from "@/lib/utils/types/user";
 import PostBtn from "./assets/postBtn";
+import { ViewPrivacyType } from "@/lib/utils/types/user.misc/user.privacy";
+import UserPivacy from "@/lib/classes/User.misc/UserPrivacy";
 type MediaType = {
     id:string;
     file:File;
@@ -22,41 +24,30 @@ export default function AddPost({user,setShow}:{
     const [postText, setPostText] = useState<string>('');
     const [transformedText,setTranformedText] = useState<string>("")
     const [medias,setMedias] = useState<MediaType[]>([])
-    const [status,setStatus] = useState<string>("Public")
-    const [clicked,setClicked] = useState<boolean>(false)
-    
+    const [status,setStatus] = useState<ViewPrivacyType|null>(null)
     const handleRemoveMedia = (media:MediaType) => {
-        setClicked(true)
         setMedias(prev => {
             return prev.filter((med) => med.id !== media.id)
         })
     }
+    
     useEffect(() => {
-        if(clicked) return
-        const removeOv = (e:any) => {
-            const overlay = document.querySelector(".post-tab")
-            if(overlay && !overlay.contains(e.target)) {
-                setShow(false)
+        if(!user) return
+        const getPostStatus = async() => {
+            const res = await new UserPivacy(user.id).getuserPrivacy()
+            if(res?.success) {
+                setStatus((res.data as any).posts || "public")
+            } else {
+                setStatus("public")
             }
         }
-        document.addEventListener('click',removeOv)
+        getPostStatus()
+    },[user])
     
-        return () => document.removeEventListener('click',removeOv)
-  
-    },[clicked])
-
-    useEffect(() => {
-        if(!clicked) return
-        const id = setTimeout(() => {
-            setClicked(false)
-        },10)
-
-        return () => clearTimeout(id)
-    },[clicked])
     return (
         <>
-            <div className="fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center bg-white/50 z-50 no-doc-scroll">
-                <div className="flex flex-col gap-1 bg-white rounded-lg  shadow-[0px_0px_4px_1px_rgba(232,229,229,1)] w-full max-w-[500px] post-tab">
+            <div className="fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center bg-white/50 z-50 no-doc-scroll" onClick={() => setShow(false)}>
+                {status&&<div className="flex flex-col gap-1 bg-white rounded-lg  shadow-[0px_0px_4px_1px_rgba(232,229,229,1)] w-full max-w-[500px] post-tab" onClick={(e) => e.stopPropagation()}>
                     <div className="flex justify-center font-bold items-center border-b border-white-1 p-3 relative">
                         
                         <h1 className="text-xl flex-1 text-center">Create post</h1>
@@ -65,10 +56,11 @@ export default function AddPost({user,setShow}:{
                             
                         </div>
                     </div>
-                    <SetPostWatch 
+                   <SetPostWatch 
                     profileImage={user.image}
                     profileName={user.name}
-                    status={status}/>
+                    status={status}
+                    setStatus={setStatus}/>
                     <div className="p-2 px-4 relative pb-5 ">
                         <TextInput 
                         setPostText={setPostText}
@@ -105,7 +97,7 @@ export default function AddPost({user,setShow}:{
                     setShow={setShow}
                     userId={user.id}/>
                     
-                </div>
+                </div>}
             </div>
         </>
     )

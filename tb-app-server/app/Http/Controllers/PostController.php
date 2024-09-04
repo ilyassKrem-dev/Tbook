@@ -10,6 +10,8 @@ use App\Models\post\Likes;
 use App\Models\User;
 use App\Models\post\Comment;
 use App\Http\Requests\PostRequest;
+use App\Models\Friend;
+
 class PostController extends Controller
 {
     function addPost(PostRequest $request) {
@@ -53,8 +55,37 @@ class PostController extends Controller
 
         return response()->json(['message'=>"Like added"],201);
     }
-    function getAllPosts($offset = 0, $limit = 15) {
-        $posts = Posts::where("status","Public")
+    function getAllPosts($id,$offset = 0, $limit = 15) {
+        $loggedUser = User::find($id);
+        $friends = Friend::where(function($query) use($loggedUser) {
+            $query->where("user",$loggedUser->id)
+                    ->orWhere("friend",$loggedUser->id);
+        })
+                ->where("status","friends")
+                ->pluck("user")
+                ->merge(Friend::where(function($query) use($loggedUser) {
+                    $query->where("user",$loggedUser->id)
+                            ->orWhere("friend",$loggedUser->id);
+                    })
+                    ->where("status","friends")
+                    ->pluck("friend")
+                    ->unique())
+                ->values();
+        if(!$loggedUser) {
+            return response()->json(["error"=>"Login first"],400);
+        }
+        if(count($friends)==0) {
+            $friends = [$loggedUser->id];
+        } 
+        $posts = Posts::query()
+                ->when(!empty($friends),function($query) use($friends) {
+                    return $query->where(function($query) use($friends) {
+                        $query->where("status","public")
+                                ->orWhereIn("user_id",$friends);
+                    });
+                },function($query) {
+                    $query->where("status","public");
+                })
                 ->inRandomOrder()
                 ->skip($offset)
                 ->take($limit)

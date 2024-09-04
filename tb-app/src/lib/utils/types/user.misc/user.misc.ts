@@ -20,3 +20,4 @@ export type UserPrivacyType ={
     search:"friends"|"anywhere"|"friends_of";
     notification:"all"|"posts"|"messages"
 }
+

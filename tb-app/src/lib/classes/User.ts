@@ -80,7 +80,7 @@ class User {
         }
     }
 
-    static async getUserPosts(userId:string) {
+    static async getUserPosts(userId:string,user_id:string|null) {
         let data = {
             success:false,
             error:"",
@@ -88,8 +88,8 @@ class User {
         }
         
         try {
-            const res = await axios.get(`${baseUrl}/${userId}/getUserPosts`)
-       
+            const res = await axios.get(`${baseUrl}/${userId}/getUserPosts/${user_id||"-1"}`)
+           
             return {
                 success:true,
                 error:"",
