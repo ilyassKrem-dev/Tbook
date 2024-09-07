@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum("posts",["friends","public","me"])->default("public");
             $table->enum("search",["friends","anywhere","friends_of"])->default("anywhere");
             $table->enum("notification",["all","messages","posts"])->default("all");
+            $table->enum("requests",["all","fff"])->default("all");
 
             $table->timestamps();
         });

@@ -130,7 +130,7 @@ class UserController extends Controller
         return response()->json(['message'=>"Added"],200);
     }
     function getUserPosts($userId,$loggedId) {
-        $postsQuery = Posts::where("user_id",$userId);
+        $postsQuery = Posts::query()->where("user_id",$userId);
         $friends = Friend::where(function($query) use($userId) {
             $query->where("user",$userId)
                     ->orWhere("friend",$userId);
@@ -146,14 +146,14 @@ class UserController extends Controller
                     ->unique())
                 ->values();
         if(count($friends)==0) {
-            $friends = [intval($userId)];
+            $friends = [];
         } 
         if($loggedId ==="-1") {
             $posts = $postsQuery->where('status',"public")->get();
         } else if ($userId==$loggedId) {
             $posts = $postsQuery->get();
         } else {
-            $posts = $postsQuery->query()->when(!empty($friends),function($query) use($friends) {
+            $posts = $postsQuery->when(!empty($friends),function($query) use($friends) {
                 return $query->where(function($query) use($friends) {
                     $query->where("status","public")
                             ->orWhereIn("user_id",$friends);

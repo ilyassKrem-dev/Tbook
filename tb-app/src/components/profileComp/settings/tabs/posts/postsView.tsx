@@ -8,7 +8,7 @@ import ReactDOM from "react-dom";
 import { RxCross2 } from "react-icons/rx";
 import UserPivacy from "@/lib/classes/User.misc/UserPrivacy";
 import { radiosAndIcons } from "@/shared/others/otherLists";
-
+import SelectOptions from "../../assets/shared/selectOptions";
 type ViewType = "public"|"friends"|"me"
 export default function PostsView({user,viewSettings}:{
     user:UserType;
@@ -20,7 +20,8 @@ export default function PostsView({user,viewSettings}:{
    
 
     const handleClick = async() => {
-        if(!user) return
+        if(!user||chosen === view) return setShow(false)
+
         const res = await new UserPivacy(user.id).updatePostsPrivacy(chosen)
         if(res?.success) {
             setView(chosen)
@@ -61,25 +62,14 @@ export default function PostsView({user,viewSettings}:{
                             {radiosAndIcons.map((radio,index) => {
                                 const {icon,name,desc,value} =radio
                                 return (
-                                    <div key={index} className="p-2 flex items-center hover:bg-gray-300/40 rounded-md transition-all duration-300 cursor-pointer gap-1 justify-between" onClick={() => setChosen(value as ViewType)} role="radio">
-                                        <div className="flex items-center gap-3">
-                                            <div className="text-2xl bg-gray-300/70 p-4 rounded-full">
-                                                {icon}
-                                            </div>
-                                            <div className="">
-                                                <h4 className="font-semibold cursor-pointer w-full capitalize">{name}</h4>
-                                                <p className="text-sm text-black/70 break-words cursor-pointer">{desc}</p>
-                                            </div>  
-
-                                        </div>
-                                        <div className={`rounded-full p-1   ${chosen===value?"border-blue-500 border-2":"border-black/70 border"}`}>
-                                            {chosen===value?
-                                            <div className="bg-blue-500 p-[0.35rem] rounded-full" />
-                                            :
-                                            <div className="p-[0.35rem] bg-white"/>}
-
-                                        </div>
-                                    </div>
+                                    <SelectOptions 
+                                    key={index}
+                                    icon={icon}
+                                    name={name}
+                                    desc={desc}
+                                    value={value}
+                                    setChosen={setChosen}
+                                    chosed={chosen}/>
                                 )
                             })}
                             
@@ -89,7 +79,7 @@ export default function PostsView({user,viewSettings}:{
                         <div className="text-blue-500 font-medium p-[0.35rem]  rounded-lg hover:bg-black/10 transition-all duration-300 cursor-pointer" onClick={() => setShow(false)}>
                             Cancel
                         </div>
-                        <button className=" font-medium bg-blue-500 p-[0.35rem] rounded-lg text-white px-10 hover:bg-blue-700 transition-all duration-300 active:scale-95" onClick={handleClick}>Done</button>
+                        <button className=" font-medium bg-blue-500 p-[0.35rem] rounded-lg text-white px-10 hover:bg-blue-700 transition-all duration-300 active:scale-95" onClick={handleClick}>{chosen === view ? "Done":"Save"}</button>
                     </div>
                 </div>
             </div>,document.body)}

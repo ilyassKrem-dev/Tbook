@@ -15,15 +15,39 @@ class PrivacyController extends Controller
         return response()->json(["data"=>$privacy],200);
     }
     function updatePostsPrivacy($id,Request $request) {
-        $user = User::find($id);
         $data = $request->validate([
             "posts"=>"required"
         ]);
         if(!in_array($data["posts"],["public","me","friends"])) {
             return response()->json(["error"=>"Data is not correct"],300);
         }
-        $privacy = Privacy::where("user",$user->id)->first();
-        $privacy->update(["posts"=>$data["posts"]]);
+        $updated = $this::helperFunction($id,$data["posts"],"posts");
+        if(!$updated) {
+            return response()->json(["error"=>"User not found"],404);
+        }
         return response()->json(["data"=>"success"],200);
+    }
+    function updateRequests($id,Request $request) {
+        $data = $request->validate([
+            "requests"=>"required"
+        ]);
+        if(!in_array($data["requests"],["all","fff"])) {
+            return response()->json(["error"=>"Data is not correct"],300);
+        }
+        $updated = $this::helperFunction($id,$data["requests"],"requests");
+        if(!$updated) {
+            return response()->json(["error"=>"User not found"],404);
+        }
+        return response()->json(["data"=>'success'],200);
+    }
+    static function helperFunction($id,$data,$type) {
+        $user = User::find($id);
+        
+        if(!$user) {
+            return false;
+        }
+        $privacy = Privacy::where("user",$user->id)->first();
+        $privacy->update([$type=>$data]);
+        return true;
     }
 }

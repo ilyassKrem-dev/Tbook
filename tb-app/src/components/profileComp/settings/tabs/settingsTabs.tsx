@@ -9,6 +9,8 @@ import PostsTab from "./posts/postsTab"
 import { useEffect, useState } from "react"
 import { UserPrivacyType } from "@/lib/utils/types/user.misc/user.misc"
 import UserPivacy from "@/lib/classes/User.misc/UserPrivacy"
+import AccesTab from "./accessibilty/accesTab"
+import ContactTab from "./contact/contactTab"
 
 export default function SettingsTabs({tab}:{
     tab:string
@@ -45,6 +47,8 @@ export default function SettingsTabs({tab}:{
                 {tab==="info"&&<InfoTab user={user}/>}   
                 {tab==="blocking"&&<BlockingTab />}
                 {tab==="posts"&&<PostsTab user={user} settings={userPrivacy.posts}/>}
+                {tab==="accessibility"&&<AccesTab />}
+                {tab==="contact"&&<ContactTab reqSend={userPrivacy.requests}/>}
             </div>}
         </div>
     )

@@ -80,6 +80,42 @@ class UserPivacy {
         }
         
     }
+    async updateRequestsPrivacy(viewRequess:"all"|"fff") {
+        let data = {
+            success:false,
+            error:"",
+        }
+        try {
+            const res = await axios.patch(`${baseUrl}/profile/${this.id}/privacy/contact/requests`,{
+                requests:viewRequess
+            })
+           
+            if(res.data) {
+                data.success=true;
+                return data
+            }
+        } catch (error:any) {
+         
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    error:"Internal server error",
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    error:err.message,
+                   
+                }
+                
+                return data
+            }
+        }
+        
+    }
 }
 
 

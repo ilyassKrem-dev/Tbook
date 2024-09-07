@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\convos\Convos;
 use App\Models\Friend;
+use App\Models\Privacy;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -133,5 +134,42 @@ class UserMiscController extends UserController
             }
         }
         return response()->json(["data"=>$convosDetails],200);
+    }
+
+    function checkProfileRequestPrivacy($userId,$profileId) {
+        $user = User::find($userId);
+        $profile = User::find($profileId);
+        $privacy = Privacy::where("user",$profile->id)->first();
+        $userFriends = Friend::where(function($query) use($user) {
+            $query->where("user",$user->id)
+                ->orWhere("friend",$user->id);
+        })
+            ->where("status","friends")
+            ->get();
+        
+        $isFriendsOf = false;
+        
+        if($privacy->requests == "all") {
+            $isFriendsOf  = true;
+        } else {
+            foreach($userFriends as $userFriend) {
+    
+                $user1 = User::find($userFriend->friend);
+                $user2 = User::find($userFriend->friend);
+                $getOther = $user1->id===$user->id ? $user2 : $user1;
+                $friendFriends = Friend::where(function($query) use($getOther) {
+                    $query->where("user",$getOther->id)
+                        ->orWhere("friend",$getOther->id);
+                })
+                    ->where("status","friends")
+                    ->pluck('user', 'friend');;
+                if($friendFriends->has($profile->id)) {
+                    $isFriendsOf = true;
+                    break;
+                }
+            }
+
+        }
+        return response()->json(["data"=>$isFriendsOf],200);
     }
 }

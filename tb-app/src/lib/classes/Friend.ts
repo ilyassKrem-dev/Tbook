@@ -132,6 +132,7 @@ class Friend {
         }
         try {
             const res = await axios.get(`${baseUrl}/${user_id}/friends`)
+        
             if(res) {
                 
                 data = {
@@ -144,6 +145,7 @@ class Friend {
             } 
             
         } catch (error:any) {
+          
             if(error.message != "Request failed with status code 400") {
                 
                 return {

@@ -13,6 +13,7 @@ class Privacy extends Model
         "user",
         "posts",
         "search",
-        "notification"
+        "notification",
+        "requests"
     ];
 }

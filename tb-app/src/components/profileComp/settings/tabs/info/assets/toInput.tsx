@@ -23,7 +23,7 @@ export default function ToInput({value,placeHolder,setShow,type}:{
     }
     const handleEdit = useCallback(async() => {
         if(!session) return
-        if(value === input) return
+        if(value === input || input.length<3) return
         const res = await new UserInfo((session.user as any).username).changeName({
             name:type,
             value:input
@@ -48,7 +48,7 @@ export default function ToInput({value,placeHolder,setShow,type}:{
             </div>
             <div className="flex gap-2 font-bold">
                 <button className="flex-1 bg-gray-500/20 rounded-lg p-1 hover-opacity" onClick={handleCancel}>Cancel</button>
-                <button className="flex-1 bg-blue-500/70 text-white rounded-lg p-1 hover-opacity disabled:bg-black/70" disabled={input===value} onClick={handleEdit}>Edit</button>
+                <button className="flex-1 bg-blue-500/70 text-white rounded-lg p-1 hover-opacity disabled:bg-black/70" disabled={input===value || input.length<3} onClick={handleEdit}>Edit</button>
             </div>
         </>
     )

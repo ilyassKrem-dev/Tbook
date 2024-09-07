@@ -37,6 +37,7 @@ Route::controller(UserMiscController::class)
         Route::get("/{username}/get_unblocked","getUnblockedConvos");
         Route::post("/{username}/block","blockConvo");
         Route::get("/{username}/get_blocked","getBlockedConvos");
+        Route::get("/{userId}/profile/{profileId}/checkRequestPrivacy","checkProfileRequestPrivacy");
     });
 Route::controller(PostController::class)
     ->group(function() {
@@ -84,4 +85,5 @@ Route::controller(PrivacyController::class)
 
             Route::get("/profile/{id}/privacy","getPostsPrivacy");
             Route::patch("/profile/{id}/privacy/posts/view","updatePostsPrivacy");
+            Route::patch("/profile/{id}/privacy/contact/requests","updateRequests");
         });

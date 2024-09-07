@@ -96,6 +96,7 @@ class User {
                 data:res.data.posts
             }
         } catch (error:any) {
+            
             if(error.message != "Request failed with status code 400") {
                 
                 return {

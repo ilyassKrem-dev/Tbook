@@ -18,6 +18,7 @@ export type UserPrivacyType ={
     user:number;
     posts:"friends"|"public"|"me";
     search:"friends"|"anywhere"|"friends_of";
-    notification:"all"|"posts"|"messages"
+    notification:"all"|"posts"|"messages";
+    requests:"all"|"fff"
 }
 

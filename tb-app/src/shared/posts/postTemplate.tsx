@@ -26,7 +26,7 @@ export default function PostTemplate({userInfo,user,post}:{
                 <div className="py-3">
                     <PostHeader 
                     userImage={userInfo.image}
-                    userName={userInfo.name}
+                    name={userInfo.name}
                     username={userInfo.username}
                     date={post.created_at}/>
 
@@ -64,7 +64,7 @@ export default function PostTemplate({userInfo,user,post}:{
                         <div className=" py-3 flex-1 overflow-y-auto custom-scrollbar">
                             <PostHeader 
                             userImage={userInfo.image}
-                            userName={userInfo.name}
+                            name={userInfo.name}
                             username={userInfo.username}
                             date={post.created_at}/>
                             <PostContent 

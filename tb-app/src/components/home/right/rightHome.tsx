@@ -15,6 +15,7 @@ export default function  RightHome({user}:{
     useEffect(() => {
         if(!user) return
         const getFriends = async() => {
+            
             const res = await Friend.getAllFriends(user.id)
             if(res?.success) {
                 setFriends(res.data as any)
@@ -23,6 +24,7 @@ export default function  RightHome({user}:{
         }
         getFriends()
     },[user])
+
     const startedScroll = ScrollDetector()
 
     return (

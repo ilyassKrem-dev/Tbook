@@ -81,9 +81,12 @@ class FriendsController extends Controller
     }
     function fetchAllUserFriends($id) {
         $user = User::where("id",$id)->first();
-        $friends = Friend::where(function($query) use($id) {
-            $query->where("user",$id)
-                    ->orWhere("friend",$id);
+        if(!$user) {
+            return response()->json(["data"=>[]],404);
+        }
+        $friends = Friend::where(function($query) use($user) {
+            $query->where("user",$user->id)
+                    ->orWhere("friend",$user->id);
         })
             ->where("status","friends")
             ->get();
@@ -106,25 +109,31 @@ class FriendsController extends Controller
                                 })
                             ->where("user1",$user->id);
                 })->first();
-            $unseenMsgs = Messages::where("convo_id",$convo->id)
-                            ->where("receiver",$user->id)
-                            ->where("seen",false)
-                            ->count();
-            $info = [
-                "id"=>$friend->id,
-                "friend"=>[
-                    "id"=>$friendInfo->id,
-                    "status"=>$friendInfo->status,
-                    "name"=>$friendInfo->name,
-                    "username"=>$friendInfo->username,
-                    "image"=>$friendInfo->image
-                ],
-                "unseenMsgs"=>$unseenMsgs,
-                "convoId"=>$convo->id,
-                "user"=>$user->id,
-                "status"=>$friend->status,
-                "status_by"=>$friend->status_by
-            ];
+                $unseenMsgs = 0;
+                
+                $convoId = $convo ? $convo->id : null;
+                if($convoId) {
+                    $unseenMsgs = Messages::where("convo_id",$convo->id)
+                                ->where("receiver",$user->id)
+                                ->where("seen",false)
+                                ->count();
+                }
+                
+                $info = [
+                    "id"=>$friend->id,
+                    "friend"=>[
+                        "id"=>$friendInfo->id,
+                        "status"=>$friendInfo->status,
+                        "name"=>$friendInfo->name,
+                        "username"=>$friendInfo->username,
+                        "image"=>$friendInfo->image
+                    ],
+                    "unseenMsgs"=>$unseenMsgs,
+                    "convoId"=>$convoId,
+                    "user"=>$user->id,
+                    "status"=>$friend->status,
+                    "status_by"=>$friend->status_by
+                ];
             array_push($friendsList,$info);
         }
         return response()->json(["data"=>$friendsList],200);
