@@ -14,6 +14,7 @@ class Privacy extends Model
         "posts",
         "search",
         "notification",
-        "requests"
+        "requests",
+        "friends"
     ];
 }

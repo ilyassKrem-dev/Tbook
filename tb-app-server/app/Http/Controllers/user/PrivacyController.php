@@ -40,6 +40,32 @@ class PrivacyController extends Controller
         }
         return response()->json(["data"=>'success'],200);
     }
+    function updateViewFriendsList($id,Request $request) {
+        $data = $request->validate([
+            "friends"=>"required"
+        ]);
+        if(!in_array($data["friends"],["all","friends","fff","me"])) {
+            return response()->json(["error"=>"Data is not correct"],300);
+        }
+        $updated = $this::helperFunction($id,$data["friends"],"friends");
+        if(!$updated) {
+            return response()->json(["error"=>"User not found"],404);
+        }
+        return response()->json(["data"=>"success"],200);
+    }
+    function updateSearchView($id,Request $request) {
+        $data = $request->validate([
+            "search"=>"required"
+        ]);
+        if(!in_array($data["search"],["all","fff","me"])) {
+            return response()->json(["error"=>"Data is not correct"],300);
+        }
+        $updated = $this::helperFunction($id,$data["search"],"search");
+        if(!$updated) {
+            return response()->json(["error"=>"User not found"],404);
+        }
+        return response()->json(["data"=>"success"],200);
+    }
     static function helperFunction($id,$data,$type) {
         $user = User::find($id);
         

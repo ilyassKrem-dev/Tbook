@@ -238,16 +238,54 @@ class UserController extends Controller
         return response()->json(["message","picture changed"],200);
     }
 
-    function getSearchResults(Request $request) {
+    function getSearchResults($id,Request $request) {
         $data = $request->query("search");
         if (!$data) {
             return;
         }
-        $users = User::select("name","username","image","id")
-                        ->where("name","like","$data%")
+        $user = User::select('id')->where('id',$id)->first();
+        $userFriends = Friend::where(function($query) use($user) {
+            $query->where("user",$user->id)
+                ->orWhere("friend",$user->id);
+        } )
+            ->where('status',"friends")
+            ->get();
+        $otherFriendsIds = [];
+        foreach($userFriends as $friend) {
+            $user1 = User::find($friend->user);
+            if (!$user1) continue;
+            $user2 = User::find($friend->friend);
+            $getOther = $user1->id === $user->id ? $user2 : $user1;
+             if ($getOther === null) continue;
+            $friendFriends = Friend::where(function($query) use($getOther) {
+                $query->where("user",$getOther->id)
+                    ->orWhere("friend",$getOther->id);
+            } )
+                ->where('status',"friends")
+                ->pluck("user")
+                ->merge(Friend::where(function($query) use($getOther) {
+                    $query->where("user",$getOther->id)
+                        ->orWhere("friend",$getOther->id);
+                } )
+                    ->where('status',"friends")
+                    ->pluck("friend"))
+                ->values();
+            $otherFriendsIds = array_merge($otherFriendsIds, $friendFriends->toArray());
+        }
+        $users = User::join("privacy","users.id","=","privacy.user")
+                        ->select("users.name","users.username","users.image","users.id","privacy.search")
+                        ->where("users.name","like","$data%")
+                        ->where(function($query) use($otherFriendsIds) {
+                            $query->where('privacy.search',"all")
+                                ->orWhere(function($query) use ($otherFriendsIds) {
+                                    $query->where("privacy.search","fff")
+                                            ->whereIn('users.id',$otherFriendsIds);
+                                });
+                        })
                         ->inRandomOrder()
                         ->take(10)
                         ->get();
+        
         return response()->json(["data"=>$users],200);
 
     }

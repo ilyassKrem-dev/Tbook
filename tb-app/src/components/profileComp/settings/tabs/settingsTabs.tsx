@@ -48,7 +48,10 @@ export default function SettingsTabs({tab}:{
                 {tab==="blocking"&&<BlockingTab />}
                 {tab==="posts"&&<PostsTab user={user} settings={userPrivacy.posts}/>}
                 {tab==="accessibility"&&<AccesTab />}
-                {tab==="contact"&&<ContactTab reqSend={userPrivacy.requests}/>}
+                {tab==="contact"&&<ContactTab 
+                reqSend={userPrivacy.requests} 
+                friendsList={userPrivacy.friends}
+                searchPr={userPrivacy.search}/>}
             </div>}
         </div>
     )

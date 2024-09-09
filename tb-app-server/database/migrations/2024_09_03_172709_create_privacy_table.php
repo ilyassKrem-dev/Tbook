@@ -16,10 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger("user");
             $table->foreign("user")->references("id")->on("users")->onDelete("cascade");
             $table->enum("posts",["friends","public","me"])->default("public");
-            $table->enum("search",["friends","anywhere","friends_of"])->default("anywhere");
+            $table->enum("search",["all","fff","me"])->default("all");
             $table->enum("notification",["all","messages","posts"])->default("all");
             $table->enum("requests",["all","fff"])->default("all");
-
+            $table->enum("friends",["all","fff","friends","me"])->default("all");
             $table->timestamps();
         });
     }

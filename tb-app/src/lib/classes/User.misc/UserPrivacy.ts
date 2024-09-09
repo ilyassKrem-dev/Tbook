@@ -116,6 +116,76 @@ class UserPivacy {
         }
         
     }
+    async updateFriendsListView(viewRequess:"all"|"fff"|"friends"|"me") {
+        let data = {
+            success:false,
+            error:"",
+        }
+        try {
+            const res = await axios.patch(`${baseUrl}/profile/${this.id}/privacy/contact/friends_list`,{
+                friends:viewRequess
+            })
+           
+            if(res.data) {
+                data.success=true;
+                return data
+            }
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    error:"Internal server error",
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    error:err.message,
+                   
+                }
+                
+                return data
+            }
+        }
+        
+    }
+    async updateSearchView(viewRequess:"all"|"fff"|"me") {
+        let data = {
+            success:false,
+            error:"",
+        }
+        try {
+            const res = await axios.patch(`${baseUrl}/profile/${this.id}/privacy/contact/search`,{
+                search:viewRequess
+            })
+           
+            if(res.data) {
+                data.success=true;
+                return data
+            }
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    error:"Internal server error",
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    error:err.message,
+                   
+                }
+                
+                return data
+            }
+        }
+        
+    }
 }
 
 

@@ -38,25 +38,22 @@ export default function ContactFriends({reqSend}:{
     },[user,requests,original])
     return (
         <>
-            <div className="mt-4 bg-white rounded-lg p-3">
-                <h1 className="text-xl font-bold">Your friends</h1>
-                <div className="flex flex-col gap-6 mt-4">
-                    <div className="flex justify-between items-center">
-                        <div className="flex flex-col">
-                            <h3 className="font-medium text-[1rem]">Who can send you friend requests?</h3>
-                        </div>
-                        <div className="flex gap-1 items-center bg-gray-300/50 rounded-md p-2 px-3 cursor-pointer hover:bg-gray-300/80 active:scale-95 active:outline active:outline-blue-500 transition-all duration-300" onClick={() => setShow(true)}>
-                            <div className="text-lg text-black/80 flex-1">
-                                {original==="all"&&<FaGlobeAfrica/>}
-                                {original==="fff"&&<FaUsers/>}
-                            </div>
-                            <p className="text-sm truncate max-w-[80px] sm:max-w-[120px] cursor-pointer font-semibold">
-                                {original==="all"?"Everyone":"Friends of friends"}
-                            </p>
-                        </div>
+            <div className="flex justify-between items-center">
+                <div className="flex flex-col">
+                    <h3 className="font-medium text-[1rem]">Who can send you friend requests?</h3>
+                </div>
+                <div className="flex gap-1 items-center bg-gray-300/50 rounded-md p-2 px-3 cursor-pointer hover:bg-gray-300/80 active:scale-95 active:outline active:outline-blue-500 transition-all duration-300" onClick={() => setShow(true)}>
+                    <div className="text-lg text-black/80 flex-1">
+                        {original==="all"&&<FaGlobeAfrica/>}
+                        {original==="fff"&&<FaUsers/>}
                     </div>
+                    <p className="text-sm truncate max-w-[80px] sm:max-w-[120px] cursor-pointer font-semibold">
+                        {original==="all"?"Everyone":"Friends of friends"}
+                    </p>
                 </div>
             </div>
+           
+           
             {show&&
             <OverlayTemplate 
             setShow={setShow} 

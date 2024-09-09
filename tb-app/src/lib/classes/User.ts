@@ -118,7 +118,7 @@ class User {
         }
     }
 
-    static async getSearchResults(searchString:string) {
+    static async getSearchResults(userId:string,searchString:string) {
         let data = {
             success:false,
             error:"",
@@ -126,7 +126,8 @@ class User {
         }
         
         try {
-            const res = await axios.get(`${baseUrl}/results?search=${searchString}`)
+            const res = await axios.get(`${baseUrl}/${userId}/results?search=${searchString}`)
+          
             return {
                 success:true,
                 error:"",

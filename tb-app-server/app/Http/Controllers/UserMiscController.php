@@ -172,4 +172,49 @@ class UserMiscController extends UserController
         }
         return response()->json(["data"=>$isFriendsOf],200);
     }
+    function checkFriendsViewPrivacy($userId,$profileId) {
+        $user = User::find($userId);
+        $profile = User::find($profileId);
+        $privacy = Privacy::where("user",$profile->id)->first();
+        $friendsPrivacy = $privacy->friends;
+        if($friendsPrivacy === "all") {
+            return response()->json(["data"=>true],200);
+        }
+        if($friendsPrivacy === "me"||!$user) {
+            return response()->json(["data"=>false],200);
+        }
+        $userFriendsQuery = Friend::query()
+            ->where(function($query) use($user) {
+            $query->where("user",$user->id)
+                    ->orWhere("friend",$user->id);
+        })
+            ->where("status","friends");
+        if($friendsPrivacy === "friends") {
+            $getIds = $userFriendsQuery->pluck("user",'friend');
+            return response()->json(["data"=>$getIds->has($profile->id)],200);
+        }
+        if($friendsPrivacy ==="fff") {
+            $getFriends = $userFriendsQuery->get();
+            $isFFF = false;
+            foreach($getFriends as $friend) {
+                $user1 = User::find($friend->user);
+                $user2 = User::find($friend->friend);
+                $checkUser = $user1->id === $user->id?$user2 : $user1;
+                $friendFriends = Friend::where(function($query) use($checkUser) {
+                    $query->where("user",$checkUser->id)
+                            ->orWhere("friend",$checkUser->id);
+                })
+                        ->where("status","friends")
+                        ->pluck("user","friend");
+                
+                if($friendFriends->has($profile->id)) {
+                    $isFFF = true;
+                }
+            }
+            return response()->json(["data"=>$isFFF],200);
+        }
+        return response()->json(["data"=>false],200);
+        
+    }
+    
 }

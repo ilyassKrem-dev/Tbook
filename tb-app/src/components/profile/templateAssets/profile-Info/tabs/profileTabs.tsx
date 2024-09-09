@@ -27,7 +27,7 @@ export default function ProfileTabs({view}:{
         }
         return router.push(`${pathname}?${queries.toString()}&sk=${tname}`)
     }
-
+    
     return (
         <div className="flex justify-between items-center font-semibold text-gray-500 px-2 lg:px-0">
             {w>600?

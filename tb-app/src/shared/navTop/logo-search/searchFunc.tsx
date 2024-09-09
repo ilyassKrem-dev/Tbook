@@ -6,6 +6,7 @@ import { IoSearch } from "react-icons/io5"
 import { useRouter,usePathname,useSearchParams } from "next/navigation";
 import Link from "next/link";
 import User from "@/lib/classes/User";
+import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
 interface Props {
     inputRef:RefObject<HTMLInputElement>;
     focused:boolean;
@@ -23,30 +24,46 @@ export default function SearchFunc({inputRef,focused,setShow,setFocused,handleFo
     const [results,setResults] = useState<ResultsType[]>([])
     const [inputString,setInputString] = useState<string>("")
     const router = useRouter()
+    const {user} = loginInfo()
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const searchString = searchParams?.get("search")
     useEffect(() => {
+        //@ts-ignore
+        const queries = new URLSearchParams(Array.from(searchParams.entries()))
         const id = setTimeout(() => {
             if(inputString) {
-                router.push(`${pathname}?search=${inputString}`)
+                if(searchString) {
+                    queries.set("search",inputString)
+                    
+                    router.push(`${pathname}?${queries.toString()}`)
+                } else if(queries.toString().length>0) {
+                   
+                    router.push(`${pathname}?${queries.toString()}&search=${inputString}`)
+                } else {
+                   
+                    router.push(`${pathname}?search=${inputString}`)
+                }
+                
             } else {
+                
                 setResults([])
-                router.push(`${pathname}`)
+                queries.delete("search")
+                router.push(`${pathname}${queries.toString().length>0?`?${queries.toString()}`:""}`)
             }
         },100)
         return () => clearTimeout(id)
-    },[inputString])
+    },[inputString,searchString,pathname])
     useEffect(() => {
-        if(!searchString) return
+        if(!searchString||!user) return
         const getResults = async() => {
-            const res = await User.getSearchResults(searchString)
+            const res = await User.getSearchResults(user.id,searchString)
             if(res?.success){
                 setResults(res.data)
             }
         }
         getResults()
-    },[searchString])
+    },[searchString,user])
   
     return (
         <>

@@ -25,7 +25,7 @@ Route::controller(UserController::class)
         Route::patch("/addBio","addBio");
         Route::get("/{userId}/getUserPosts/{loggedId}","getUserPosts");
         Route::put("/changePicture","changePicture");
-        Route::get("/results","getSearchResults");
+        Route::get("/{id}/results","getSearchResults");
     });
 Route::controller(UserInfoController::class)
     ->group(function() {
@@ -38,6 +38,8 @@ Route::controller(UserMiscController::class)
         Route::post("/{username}/block","blockConvo");
         Route::get("/{username}/get_blocked","getBlockedConvos");
         Route::get("/{userId}/profile/{profileId}/checkRequestPrivacy","checkProfileRequestPrivacy");
+        Route::get("/{userId}/profile/{profileId}/friendsPrivacy","checkFriendsViewPrivacy");
+        
     });
 Route::controller(PostController::class)
     ->group(function() {
@@ -82,8 +84,10 @@ Route::controller(MessageController::class)
         });
 Route::controller(PrivacyController::class)
         ->group(function() {
-
+            
             Route::get("/profile/{id}/privacy","getPostsPrivacy");
             Route::patch("/profile/{id}/privacy/posts/view","updatePostsPrivacy");
             Route::patch("/profile/{id}/privacy/contact/requests","updateRequests");
+            Route::patch("/profile/{id}/privacy/contact/friends_list","updateViewFriendsList");
+            Route::patch("/profile/{id}/privacy/contact/search","updateSearchView");
         });

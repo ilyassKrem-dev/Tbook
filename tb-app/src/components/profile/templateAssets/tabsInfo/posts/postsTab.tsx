@@ -4,9 +4,10 @@ import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
 import LeftSide from "./leftSide/leftSide"
 import RightSide from "./rightSide/rightSide"
 
-export default function PostsTab({userData,view}:{
+export default function PostsTab({userData,view,friendsPrivacy}:{
     userData:UserDataType;
-    view?:boolean
+    view?:boolean;
+    friendsPrivacy:boolean
 }) {
     const userInfo = userData.user
     const {user} = loginInfo()
@@ -14,7 +15,7 @@ export default function PostsTab({userData,view}:{
     return (
         <>
             <div className="flex gap-3 bg-gray-1 items-start pb-12 flex-col lg:flex-row">
-                <LeftSide userData={userData} view={view}/>
+                <LeftSide userData={userData} view={view} friendsPrivacy={friendsPrivacy}/>
                 <div className="flex flex-col gap-3 flex-1 w-full">
                     {!view&&user&&checkUser&&
                     <SendPost user={user}/>}

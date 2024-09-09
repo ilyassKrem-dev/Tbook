@@ -87,6 +87,47 @@ class Profile {
         }
         
     }
+    static async checkFriendsPrivacy(userId:string,profileId:string) {
+        let data = {
+            success:false,
+            data:false,
+            error:''
+        }
+        try {
+            const res = await axios.get(`${baseUrl}/${userId}/profile/${profileId}/friendsPrivacy`)
+            
+            if(res.data) {
+                data = {
+                    success:true,
+                    data:res.data.data,
+                    error:"",
+                }
+                return data
+            } 
+            
+        } catch (error:any) {
+            
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    data:false,
+                    error:"Internal server error"
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    data:false,
+                    error:err
+                }
+                
+                return data
+            }
+        }
+        
+    }
 }
 
 
