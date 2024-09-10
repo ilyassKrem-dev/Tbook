@@ -5,9 +5,11 @@ import { ConvoType } from "@/lib/utils/types/convo"
 import ConvoClass from "@/lib/classes/Convo";
 import ConvoTab from "../convo/convoTab";
 import { loginInfo } from "./sessionWrapper";
-import { RxCross2 } from "react-icons/rx";
 import ConvoSide from "../convo/convoSide";
 import { useSize } from "@/lib/utils/hooks";
+import { UseDispatch,useDispatch,useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { addConvo, moveToConvos, removeSideConvo } from "../redux/convoRedux";
 type IdsType = {
     user_id:string;
     other_id:string;
@@ -30,11 +32,12 @@ export const useConvo = () => {
 export const ConvoWrapper = ({children}:{
     children:React.ReactNode;
 }) => {
+    const dispatch = useDispatch<AppDispatch>()
+    const convos = useSelector((state:RootState) => state.convo.convos)
+    const sideConvos = useSelector((state:RootState)=>state.convo.sideConvos)
     const [ids,setIds] = useState<IdsType>({
         user_id:"",other_id:""
     })
-    const [convos,setConvos] = useState<ConvoType[]>([])
-    const [sideConvos,setSideConvos] = useState<ConvoType[]>([]);
     const {user} = loginInfo()
     useEffect(() => {
         if(!ids.user_id) return
@@ -53,14 +56,13 @@ export const ConvoWrapper = ({children}:{
                 })
                 if(find) return
                 if(find2) {
-                    setConvos((prev:any) => [find2,...prev])
-                    return setSideConvos(prev => (prev.filter(convo=>convo.id!==find2.id )))
+                    return dispatch(moveToConvos(res.data as any))
                 }
-                setConvos((prev:any) => ([res.data,...prev]))
+                dispatch(addConvo(res.data as any))
             }
         }
         getConvo()
-    },[ids])
+    },[ids,dispatch,convos,sideConvos])
     const handleClick =(ids:IdsType) => {
         setIds(ids)
     }
@@ -75,15 +77,14 @@ export const ConvoWrapper = ({children}:{
                         {user&&w>767&&convos.length>0&&
                         <ConvoTab 
                         convos={convos}
-                        setConvos={setConvos}
+                        
                         user={user}
-                     
-                        setSideConvos={setSideConvos}/>}
+                        dispatch={dispatch}
+                        />}
                         {w>767&&<ConvoSide 
                         sideConvos={sideConvos} 
-                        setSideConvos={setSideConvos}
-                        setConvos={setConvos}
-                        user={user}/>}
+                        user={user}
+                        dispatch={dispatch}/>}
         </convoContext.Provider>
     )
 }

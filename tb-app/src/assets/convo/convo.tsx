@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import ConvoHeader from "./convoHeader"
 import ConvoMessages from "./messages/convoMessages"
 import ConvoFooter from "./footer/convoFooter"
@@ -9,16 +9,17 @@ import Servers from "@/lib/classes/Servers"
 import LoadingAnimation from "@/shared/spinner"
 import ConvoClass from "@/lib/classes/Convo"
 import React from "react"
+import { useDispatch } from "react-redux"
+import { handleMoreMsgs } from "../redux/convoRedux"
 interface Props {
     convo:ConvoType;
-    setConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
-    setSideConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
-    user:UserType
+    user:UserType;
+    dispatch:ReturnType<typeof useDispatch>
 }
 
 const ConvoHeaderMemo = React.memo(ConvoHeader);
 const ConvoFooterMemo = React.memo(ConvoFooter);
-export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
+export default function Convo({convo,user,dispatch}:Props) {
     const [mouseEntered,setMouseEntered] = useState<boolean>(false)
     const [loading,setLoading] = useState<boolean>(false)
     const [finished,setFinished] = useState<boolean>(false)
@@ -64,13 +65,7 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
                 if(res?.success) {
                     setAdded(true)
                    
-                    setConvos((prev:any[]) => {
-                        const newData = prev.map(cnv => {
-                            if(cnv.id !== convo.id) return cnv
-                            return {...cnv,messages:[...res.data,...cnv.messages]}
-                        })
-                        return newData
-                    })
+                    dispatch(handleMoreMsgs({msgs:res.data,convoId:convo.id}))
                     if(res.data.length < 15) {
                         setAllMsgs(true)
                         current.scrollTop = (scrollPosition+10)*(res.data.length);
@@ -115,9 +110,8 @@ export default function Convo({convo,setConvos,setSideConvos,user}:Props) {
             <div className="bg-white h-[450px] rounded-t-lg w-[350px] shadow-xl flex flex-col">
                 <ConvoHeaderMemo 
                 convo={convo}
-                setConvos={setConvos}
-                setSideConvos={setSideConvos}
                 mouseEntered={mouseEntered}
+                dispatch={dispatch}
                 user={user}/>
                 <div
                 ref={msgsRef} 

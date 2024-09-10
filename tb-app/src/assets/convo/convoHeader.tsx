@@ -7,22 +7,22 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import OtherOptions from "./misc/otherOptions";
 import { removeOverlay } from "@/lib/utils/hooks";
 import { UserType } from "@/lib/utils/types/user";
+import { useDispatch } from "react-redux";
+import { moveConvoToSide, removeConvo } from "../redux/convoRedux";
 interface Props {
     mouseEntered:boolean;
     convo:ConvoType;
-    setConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
-    setSideConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
-    user:UserType
+
+    user:UserType;
+    dispatch:ReturnType<typeof useDispatch>
 }
 
-export default function ConvoHeader({mouseEntered,convo,setConvos,setSideConvos,user}:Props) {
+export default function ConvoHeader({mouseEntered,convo,user,dispatch}:Props) {
     const [hovered,setHovered] = useState<boolean>(false)
     const [show,setShow] = useState<boolean>(false)
     const {other} = convo
     const handleClose = (id:string) => {
-        return setConvos(prev => {
-            return prev.filter(convo => convo.id !== id)
-        })
+        dispatch(removeConvo({id}))
     }
     removeOverlay(
         {
@@ -31,11 +31,7 @@ export default function ConvoHeader({mouseEntered,convo,setConvos,setSideConvos,
         }
     )
     const handleMin = (convo:ConvoType) => {
-        const id = convo.id
-        setConvos(prev => {
-            return prev.filter(convo => convo.id !== id)
-        })
-        setSideConvos(prev => ([convo,...prev]))
+        dispatch(moveConvoToSide(convo))
     }
     const handleShow = () => {
         if(hovered) return

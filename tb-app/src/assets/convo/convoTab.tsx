@@ -1,62 +1,32 @@
+"use client"
 import { ConvoType, MessageType } from "@/lib/utils/types/convo"
 import { UserType } from "@/lib/utils/types/user";
 import { SetStateAction, useEffect, useState } from "react"
 import { useSocket } from "../Wrappers/socketWrapper";
 import Convo from "./convo";
-export default function ConvoTab({convos,setConvos,user,setSideConvos}:{
+import { useDispatch } from "react-redux";
+import { addMessage, addReaction, addSeen, changeStatus } from "../redux/convoRedux";
+export default function ConvoTab({convos,user,dispatch}:{
     convos:ConvoType[],
-    setConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
-    user:UserType;
-    setSideConvos:React.Dispatch<SetStateAction<ConvoType[]>>
+    user:UserType
+    dispatch:ReturnType<typeof useDispatch>
 }) {
     const {socket} = useSocket()
     useEffect(() => {
         if(!socket||!convos) return
         const handleNewMessage = (data: MessageType) => {
-            setConvos(prev => prev.map(convo => 
-                convo.id === data.convo_id ? { ...convo, messages: [...convo.messages, data] } : convo
-            ));
+            dispatch(addMessage(data))
         };
         const handleReaction = (data:any) => {
         
-            setConvos((prev:ConvoType[]) => {
-                const newData = prev.map(convo => {
-                    if(convo.id !==data.convo_id) return convo
-                    const messages = convo.messages.map(message=> {
-                        if(message.id!==data.id) return message
-                        return {...message,reaction:data.reaction}
-                    })
-                    return {...convo,messages:messages}
-                })
-                return newData
-            })
+            dispatch(addReaction(data))
         }
         const handleSeen = (data:any) => {
-            setConvos((prev:ConvoType[]) => {
-                const newData = prev.map(convo => {
-                    if(convo.id !==data.convo_id) return convo
-                    const messages = convo.messages.map(message=> {
-                        if(message.receiver!==data.receiver || message.seen) return message
-
-                        return {...message,seen:data.seen}
-                    })
-                    return {...convo,messages:messages}
-                })
-                return newData
-            })
+            dispatch(addSeen(data))
         }
         const handleStatus = (data:any) => {
             
-            setConvos((prev:ConvoType[]) => {
-                const newData = prev.map(convo => {
-                    if(data.convoId !== convo.id) return convo
-                    return {...convo,
-                        status:data.status,
-                        status_by:data.status_by
-                    }
-                })
-                return newData
-            })
+            dispatch(changeStatus(data))
         }
         const subscribeToEvents = () => {
             convos.forEach((convo) => {
@@ -100,8 +70,7 @@ export default function ConvoTab({convos,setConvos,user,setSideConvos}:{
                             key={convo.id+index+convo.id+index+6} 
                             convo={convo} 
                             user={user} 
-                            setConvos={setConvos} 
-                            setSideConvos={setSideConvos}/>
+                            dispatch={dispatch}/>
                             
                         )
                     })}

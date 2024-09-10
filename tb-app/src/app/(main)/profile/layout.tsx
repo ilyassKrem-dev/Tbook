@@ -7,6 +7,7 @@ import AuthWrapper from "@/assets/Wrappers/authWrapper";
 import { SessionWrapper } from "@/assets/Wrappers/sessionWrapper";
 import { ConvoWrapper } from "@/assets/Wrappers/convoWrapper";
 import { MediaWrapper } from "@/assets/Wrappers/mediaWrapper";
+import StoreProvider from "@/assets/Wrappers/reduxProvider";
 const figtree = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,19 +23,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={figtree.className + " h-screen bg-gray-1"}>
-      <ToastProvider>
-          <AuthWrapper >
-            <SessionWrapper>
-              <SocketProvider>
-                <MediaWrapper>
-                  <ConvoWrapper>
-                      {children}
-                  </ConvoWrapper>
-                </MediaWrapper>
-              </SocketProvider>
-            </SessionWrapper>
-          </AuthWrapper>
-        </ToastProvider>
+        <StoreProvider>
+          <ToastProvider>
+              <AuthWrapper >
+                <SessionWrapper>
+                  <SocketProvider>
+                    <MediaWrapper>
+                      <ConvoWrapper>
+                          {children}
+                      </ConvoWrapper>
+                    </MediaWrapper>
+                  </SocketProvider>
+                </SessionWrapper>
+              </AuthWrapper>
+            </ToastProvider>
+        </StoreProvider>
       </body>
     </html>
   );

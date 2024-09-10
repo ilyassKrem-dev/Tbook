@@ -4,63 +4,36 @@ import { SetStateAction, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { FaFile } from "react-icons/fa6";
 import { useSocket } from "../Wrappers/socketWrapper";
+import { useDispatch } from "react-redux";
+import { addMessage, addSeen, moveToConvos, removeSideConvo } from "../redux/convoRedux";
 
 interface Props {
     sideConvos:ConvoType[];
-    setSideConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
-    setConvos:React.Dispatch<SetStateAction<ConvoType[]>>;
     user:UserType|null;
+    dispatch:ReturnType<typeof useDispatch>
 }
 
 export default function ConvoSide({
     sideConvos,
-    setSideConvos,
-    setConvos,
-    user
+    user,
+    dispatch
 }:Props) {
     const {socket} = useSocket()
     const handleRemove = (convoId:string) => {
-        setSideConvos(prev => {
-            return prev.filter(convo => convo.id !== convoId)
-        })
+        dispatch(removeSideConvo({id:convoId}))
     }
     const handleClick = (convoS:ConvoType) => {
-        setSideConvos(prev => {
-            return prev.filter(convo => convo.id !== convoS.id)
-        })
-        setConvos(prev => {
-            return [convoS,...prev]
-        })
+        dispatch(moveToConvos(convoS))
     }
     
    
     useEffect(() => {
         if(!socket||!sideConvos) return
         const handleMsg = (data:MessageType) => {
-            setSideConvos((prev:ConvoType[]) => {
-                const newData = prev.map(convo => {
-                    if(convo.id === data.convo_id) {
-                        return {...convo,messages:[...convo.messages,data]}
-                    }
-                    return convo
-                })
-                return newData
-            })
+            dispatch(addMessage(data))
         }
         const handleSeen = (data:any) => {
-            setSideConvos((prev:ConvoType[]) => {
-                const newData = prev.map(convo => {
-                    if(convo.id === data.convo_id) {
-                        const msgs = convo.messages.map(msg => {
-                            if(msg.receiver!==data.receiver || msg.seen) return msg
-                            return {...msg,seen:data.seen}
-                        })
-                        return {...convo,messages:msgs}
-                    }
-                    return convo
-                })
-                return newData
-            })
+            dispatch(addSeen(data))
         }
         
         const subscribeToEvents = () => {
