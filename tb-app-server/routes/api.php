@@ -30,6 +30,7 @@ Route::controller(UserController::class)
 Route::controller(UserInfoController::class)
     ->group(function() {
         Route::put("/{username}/update","updateUserInfo");
+        Route::put("/{username}/update/password","changePassword");
     });
 Route::controller(UserMiscController::class)
     ->group(function() {
@@ -39,6 +40,7 @@ Route::controller(UserMiscController::class)
         Route::get("/{username}/get_blocked","getBlockedConvos");
         Route::get("/{userId}/profile/{profileId}/checkRequestPrivacy","checkProfileRequestPrivacy");
         Route::get("/{userId}/profile/{profileId}/friendsPrivacy","checkFriendsViewPrivacy");
+        
         
     });
 Route::controller(PostController::class)
@@ -90,4 +92,5 @@ Route::controller(PrivacyController::class)
             Route::patch("/profile/{id}/privacy/contact/requests","updateRequests");
             Route::patch("/profile/{id}/privacy/contact/friends_list","updateViewFriendsList");
             Route::patch("/profile/{id}/privacy/contact/search","updateSearchView");
+            Route::patch("/profile/{id}/privacy/notifications","updateNotifications");
         });

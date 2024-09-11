@@ -11,7 +11,8 @@ import { UserPrivacyType } from "@/lib/utils/types/user.misc/user.misc"
 import UserPivacy from "@/lib/classes/User.misc/UserPrivacy"
 import AccesTab from "./accessibilty/accesTab"
 import ContactTab from "./contact/contactTab"
-
+import NotificationSetting from "./notification/NotificationSetting"
+import ReactionSetting from "./reactionSetting"
 export default function SettingsTabs({tab}:{
     tab:string
 }) {         
@@ -52,6 +53,8 @@ export default function SettingsTabs({tab}:{
                 reqSend={userPrivacy.requests} 
                 friendsList={userPrivacy.friends}
                 searchPr={userPrivacy.search}/>}
+                {tab==="notifications"&&<NotificationSetting notifi={userPrivacy.notification}/>}
+                {tab=="reaction"&&<ReactionSetting />}
             </div>}
         </div>
     )

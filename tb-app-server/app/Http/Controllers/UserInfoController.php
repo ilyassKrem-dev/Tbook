@@ -29,4 +29,45 @@ class UserInfoController extends UserController
         }
         return response()->json(["error"=>"type is forbidden"],401);
     }
+    function changePassword($username,Request $request) {
+        $data = $request->validate([
+            "old"=>'required|string',
+            "newP"=>"required|min:6",
+            "confirmP"=>"required|string|same:newP"
+        ]);
+        
+        $user = User::where("username",$username)->first();
+        if(!password_verify($data["old"],$user->password)) {
+            return response()->json(["error"=>[
+                "old"=>"Incorrect password",
+                "newP"=>"",
+                "confirmP"=>""
+            ]],400);
+        }
+        if(strlen($data["newP"]) < 6) {
+            return response()->json(["error"=>[
+                "old"=>"",
+                "newP"=>"New password must be longer than 6 character",
+                "confirmP"=>""
+            ]],400);
+        }   
+        if($data["old"] === $data["newP"]) {
+            return response()->json(["error"=>[
+                "old"=>"",
+                "newP"=>"New password must not be the same as the old one",
+                "confirmP"=>""
+            ]],400);
+        }
+        if($data["newP"] !== $data["confirmP"]) {
+            return response()->json(["error"=>[
+                "old"=>"",
+                "newP"=>"",
+                "confirmP"=>"Passwords dont match"
+            ]],400);
+        }
+        $user->update([
+            "password"=>bcrypt($data["newP"])
+        ]);
+        return response()->json(["msg"=>"Password changed"],200);
+    }
 }

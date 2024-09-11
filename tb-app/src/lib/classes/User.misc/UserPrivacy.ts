@@ -186,6 +186,42 @@ class UserPivacy {
         }
         
     }
+    async updateNotifications(notifications:"all"|"posts"|"requests") {
+        let data = {
+            success:false,
+            error:"",
+        }
+        try {
+            const res = await axios.patch(`${baseUrl}/profile/${this.id}/privacy/notifications`,{
+                notifications:notifications
+            })
+           
+            if(res.data) {
+                data.success=true;
+                return data
+            }
+        } catch (error:any) {
+        
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    error:"Internal server error",
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    error:err.message,
+                   
+                }
+                
+                return data
+            }
+        }
+        
+    }
 }
 
 

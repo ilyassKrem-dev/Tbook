@@ -8,9 +8,8 @@ import { persistStore, persistReducer,
     PERSIST,
     PURGE,
     REGISTER, } from 'redux-persist';
-
+import storage from "./storage/config";
 import { ConvoType } from "@/lib/utils/types/convo";
-import storage from 'redux-persist/lib/storage';
 type ConvoStateType = {
     convos:ConvoType[];
     sideConvos:ConvoType[]

@@ -6,7 +6,11 @@ type InfoChange = {
     value:string;
     name:"name"|"username"|"phone"
 }
-
+type PasswordsType = {
+    old:string;
+    newP:string;
+    confirmP:string
+}
 const LaravelURL = Servers.laravelURl
 class UserInfo extends User {
 
@@ -48,6 +52,48 @@ class UserInfo extends User {
                     error:err.message,
                     data:""
                 }
+                
+                return data
+            }
+        }
+    }
+    async changePassword(passwords:PasswordsType) {
+        let data = {
+            success:false,
+            errors:{
+                old:"",
+                newP:"",
+                confirmP:''
+            },
+            msg:"",
+        }
+        try {
+            const res = await axios.put(`${LaravelURL}/${this.username}/update/password`,passwords)
+            if(res.data) {
+                const response= res.data
+                data.success = true
+                data.errors = response.error??""
+                data.msg = response.msg??""
+                return data 
+            }
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    msg:"",
+                    error:"Internal server error",
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    msg:"",
+                    errors:err.error
+                }
+                
+               
                 
                 return data
             }

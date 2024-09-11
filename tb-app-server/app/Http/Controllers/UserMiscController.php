@@ -17,20 +17,28 @@ class UserMiscController extends UserController
                     ->take(5)
                     ->get();
         $newData = [];
-        foreach($requests as $request) {
-            $user = User::where("id",$request->user)->first();
-            array_push($newData,[
-                "user"=>[
-                    "id"=>$user->id,
-                    "image"=>$user->image,
-                    "name"=>$user->name,
-                    "username"=>$user->username
-                ],
-                "data"=>null,
-                "msg"=>"{$user->name} sent a friend request"
-            ]);
+        $privacy = Privacy::where("user",$user->id)->first();
+        $notifiPrivacy = $privacy->notification;
+        if($notifiPrivacy === "all" || $notifiPrivacy === "requests") {
+            foreach($requests as $request) {
+                $user = User::where("id",$request->user)->first();
+                array_push($newData,[
+                    "user"=>[
+                        "id"=>$user->id,
+                        "image"=>$user->image,
+                        "name"=>$user->name,
+                        "username"=>$user->username
+                    ],
+                    "data"=>null,
+                    "msg"=>"{$user->name} sent a friend request"
+                ]);
+                
             
-        
+            }
+            
+        }
+        if($notifiPrivacy === "posts") {
+            /*later*/ 
         }
 
         return response()->json(['data'=>$newData],200);

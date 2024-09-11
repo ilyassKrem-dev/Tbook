@@ -66,6 +66,19 @@ class PrivacyController extends Controller
         }
         return response()->json(["data"=>"success"],200);
     }
+    function updateNotifications($id,Request $request) {
+        $data = $request->validate([
+            "notifications"=>"required"
+        ]);
+        if(!in_array($data["notifications"],["all","posts","requests"])) {
+            return response()->json(["error"=>"Data is invalid"],400);
+        }
+        $updated = $this::helperFunction($id,$data["notifications"],"notification");
+        if(!$updated) {
+            return response()->json(["error"=>"User is not found"],404);
+        }
+        return response()->json(["data"=>"success"],200);
+    }
     static function helperFunction($id,$data,$type) {
         $user = User::find($id);
         

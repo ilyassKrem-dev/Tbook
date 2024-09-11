@@ -30,12 +30,7 @@ export default function InfoTab({user}:{
                         <h3 className="font-semibold text-lg capitalize">Email</h3>
                         <div className="flex justify-between items-center">
                             <p className="text-base  font-medium">{user.email}</p>
-                            <Link href={"/profile/edit_email"} className="text-xl text-green-600 cursor-pointer active:scale-95 relative flex justify-center items-center group hover:bg-black/10 transition-all duration-300 rounded-full p-1">
-                                <FaEdit />
-                                <div className="absolute top-[2rem] rounded-lg p-1 px-2 bg-black/50 text-white text-xs group-hover:block hidden transition-all duration-300">
-                                    <span>Edit</span>
-                                </div>  
-                            </Link>
+                            
                         </div>
                     </div>
 
@@ -52,7 +47,7 @@ export default function InfoTab({user}:{
                                     })}
                                 </div>
                                 
-                                <Link href={"/profile/edit_password"} className="text-xl text-green-600 cursor-pointer active:scale-95 relative flex justify-center items-center group hover:bg-black/10 transition-all duration-300 rounded-full p-1">
+                                <Link href={"/info/edit_password"} className="text-xl text-green-600 cursor-pointer active:scale-95 relative flex justify-center items-center group hover:bg-black/10 transition-all duration-300 rounded-full p-1">
                                     <FaEdit />
                                     <div className="absolute top-[2rem] rounded-lg p-1 px-2 bg-black/50 text-white text-xs group-hover:block hidden transition-all duration-300">
                                         <span>Change</span>
