@@ -99,7 +99,126 @@ class UserInfo extends User {
             }
         }
     }
+    static async getMoreInfo(userId:string) {
+        let data = {
+            success:false,
+            error:"",
+            data:undefined,
+        }
+        try {
+            const res = await axios.get(`${LaravelURL}/profile/${userId}/info`)
+            if(res.data) {
+                const response= res.data
+                data.success = true
+                data.error = response.error??""
+                data.data = response.data??undefined
+                return data 
+            }
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    data:undefined,
+                    error:"Internal server error",
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    data:undefined,
+                    error:err.error
+                }
+                
+               
+                
+                return data
+            }
+        }
+    }
+    static async updateInfo(userId:string,value:string,type:string) {
+        let data = {
+            success:false,
+            error:"",
+            msg:"",
+        }
+        try {
+            const res = await axios.put(`${LaravelURL}/profile/${userId}/info/update`,{
+                value,
+                type
+            })
+            if(res.data) {
+                const response= res.data
+                data.success = true
+                data.error = response.error??""
+                data.msg = response.msg??""
+                return data 
+            }
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    msg:"",
+                    error:"Internal server error",
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    msg:"",
+                    error:err.error
+                }
+                
+               
+                
+                return data
+            }
+        }
+    }
+    static async deleteInfo(userId:string,type:string) {
+        let data = {
+            success:false,
+            error:"",
+            msg:"",
+        }
+        try {
+            const res = await axios.patch(`${LaravelURL}/profile/${userId}/info/delete`,{
+                type
+            })
+            if(res.data) {
+                const response= res.data
+                data.success = true
+                data.error = response.error??""
+                data.msg = response.msg??""
+                return data 
+            }
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    msg:"",
+                    error:"Internal server error",
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    msg:"",
+                    error:err.error
+                }
+                
+               
+                
+                return data
+            }
+        }
+    }
 }
 
 
-export default UserInfo
+export default UserInfo 

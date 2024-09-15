@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import FriendsTab from "./friends/friendsTab";
 import { useEffect, useState } from "react";
 import Profile from "@/lib/classes/Profile";
+import AboutTab from "./about/aboutTab";
 export default function TabsInfo({userData,loggedInfo,view}:{
     userData:UserDataType;
     loggedInfo:UserType|null;
@@ -28,6 +29,7 @@ export default function TabsInfo({userData,loggedInfo,view}:{
         <div className="mt-3  pb-16">
             {!tabString&&<PostsTab view={view}  userData={userData} friendsPrivacy={friendsPrivacy} />}
             {tabString==="friends"&&<FriendsTab allFreinds={userData.friends} view={view} friendsPrivacy={friendsPrivacy}/>}
+            {tabString&&tabString.split("_")[0]==="about"&&<AboutTab view={view} userData={userData} aboutTab={tabString?.split("_")[1]}/>}
         </div>
     )
 }

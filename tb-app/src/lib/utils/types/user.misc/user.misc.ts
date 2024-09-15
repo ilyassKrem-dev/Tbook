@@ -23,3 +23,17 @@ export type UserPrivacyType ={
     friends:"all"|"fff"|"friends"|"me"
 }
 
+export type MoreInfoType = {
+    id:number;
+    user:number;
+    work:string|null;
+    school:string|null;
+    city:string|null;
+    website:string|null;
+    language:string|null;
+    created_at:string;
+    updated_at:string;
+
+
+}
+

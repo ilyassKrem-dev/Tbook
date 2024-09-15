@@ -12,20 +12,20 @@ export default function ProfileTabs({view}:{
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const {w} = useSize()
-    const sk = searchParams?.get("sk")
+    const sk = searchParams?.get("sk")?.split("_")[0] || searchParams?.get("sk")
     const handleChangeRoute = (tname:string|null) => {
         //@ts-ignore
         const queries = new URLSearchParams(Array.from(searchParams.entries()))
         if(!tname) {
             
             queries.delete("sk")
-            return router.push(`${pathname}/?${queries.toString()}`)
+            return router.push(`${pathname}/?${queries.toString()}`,{scroll:false})
         }
         if(sk) {
             queries.set("sk",tname as string)
-            return router.push(pathname+`/?${queries.toString()}`)
+            return router.push(pathname+`/?${queries.toString()}`,{scroll:false})
         }
-        return router.push(`${pathname}?${queries.toString()}&sk=${tname}`)
+        return router.push(`${pathname}?${queries.toString()}&sk=${tname}`,{scroll:false})
     }
     
     return (

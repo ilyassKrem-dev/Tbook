@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\user\PrivacyController;
+use App\Http\Controllers\user\UserMoreInfoController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\UserMiscController;
 
@@ -93,4 +94,10 @@ Route::controller(PrivacyController::class)
             Route::patch("/profile/{id}/privacy/contact/friends_list","updateViewFriendsList");
             Route::patch("/profile/{id}/privacy/contact/search","updateSearchView");
             Route::patch("/profile/{id}/privacy/notifications","updateNotifications");
+        });
+Route::controller(UserMoreInfoController::class)
+        ->group(function() {
+            Route::get("/profile/{id}/info","getMoreInfo");
+            Route::put("/profile/{id}/info/update","changeInfo");
+            Route::patch("/profile/{id}/info/delete","deleteInfo");
         });
