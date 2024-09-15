@@ -9,5 +9,5 @@ class UserMore extends Model
 {
     use HasFactory,HasApiTokens;
     protected $table="user_more";
-    protected $fillable=["user","work","school","city",'website',"language"];
+    protected $fillable=["user","work","school","city",'website',"language","country"];
 }

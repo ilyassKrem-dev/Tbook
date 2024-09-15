@@ -12,6 +12,7 @@ use App\Models\post\Comment;
 use App\Helpers\Helpers;
 use App\Models\Friend;
 use App\Models\Privacy;
+use App\Models\UserMore;
 
 class UserController extends Controller
 {
@@ -42,6 +43,7 @@ class UserController extends Controller
             "birthdate"=>$birthdate
         ]);
         Privacy::create(["user"=>$user->id]);
+        UserMore::create(["user"=>$user->id]);
         return response()->json([
             "email"=>$user->email,
         ]);

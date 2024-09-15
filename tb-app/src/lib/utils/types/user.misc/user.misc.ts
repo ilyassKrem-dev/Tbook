@@ -30,6 +30,7 @@ export type MoreInfoType = {
     school:string|null;
     city:string|null;
     website:string|null;
+    country:string|null;
     language:string|null;
     created_at:string;
     updated_at:string;

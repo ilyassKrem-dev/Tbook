@@ -48,7 +48,7 @@ export default function AboutSideTabs({aboutTab}:{
         })
     },[])
     return (
-        <div className="md:w-[280px] border-b md:border-b-0 md:border-r border-black/20  p-2 py-4 h-fit">
+        <div className="md:w-[280px] border-b md:border-b-0 md:border-r border-black/20  p-2 py-4">
             <h1 className="text-xl font-bold mb-5 px-2">About</h1>
             <div className="flex flex-col gap-2">
                 {newTabs.map((tab,index) => { 

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("city")->nullable();
             $table->string("website")->nullable();
             $table->string("language")->nullable();
+            $table->string("country")->nullable();
             $table->timestamps();
         });
     }

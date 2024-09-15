@@ -1,5 +1,6 @@
 import UserInfo from "@/lib/classes/User.misc/UserInfo";
 import { UserType } from "@/lib/utils/types/user";
+import { MoreInfoType } from "@/lib/utils/types/user.misc/user.misc";
 import LoadingAnimation from "@/shared/spinner"
 import { AnimatePresence, motion } from "framer-motion"
 import { SetStateAction, useState } from "react"
@@ -7,24 +8,28 @@ import { SetStateAction, useState } from "react"
 
 
 
-export default function InfoEdit({setEdit,user,setValue,value,type}:{
+export default function InfoEdit({setEdit,user,setValue,value,type,text,setMoreInfo}:{
     setEdit:React.Dispatch<SetStateAction<boolean>>;
     user:UserType|null;
     setValue:React.Dispatch<SetStateAction<string|null>>;
     value:string|null;
-    type:string
+    type:string;
+    text:string;
+    setMoreInfo:React.Dispatch<SetStateAction<MoreInfoType|undefined>>
+
 }) {
-    const [input,setInput] = useState<string>("")
-    const [clicked,setClicked] = useState<boolean>(false)
+    const [input,setInput] = useState<string>(value ?? "")
+    const [clicked,setClicked] = useState<boolean>(input ? true : false)
     const [loading,setLoading] = useState<boolean>(false)
     const handleSaveOrAdd = async() => {
         if(!user || input.length<0) return setEdit(false)
         setLoading(true)
-        const res = await UserInfo.updateInfo(user.id,input,"work")
+        const res = await UserInfo.updateInfo(user.id,input,type)
         if(res?.success) {
             setValue(input)
             setEdit(false)
             setLoading(false)
+            setMoreInfo((prev:any)=>({...prev,[type]:input}))
         }
         if(!res?.success) {
             setLoading(false)
@@ -48,9 +53,9 @@ export default function InfoEdit({setEdit,user,setValue,value,type}:{
                             initial={{y:0,fontSize:"16px",color:"rgb(0,0,0,0.7)"}}
                             animate={{y:-10,fontSize:"12px",color:"#60a5fa"}}
                             exit={{y:0,fontSize:"16px",color:"rgb(0,0,0,0.7)"}} 
-                            className="absolute left-4 text-black/70 font-medium">{type}</motion.span>}
+                            className="absolute left-4 text-black/70 font-medium capitalize">{text}</motion.span>}
                             {!clicked&&<span
-                            className="absolute left-4 text-black/70 font-medium text-base">{type}</span>}
+                            className="absolute left-4 text-black/70 font-medium text-base">{text}</span>}
                         </AnimatePresence>
                         
                 </div>

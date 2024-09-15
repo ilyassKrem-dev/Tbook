@@ -28,8 +28,10 @@ export default function TabsInfo({userData,loggedInfo,view}:{
     return (
         <div className="mt-3  pb-16">
             {!tabString&&<PostsTab view={view}  userData={userData} friendsPrivacy={friendsPrivacy} />}
-            {tabString==="friends"&&<FriendsTab allFreinds={userData.friends} view={view} friendsPrivacy={friendsPrivacy}/>}
-            {tabString&&tabString.split("_")[0]==="about"&&<AboutTab view={view} userData={userData} aboutTab={tabString?.split("_")[1]}/>}
+            {tabString&&<div className="flex flex-col gap-4">
+                {tabString.split("_")[0]==="about"&&<AboutTab view={view} userData={userData} aboutTab={tabString?.split("_")[1]}/>}
+                {<FriendsTab allFreinds={userData.friends} view={view} friendsPrivacy={friendsPrivacy}/>}
+            </div>}
         </div>
     )
 }

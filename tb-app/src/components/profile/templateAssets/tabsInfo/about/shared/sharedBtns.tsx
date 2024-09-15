@@ -1,4 +1,5 @@
 import UserInfo from "@/lib/classes/User.misc/UserInfo";
+import { MoreInfoType } from "@/lib/utils/types/user.misc/user.misc";
 import TabArrow from "@/shared/Ui/tabArrow"
 import { SetStateAction } from "react"
 import { MdOutlineEdit } from "react-icons/md"
@@ -8,20 +9,22 @@ import { MdDeleteOutline } from "react-icons/md";
 
 
 
-export default function SharedBtn({setEdit,setShow,value,text,setValue,type,userId}:{
+export default function SharedBtn({setEdit,setShow,value,text,setValue,type,userId,setMoreInfo}:{
     setEdit:React.Dispatch<SetStateAction<boolean>>;
     setShow:React.Dispatch<SetStateAction<boolean>>;
     value:string|null;
     text:string;
     setValue:React.Dispatch<SetStateAction<string|null>>;
     userId:string;
-    type:string
+    type:string;
+    setMoreInfo:React.Dispatch<SetStateAction<MoreInfoType|undefined>>
 }) {
 
     const handleDelete = async() => {
         const res = await UserInfo.deleteInfo(userId,type)
         if(res?.success) {
             setValue("")
+            setMoreInfo((prev:any) => ({...prev,[type]:null}))
             setShow(false)
         }
     }
