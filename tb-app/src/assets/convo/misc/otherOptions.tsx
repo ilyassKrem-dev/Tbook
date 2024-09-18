@@ -4,18 +4,24 @@ import { SetStateAction, useState } from "react";
 import { MdBlock } from "react-icons/md";
 import Servers from "@/lib/classes/Servers";
 import { useToast } from "@/assets/Wrappers/toastWrapper";
+import { FaRegTrashCan } from "react-icons/fa6";
+import Misc from "@/lib/classes/Misc";
+import {  useDispatch } from "react-redux";
+import { resetAiMsgs } from "@/assets/redux/convoRedux";
 const socketUrl = Servers.socketUrl
-export default function OtherOptions({show,setShow,status,convoId,userId,statusBy}:{
+export default function OtherOptions({show,setShow,status,convoId,userId,statusBy,otherId}:{
     show:boolean;
     setShow:React.Dispatch<SetStateAction<boolean>>;
     status:boolean;
     statusBy:string|null;
     convoId:string;
-    userId:string
+    userId:string;
+    otherId:string
 }) {
 
     const [convoStatus,setConvoStatus] = useState<boolean>(status)
     const {toast} = useToast()
+    const dispatch = useDispatch()
     const handleBlock = async() => {
         try {
             const res = await axios.patch(`${socketUrl}/messages/status`,{
@@ -37,7 +43,12 @@ export default function OtherOptions({show,setShow,status,convoId,userId,statusB
             )
         }
     }
-
+    const handleReset = async() => {
+        const res = await Misc.ResetAiMessages(userId)
+        if(res?.success) {
+            dispatch(resetAiMsgs({id:res.data}))
+        }
+    }
     return (
         <AnimatePresence>
             {show&&
@@ -63,7 +74,14 @@ export default function OtherOptions({show,setShow,status,convoId,userId,statusB
                             </p>
                         </div>
                     </div>
-                    
+                    {otherId.toString() === "100"&&<div className=" cursor-pointer">
+                        <div className="flex gap-1 items-center p-1 hover:bg-red-400/70 rounded-md transition-all duration-300 active:scale-95 font-semibold text-accent hover:text-white" onClick={handleReset}>
+                            <div className="text-lg ">
+                                <FaRegTrashCan />
+                            </div>
+                            <p className=" truncate cursor-pointer">Delete messages</p>
+                        </div>
+                    </div>}
                 </div>
             </motion.div>}
         </AnimatePresence>

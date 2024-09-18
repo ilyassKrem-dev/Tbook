@@ -8,7 +8,7 @@ use App\Http\Requests\MessageRequest;
 use App\Models\convos\Convos;
 use App\Models\convos\Messages;
 use App\Models\post\Medias;
-
+use App\Models\User;
 
 class MessageController extends ConvosController
 {
@@ -164,6 +164,46 @@ class MessageController extends ConvosController
         }  
         return response()->json(["data"=>$messagesInfo],200);
     }
-
-   
+    function getAiMessages($id) {
+        $user = User::find($id);
+        if(!$user) {
+            return response()->json(["error"=>"No user found"],200);
+        }
+        $convo = Convos::where("user1",$user->id)
+                        ->where("user2",100)
+                        ->first();
+        $messages = Messages::where("convo_id",$convo->id)
+                        ->take(15)
+                        ->orderBy("created_at","desc")
+                        ->get();
+        $messages = $messages->reverse();
+        $messagesInfo = [];
+        foreach($messages as $message) {
+            array_push($messagesInfo,[
+                "id"=>$message->id,
+                "convo_id"=>$message->convo_id,
+                "sender"=>$message->sender,
+                "receiver"=>$message->receiver,
+                "content"=>$message->content,
+                "medias"=>[],
+                "seen"=>true,
+                "reaction"=>$message->reaction,
+                "created_at"=>$message->created_at,
+                "updated_at"=>$message->updated_at
+            ]);
+        }  
+        return response()->json(["data"=>$messagesInfo],200);
+    }
+    function ResetAiMessages($id) {
+        $user = User::find($id);
+        if(!$user) {
+            return response()->json(["error"=>"No user found"],200);
+        }
+        $convo = Convos::where("user1",$user->id)
+                        ->where("user2",100)
+                        ->first();
+        Messages::where("convo_id",$convo->id)
+                        ->delete();
+        return response()->json(["data"=>$convo->id],200);
+    }
 }

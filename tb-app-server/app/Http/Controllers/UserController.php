@@ -60,7 +60,8 @@ class UserController extends Controller
             "email"=>$user->email,
             "image"=>$user->image,
             "username"=>$user->username,
-            "status"=>$user->status
+            "status"=>$user->status,
+            "gender"=>$user->gender
         ]);
     }
 

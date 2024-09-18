@@ -106,9 +106,31 @@ class ConvosController extends Controller
             $getOtherUser = $user1->id === $user->id ?$user2 : $user1;
             $lastMsg = Messages::where("convo_id",$convo->id)
                                 ->orderBy("created_at","desc")
-                                ->first()
-                                ;
-            $medias = Medias::where("message_id",$lastMsg->id)->get();
+                                ->first();  
+            $medias= [];
+            if($lastMsg) {
+                global $medias;
+                $medias = Medias::where("message_id",$lastMsg->id)->get();
+            }
+            $msgCheck = $lastMsg ?[
+                "id"=>$lastMsg->id,
+                "convo_id"=>$lastMsg->convo_id,
+                "sender"=>$lastMsg->sender,
+                "receiver"=>$lastMsg->receiver,
+                "medias"=>$medias,
+                "content"=>$lastMsg->content,
+                "created_at"=>$lastMsg->created_at,
+                "updated_at"=>$lastMsg->updated_at
+            ]: [
+                "id"=>0,
+                "convo_id"=>$convo->id,
+                "sender"=>0,
+                "receiver"=>0,
+                "medias"=>$medias,
+                "content"=>"No messages",
+                "created_at"=>now(),
+                "updated_at"=>now()
+            ];
             array_push($allConvos,[
                 'id'=>$convo->id,
                 "user"=>$user->id,
@@ -119,16 +141,7 @@ class ConvosController extends Controller
                     "image"=>$getOtherUser->image,
                     "status"=>$getOtherUser->status
                 ],
-                "message"=>[
-                    "id"=>$lastMsg->id,
-                    "convo_is"=>$lastMsg->convo_id,
-                    "sender"=>$lastMsg->sender,
-                    "receiver"=>$lastMsg->receiver,
-                    "medias"=>$medias,
-                    "content"=>$lastMsg->content,
-                    "created_at"=>$lastMsg->created_at,
-                    "updated_at"=>$lastMsg->updated_at
-                ],
+                "message"=>$msgCheck,
                 "status"=>$convo->status,
                 "status_by"=>$convo->status_by
             ]);

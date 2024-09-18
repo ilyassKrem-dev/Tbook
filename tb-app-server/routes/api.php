@@ -84,6 +84,8 @@ Route::controller(MessageController::class)
             Route::post("/setAllSeen","setAllSeen");
             Route::patch("/{convoId}/changeStatus","changeConvoStatus");
             Route::get("/{convoId}/messages/{lastMsg}","getMoreMessages");
+            Route::get("/{id}/ai_messages","getAiMessages");
+            Route::delete("/{id}/ai_messages","ResetAiMessages");
         });
 Route::controller(PrivacyController::class)
         ->group(function() {
@@ -100,4 +102,5 @@ Route::controller(UserMoreInfoController::class)
             Route::get("/profile/{id}/info","getMoreInfo");
             Route::put("/profile/{id}/info/update","changeInfo");
             Route::patch("/profile/{id}/info/delete","deleteInfo");
+            
         });

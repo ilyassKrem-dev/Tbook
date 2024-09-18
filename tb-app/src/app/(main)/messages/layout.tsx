@@ -6,9 +6,11 @@ import { ToastProvider } from "@/assets/Wrappers/toastWrapper";
 import AuthWrapper from "@/assets/Wrappers/authWrapper";
 import { SessionWrapper } from "@/assets/Wrappers/sessionWrapper";
 import { ConvoWrapper } from "@/assets/Wrappers/convoWrapper";
+import StoreProvider from "@/assets/Wrappers/reduxProvider";
 import { MediaWrapper } from "@/assets/Wrappers/mediaWrapper";
 import TopNav from "@/shared/navTop/topNav";
 import LeftSideSharedMsg from "@/components/messages/shared/LeftSide";
+
 const figtree = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -28,18 +30,21 @@ export default function RootLayout({
           <AuthWrapper >
             <SessionWrapper>
               <SocketProvider>
-                <MediaWrapper>
-                    <div>
-                      <TopNav/>
-                      <div className="pt-14 h-screen">
-                        <div className="flex h-full">
-                            <LeftSideSharedMsg />
-                            {children}
+                <StoreProvider>
+                  <MediaWrapper>
+                      <div>
+                        <TopNav/>
+                        <div className="pt-14 h-screen">
+                          <div className="flex h-full">
+                              <LeftSideSharedMsg />
+                              {children}
+                          </div>
+                          
                         </div>
-                        
                       </div>
-                    </div>
-                </MediaWrapper>
+                  </MediaWrapper>
+
+                </StoreProvider>
               </SocketProvider>
             </SessionWrapper>
           </AuthWrapper>

@@ -126,7 +126,8 @@ class FriendsController extends Controller
                         "status"=>$friendInfo->status,
                         "name"=>$friendInfo->name,
                         "username"=>$friendInfo->username,
-                        "image"=>$friendInfo->image
+                        "image"=>$friendInfo->image,
+                        "gender"=>$friendInfo->gender
                     ],
                     "unseenMsgs"=>$unseenMsgs,
                     "convoId"=>$convoId,
@@ -136,6 +137,39 @@ class FriendsController extends Controller
                 ];
             array_push($friendsList,$info);
         }
+        $aiUser = User::where("id",100)->first();
+        $convoAi = Convos::where(function($query) use($friend,$user){
+            $query->where(function($query) use($friend) {
+                $query->where("user1",$friend->user)
+                        ->orWhere("user1",$friend->friend);
+                        })
+                    ->where("user2",$user->id);
+        })
+        ->orWhere(function($query) use($friend,$user){
+            $query->where(function($query) use($friend) {
+                    $query->where("user2",$friend->user)
+                        ->orWhere("user2",$friend->friend);
+                        })
+                    ->where("user1",$user->id);
+        })->first();
+        $convoAiId = $convoAi->id??null;
+        $aiInfo =  [
+            "id"=>0,
+            "friend"=>[
+                "id"=>$aiUser->id,
+                "status"=>$aiUser->status,
+                "name"=>$aiUser->name,
+                "username"=>$aiUser->username,
+                "image"=>$aiUser->image,
+                "gender"=>null
+            ],
+            "unseenMsgs"=>0,
+            "convoId"=>$convoAiId,
+            "user"=>$user->id,
+            "status"=>$friend->status,
+            "status_by"=>$friend->status_by
+        ];
+        array_unshift($friendsList,$aiInfo);
         return response()->json(["data"=>$friendsList],200);
     }
 
@@ -182,6 +216,9 @@ class FriendsController extends Controller
             ->get()
             ->filter(function($user) use ($friendIds) {
                 return !$friendIds->contains($user->id);
+            })
+            ->filter(function($user) {
+                return $user->id!==100;
             })
             ->filter(function($user) use($requestsFrom) {
                 return !$requestsFrom->contains($user->id);

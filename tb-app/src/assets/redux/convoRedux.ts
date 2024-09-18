@@ -94,12 +94,18 @@ const convoSlice = createSlice({
         removeSideConvo(state,action:PayloadAction<{id:string}>) {
             state.sideConvos = state.sideConvos.filter(convo=>convo.id !== action.payload.id)
         },
+        resetAiMsgs(state,action:PayloadAction<{id:string}>) {
+            state.convos = state.convos.map((convo) => {
+                if(convo.id !== action.payload.id) return convo
+                return {...convo,messages:[]}
+            })
+        },
         resetState(state){
             return initialState
         }
      }
 })
 
-export const {addConvo,moveConvoToSide,removeSideConvo,moveToConvos,addMessage,addReaction,addSeen,changeStatus,handleMoreMsgs,removeConvo} = convoSlice.actions
+export const {addConvo,moveConvoToSide,removeSideConvo,moveToConvos,addMessage,addReaction,addSeen,changeStatus,handleMoreMsgs,removeConvo,resetAiMsgs} = convoSlice.actions
 
 export default convoSlice.reducer

@@ -88,6 +88,7 @@ export default function ConvoFooter({mouseEntered,user,otherId,convoId,status,st
                 content={content.text}
                 setContent={setContent}/>
                 <SendMsgMemo 
+                user={user}
                 content={content}
                 convoId={convoId}
                 userId={user.id}

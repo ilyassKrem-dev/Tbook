@@ -26,7 +26,7 @@ export default function ConvoHeader({mouseEntered,convo,user,dispatch}:Props) {
     }
     removeOverlay(
         {
-            tab:".other_options",
+            tab:`.other_options-${convo.id}`,
             setShow
         }
     )
@@ -39,16 +39,23 @@ export default function ConvoHeader({mouseEntered,convo,user,dispatch}:Props) {
     }
     return (
         <div className="flex justify-between items-center p-1 border-b-2">
-            <div className="relative other_options">
+            <div className={`relative other_options other_options-${convo.id}`}>
                 <div className={`flex items-center gap-1  rounded-lg pr-2 ${hovered?"":"hover:bg-gray-300/60 transition-all duration-300 cursor-pointer"}`} onClick={handleShow}>
-                    <Link href={`/profile/${other.username}`} className="hover:bg-gray-300/70 rounded-lg p-[0.4rem] transition-all duration-300 cursor-pointer"
+                    <Link href={other.id.toString() === "100" ?"#" :`/profile/${other.username}`} className="hover:bg-gray-300/70 rounded-lg p-[0.4rem] transition-all duration-300 cursor-pointer"
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}>
                         <div className="w-[32px] h-[32px] rounded-full">
+                            {other.id.toString() === "100" 
+                            ?
+                            <img 
+                            src="/profileAi.jpg" 
+                            alt={`image`}
+                            className="rounded-full w-full h-full border bg-white object-cover" />
+                            :
                             <img 
                             src={other.image ?? "/profile.jpg"} 
                             alt={`${other.name} image`}
-                            className="w-full border bg-white object-cover h-full rounded-full" />
+                            className="w-full border bg-white object-cover h-full rounded-full" />}
                         </div>
 
                     </Link>
@@ -67,7 +74,9 @@ export default function ConvoHeader({mouseEntered,convo,user,dispatch}:Props) {
                     status={convo.status === "block"}
                     statusBy={convo.status_by}
                     convoId={convo.id}
-                    userId={user.id}/>
+                    userId={user.id}
+                    otherId={other.id}
+                    />
             </div>
             <div className={`flex gap-2 items-center text-2xl   ${mouseEntered ? "text-blue-500":"text-black/30"}`}>
                 <div className="hover:bg-gray-300/40 transition-all duration-300 rounded-full p-1 active:scale-95 cursor-pointer" onClick={() => handleMin(convo)}>

@@ -32,7 +32,7 @@ export default function Convo({convo,user,dispatch}:Props) {
     useEffect(() => {
         if(!user) return
         const findMsg = convo.messages.find(msg => !msg.seen &&  msg.receiver === user.id)
-        if(!findMsg) return
+        if(!findMsg || other.id.toString() === "100") return
         const setSeen =async() => {
             try {
                 const res = await axios.post(`${socketUrl}/messages/seen`,{
@@ -48,6 +48,7 @@ export default function Convo({convo,user,dispatch}:Props) {
         setSeen()
     },[messages,user])   
     const handleScroll = async(e:any) => {
+        if(other.id.toString() === "100") return
         const current = msgsRef.current
         if(!current || !finished || allMsgs) return
         const top = current.scrollTop

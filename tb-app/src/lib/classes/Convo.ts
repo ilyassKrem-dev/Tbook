@@ -108,6 +108,7 @@ class ConvoClass {
         }
         try {
             const res = await axios.get(`${baseUrl}/${userId}/convos`)
+          
             if(res.data) {
                 const convos = res.data.data
 
@@ -119,7 +120,7 @@ class ConvoClass {
                 return data
             }
         } catch (error:any) {
-            
+           
             if(error.message != "Request failed with status code 400") {
                 
                 return {

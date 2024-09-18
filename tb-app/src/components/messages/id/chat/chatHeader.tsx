@@ -36,10 +36,18 @@ export default function ChatHeader({convo,user}:Props) {
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}>
                         <div className="w-[32px] h-[32px] rounded-full">
+                            {other.id.toString() === "100" 
+                            ?
+                            <img 
+                            src="/profileAi.jpg" 
+                            alt={`image`}
+                            className="w-full border bg-white object-cover h-full rounded-full" />
+                            :
                             <img 
                             src={other.image ?? "/profile.jpg"} 
                             alt={`${other.name} image`}
-                            className="w-full border bg-white object-cover h-full rounded-full" />
+                            className="w-full border bg-white object-cover h-full rounded-full" />}
+                            
                         </div>
 
                     </Link>
@@ -58,7 +66,8 @@ export default function ChatHeader({convo,user}:Props) {
                     status={convo.status === "block"}
                     statusBy={convo.status_by}
                     convoId={convo.id}
-                    userId={user.id}/>
+                    userId={user.id}
+                    otherId={other.id}/>
             </div>
             
         </div>

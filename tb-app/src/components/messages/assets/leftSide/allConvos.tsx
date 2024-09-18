@@ -57,10 +57,17 @@ export default function AllConvos({user}:{
                 return (
                     <Link key={index} href={`/messages/${convo.id}`} className="flex items-center gap-2 p-2 hover:bg-black/10 rounded-md cursor-pointer transition-all duration-200 active:scale-95">
                         <div className="w-[40px] h-[40px] rounded-full">
+                            {other.id.toString() === "100" 
+                            ?
+                            <img 
+                            src="/profileAi.jpg" 
+                            alt={`image`}
+                            className="bg-white border object-cover w-full h-full rounded-full" />
+                            :
                             <img 
                             src={other.image??"/profile.jpg"} 
                             alt={other.username + " image"}
-                            className="bg-white border object-cover w-full h-full rounded-full" />
+                            className="bg-white border object-cover w-full h-full rounded-full" />}
                         </div>
                         <div className="flex flex-col flex-1">
                             <p className="font-semibold capitalize cursor-pointer w-fit">{other.name}</p>

@@ -1,6 +1,6 @@
 import { ConvoType, MessageType } from "@/lib/utils/types/convo";
 import { UserType } from "@/lib/utils/types/user";
-import { SetStateAction, useEffect } from "react";
+import {  useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { FaFile } from "react-icons/fa6";
 import { useSocket } from "../Wrappers/socketWrapper";
@@ -67,15 +67,24 @@ export default function ConvoSide({
                     const {id,messages,other} = convo
                     const {name,image} = other
                     const lastMsg = messages[messages.length - 1]
-                    const msg = lastMsg.content
+                    const msg = lastMsg ? lastMsg.content : "No messages"
                     const seenMSg = messages.filter(msg =>msg.receiver==user?.id && !msg.seen).length
                     return (
                         <div key={id+index+(Math.random())} className="group relative flex justify-center items-center" >
                             <div className="w-[55px] h-[55px] rounded-full cursor-pointer bg-black/30 group relative" >
+                                {other.id.toString() === "100" 
+                                ?
+                                <img 
+                                src="/profileAi.jpg" 
+                                alt={`image`}
+                                className="w-full h-full object-cover rounded-full border bg-white group-hover:opacity-70 transition-all duration-300" 
+                                onClick={() => handleClick(convo)}/>
+                                :
                                 <img 
                                 src={image??"/profile.jpg"} 
                                 alt={`${name} image`}
-                                className="w-full h-full object-cover rounded-full border bg-white group-hover:opacity-70 transition-all duration-300" onClick={() => handleClick(convo)}/>
+                                className="w-full h-full object-cover rounded-full border bg-white group-hover:opacity-70 transition-all duration-300" onClick={() => handleClick(convo)}/>}
+                                
                                 <div  className="absolute -top-2 right-0 group-hover:block hidden " onClick={() => handleRemove(id)}>
                                     <div className="rounded-full p-1 text-black bg-white text-sm  border hover:bg-gray-300/60 active:scale-95 transition-all duration-300" >
                                         <RxCross2 />

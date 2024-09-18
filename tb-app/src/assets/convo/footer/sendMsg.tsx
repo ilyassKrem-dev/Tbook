@@ -3,10 +3,14 @@ import { HiThumbUp } from "react-icons/hi";
 import { IoSend } from "react-icons/io5";
 import axios from "axios";
 import { useUploadThing } from "@/lib/utils/uploadthing";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/assets/Wrappers/toastWrapper";
 import Servers from "@/lib/classes/Servers";
 import LoadingAnimation from "@/shared/spinner";
+import openAi from "@/lib/openAi/openAi";
+import Misc from "@/lib/classes/Misc";
+import { UserType } from "@/lib/utils/types/user";
+import { Zen_Antique } from "next/font/google";
 type ContentType = {
     text:string;
     medias:{
@@ -18,11 +22,12 @@ type ContentType = {
 
 
 
-export default function SendMsg({content,userId,otherId,convoId,handleSent,status}:{
+export default function SendMsg({content,userId,otherId,convoId,handleSent,status,user}:{
     content:ContentType,
     userId:string;
     otherId:string;
     convoId:string;
+    user:UserType;
     handleSent:() => void;
     status:{
         stat:string|null;
@@ -33,15 +38,14 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent,statu
     const {startUpload} = useUploadThing("media",{
         onUploadProgress:(p) => setProgress(p)
     })
-    
+    const [aiMsgs,setAiMsgs] = useState<any[]>([])
     const socketS = Servers.socketUrl
     const {text,medias} = content
 
     const check = text.length>0 || medias.length>0
-
+    
     const {toast} = useToast()
     const {stat,by} = status
-
     const handleSend = async() => {
         if(text.length===0 && medias.length === 0||progress > 0) return
         if(stat==="block") return
@@ -69,7 +73,45 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent,statu
             })
             if(res.data) {
                 handleSent()
-                return setProgress(0)
+                if(otherId.toString() !== "100") {
+                    return setProgress(0)
+                }
+                setAiMsgs(prev => ([...prev,{role:"user",content:content.text}]))
+                const messages = [...aiMsgs,{role:"user",content:content.text}]
+                try {
+                    const  response = await openAi.chat.completions.create(
+                        {
+                            model:process.env.NEXT_PUBLIC_OPENAI_MODEL as string,
+                            messages:messages as any
+                        }
+                    )
+                  
+                    if(response.choices.length>0) {
+                        const message = response.choices[0].message.content || ""
+                        const res = await axios.post(`${socketS}/messages/send`,{
+                            content:message,
+                            medias:newMedias,
+                            otherId:userId,
+                            convoId,
+                            userId:otherId
+            
+                        })
+                        if(res.data) {
+                           
+                            return setProgress(0)
+                        }
+                    }
+                    
+                } catch (error) {
+                    toast({
+                        varient:"error",
+                        title:"Error",
+                        description:"Error accepting msg!"
+                    })
+                    setProgress(0)
+                }
+                
+                
             }
         } catch (error:any) {
             setProgress(0)
@@ -82,6 +124,16 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent,statu
        
 
     }
+    useEffect(() => {
+        if(otherId.toString()!=="100") return
+        const getAiMsg = async() => {
+            const res = await Misc.getAiMessages(userId,(user as any).gender)
+            if(res?.success) {
+                setAiMsgs(res.data)
+            }
+        }
+        getAiMsg()
+    },[])
     return (
         <>
             {stat!=="block"&&<>

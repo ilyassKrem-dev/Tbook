@@ -42,7 +42,8 @@ const options:NextAuthOptions = {
                         session.user.status = data.status
                         //@ts-ignore
                         session.user.username = data.username
-
+                        //@ts-ignore
+                        session.user.gender = data.gender
                         return session
                     }
                     return session

@@ -24,6 +24,7 @@ export type userFriendsType = {
         username:string;
         image:string|null;
         status:string;
+        gender:string|null
     };
     unseenMsgs?:number
     convoId?:number

@@ -81,10 +81,19 @@ export default function ConvoMessages({convo,user,status,added}:{
                                 <div key={index+id+id+index+Math.random()} className={`group w-full flex ${isUser?"justify-end":" justify-start"}`}>
                                     <div className={` flex items-center gap-2 ${isUser?"order-2":"order-1"}`}>
                                         <div className={`rounded-full w-[28px] h-[28px] self-end ${isUser?"order-2":"order-1"}`}>
+                                            {data.id.toString() === "100" 
+                                            ?
+                                            <img 
+                                            src="/profileAi.jpg"
+                                            alt={`image`}
+                                            className="w-full h-full rounded-full bg-white object-cover border" 
+                                            />
+                                            :
                                             <img 
                                             src={data.image ?? "/profile.jpg"}
                                             alt={data.name + " image"}
-                                            className="w-full h-full rounded-full bg-white object-cover border" />
+                                            className="w-full h-full rounded-full bg-white object-cover border" />}
+                                            
                                         </div>
                                         <div className={`flex flex-col gap-1 ${isUser?"order-1 bg-blue-500  text-white":"order-2 bg-black/10 text-black"} rounded-lg relative `}>
                                             

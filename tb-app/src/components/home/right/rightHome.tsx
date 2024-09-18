@@ -24,9 +24,7 @@ export default function  RightHome({user}:{
         }
         getFriends()
     },[user])
-
     const startedScroll = ScrollDetector()
-
     return (
         <motion.div
         initial={{paddingTop:"0px"}}
@@ -41,7 +39,8 @@ export default function  RightHome({user}:{
                             <ContactFrame 
                             key={info.id+index+info.id} 
                             userInfo={info} 
-                            userId={user.id}/>
+                            userId={user.id}
+                            user={user}/>
                         )
                     })}
                 </div>
