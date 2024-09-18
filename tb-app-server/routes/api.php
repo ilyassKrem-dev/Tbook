@@ -32,6 +32,7 @@ Route::controller(UserInfoController::class)
     ->group(function() {
         Route::put("/{username}/update","updateUserInfo");
         Route::put("/{username}/update/password","changePassword");
+        Route::post("/{id}/status","updateStatus");
     });
 Route::controller(UserMiscController::class)
     ->group(function() {

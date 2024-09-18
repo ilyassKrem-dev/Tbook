@@ -218,6 +218,42 @@ class UserInfo extends User {
             }
         }
     }
+    static async updateStatus(userId:string,status:string) {
+        let data = {
+            success:false,
+            error:"",
+        }
+        try {
+            const res = await axios.patch(`${LaravelURL}/${userId}/status`,{
+                status
+            })
+            if(res.data) {
+                const response= res.data
+                data.success = true
+                data.error = response.error??""
+                return data 
+            }
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    error:"Internal server error",
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    error:err.error
+                }
+                
+               
+                
+                return data
+            }
+        }
+    }   
 }
 
 

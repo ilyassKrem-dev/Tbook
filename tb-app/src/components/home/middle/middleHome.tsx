@@ -4,7 +4,7 @@ import { DefaultPostType } from "@/lib/utils/types/post"
 import Posts from "@/lib/classes/Posts"
 import PostTemplate from "@/shared/posts/postTemplate"
 import SendPost from "@/shared/addPost/sendPost"
-
+import Stories from "../stories/stories"
 export default function MiddleHome({userDetails}:{
     userDetails:UserType
 }) {
@@ -21,6 +21,9 @@ export default function MiddleHome({userDetails}:{
     },[userDetails])
     return (
         <div className="flex-1 h-full max-w-[710px] mx-auto flex flex-col gap-5">
+            <div className="flex flex-col gap-3 w-full overflow-x-auto h-[300px] max-h-[300px] px-3 py-1">
+                <Stories userDetails={userDetails}/>
+            </div>
             <div>
                 <SendPost user={userDetails}/>
             </div>

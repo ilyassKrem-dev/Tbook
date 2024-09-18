@@ -70,4 +70,17 @@ class UserInfoController extends UserController
         ]);
         return response()->json(["msg"=>"Password changed"],200);
     }
+    function updateStatus($id,Request $request) {
+        $user = User::find($id);
+        if(!$user) {
+            return response()->json(["error"=>"No user found"],200);
+        }
+        $data = $request->validate(
+            [
+                'status'=>"required"
+            ]
+            );
+        $user->update(["status"=>$data["status"]]);
+        return response()->json(["data"=>"success"],200);
+    }
 }

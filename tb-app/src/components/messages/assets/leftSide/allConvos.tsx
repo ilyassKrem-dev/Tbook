@@ -56,7 +56,7 @@ export default function AllConvos({user}:{
                 const {message,other} = convo
                 return (
                     <Link key={index} href={`/messages/${convo.id}`} className="flex items-center gap-2 p-2 hover:bg-black/10 rounded-md cursor-pointer transition-all duration-200 active:scale-95">
-                        <div className="w-[40px] h-[40px] rounded-full">
+                        <div className="w-[40px] h-[40px] rounded-full relative">
                             {other.id.toString() === "100" 
                             ?
                             <img 
@@ -68,6 +68,11 @@ export default function AllConvos({user}:{
                             src={other.image??"/profile.jpg"} 
                             alt={other.username + " image"}
                             className="bg-white border object-cover w-full h-full rounded-full" />}
+                            {other.status=="online"&&
+                            <div className="absolute bottom-[2px] right-[1px] bg-white rounded-full w-[10px] h-[10px] p-[0.1px] flex justify-center items-center">
+                                <div className="bg-green-600 rounded-full w-[8px] h-[8px]" />
+                                
+                            </div>}
                         </div>
                         <div className="flex flex-col flex-1">
                             <p className="font-semibold capitalize cursor-pointer w-fit">{other.name}</p>

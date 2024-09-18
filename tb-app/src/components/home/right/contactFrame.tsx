@@ -57,6 +57,11 @@ export default function ContactFrame({userInfo,userId,user}:{
                     src={friend.image ?? "/profile.jpg"} 
                     alt={`${friend.name} image`}
                     className="rounded-full w-full h-full border bg-white object-cover" />}
+                    {friend.status=="online"&&
+                    <div className="absolute bottom-[2px] right-[1px] bg-white rounded-full w-[10px] h-[10px] p-[0.1px] flex justify-center items-center">
+                        <div className="bg-green-600 rounded-full w-[8px] h-[8px]" />
+                        
+                    </div>}
                 </div>
                 <p className=" font-semibold text-base cursor-pointer">{friend.name}</p>
             </div>

@@ -44,7 +44,7 @@ export default function ConvoHeader({mouseEntered,convo,user,dispatch}:Props) {
                     <Link href={other.id.toString() === "100" ?"#" :`/profile/${other.username}`} className="hover:bg-gray-300/70 rounded-lg p-[0.4rem] transition-all duration-300 cursor-pointer"
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}>
-                        <div className="w-[32px] h-[32px] rounded-full">
+                        <div className="w-[32px] h-[32px] rounded-full relative">
                             {other.id.toString() === "100" 
                             ?
                             <img 
@@ -56,6 +56,11 @@ export default function ConvoHeader({mouseEntered,convo,user,dispatch}:Props) {
                             src={other.image ?? "/profile.jpg"} 
                             alt={`${other.name} image`}
                             className="w-full border bg-white object-cover h-full rounded-full" />}
+                            {other.status=="online"&&
+                            <div className="absolute bottom-[2px] right-[1px] bg-white rounded-full w-[10px] h-[10px] p-[0.1px] flex justify-center items-center">
+                                <div className="bg-green-600 rounded-full w-[8px] h-[8px]" />
+                                
+                            </div>}
                         </div>
 
                     </Link>

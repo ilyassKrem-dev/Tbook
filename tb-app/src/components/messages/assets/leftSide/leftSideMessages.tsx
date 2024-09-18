@@ -20,7 +20,7 @@ export default function LeftSideMessages() {
                             alt={user.name + " image"}
                             className="rounded-full w-full h-full object-cover bg-white border group-hover/msg-image:opacity-70 duration-300 transition-all " />
                             <div className="absolute bottom-0 right-0">
-                                <div className={`rounded-full p-[0.35rem] ${user.status==="offline"?"bg-red-600":" bg-green-600"} group-hover/msg-image:bg-opacity-90`} 
+                                <div className={`rounded-full p-[0.35rem] ${user.status==="online"?"bg-green-600":""} group-hover/msg-image:bg-opacity-90`} 
                                 />
 
                             </div>
