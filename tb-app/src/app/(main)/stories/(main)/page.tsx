@@ -1,6 +1,5 @@
 "use client"
 import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
-import TopNav from "@/shared/navTop/topNav"
 
 
 
@@ -11,11 +10,9 @@ export default function Page() {
     return (
         <>
             {user&&
-            <div>
-                <TopNav />
-                <div>
-                    Stories
-                </div>    
+            <div className="flex justify-center items-center h-screen">
+                <p className="font-bold text-xl">Select a story to open</p>
+                 
             </div>}
         </>
         

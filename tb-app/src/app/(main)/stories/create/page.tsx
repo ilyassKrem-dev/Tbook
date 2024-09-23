@@ -1,5 +1,6 @@
 "use client"
 import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import CreateStory from "@/components/stories/create/createStory"
 import TopNav from "@/shared/navTop/topNav"
 
 
@@ -11,9 +12,7 @@ export default function Page() {
             {user&&
             <div>
                 <TopNav />
-                <div>
-                    Create
-                </div>    
+                <CreateStory />      
             </div>}
         </>
         

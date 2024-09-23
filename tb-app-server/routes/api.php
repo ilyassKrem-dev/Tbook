@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\user\PrivacyController;
+use App\Http\Controllers\user\StoriesController;
 use App\Http\Controllers\user\UserMoreInfoController;
 use App\Http\Controllers\UserInfoController;
 use App\Http\Controllers\UserMiscController;
@@ -104,4 +105,12 @@ Route::controller(UserMoreInfoController::class)
             Route::put("/profile/{id}/info/update","changeInfo");
             Route::patch("/profile/{id}/info/delete","deleteInfo");
             
+        });
+
+Route::controller(StoriesController::class)
+        ->group(function() {
+            Route::post("/{id}/add_story","addStory");
+            Route::get("/{id}/stories","getHomeStories");
+            Route::get("/{id}/stories/get","getStories");
+            Route::get("/{id}/stories/{username}","getUsernameStories");
         });

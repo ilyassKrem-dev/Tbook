@@ -32,7 +32,7 @@ const matchesDynamicPath = (path: string) => {
 export const SessionWrapper = ({children}:{children:React.ReactNode}) => {
     const [user,setUser] = useState<UserType|null>(null)
     const [loginStatus,setLoginStatus] = useState<string|null>(null)
-    const {data:session,status} = useSession()
+    const {data:session,status,update} = useSession()
     const router = useRouter()
     const pathname = usePathname()
     
@@ -45,7 +45,6 @@ export const SessionWrapper = ({children}:{children:React.ReactNode}) => {
         setLoginStatus(status)
         if(session?.user &&(session?.user as any).status=="offline") {
             updateStatus(user,"online")
-
         }
     },[session])
    
