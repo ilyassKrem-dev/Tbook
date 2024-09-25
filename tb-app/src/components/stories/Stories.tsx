@@ -1,5 +1,5 @@
 "use client"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 import Story from "@/lib/classes/story/Story";
 import { useEffect, useState } from "react"
 import {  StoryViewType } from "@/lib/utils/types/storyType";
@@ -11,7 +11,7 @@ export default function Stories({username}:{
     username:string
 }) {
     const [stories,setStories] = useState<StoryViewType>();
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const router = useRouter()
     useEffect(() => {
         if(!user) return
@@ -25,7 +25,7 @@ export default function Stories({username}:{
             }
         }
         getStories()
-    },[username,user])
+    },[username,user,router])
    
     return (
         <div className="p-5 pt-20 sm:px-20 sm:py-20 pb-6 md:py-20 md:pr-20 md:pl-5 lg:p-20 flex justify-center items-center h-full max-h-[900px] min-h-[500px] ">

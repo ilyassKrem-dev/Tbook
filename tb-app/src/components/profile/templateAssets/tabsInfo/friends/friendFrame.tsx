@@ -1,4 +1,4 @@
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import { userFriendsType } from "@/lib/utils/types/user"
 import Link from "next/link"
 import { SetStateAction, useRef, useState } from "react"
@@ -6,7 +6,7 @@ import { HiDotsHorizontal } from "react-icons/hi"
 import { IoPersonRemoveOutline } from "react-icons/io5";
 import { motion,AnimatePresence } from "framer-motion";
 import Friend from "@/lib/classes/Friend";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 
 export default function FriendFrame({view,friendProfile,setFriends}:{
     view?:boolean
@@ -17,7 +17,7 @@ export default function FriendFrame({view,friendProfile,setFriends}:{
     const [show,setShow] = useState<boolean>(false)
     const devRef = useRef<HTMLDivElement>(null)
     const [overlayPosition,setOverlayPosition] = useState<"top"|'bottom'>('bottom')
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const toggleOverlay = () => {
         if (devRef.current) {
             const rect = devRef.current.getBoundingClientRect();
@@ -27,7 +27,7 @@ export default function FriendFrame({view,friendProfile,setFriends}:{
             setShow(prev => !prev);
         }
     };
-    removeOverlay({
+    useRemoveOverlay({
         tab:".more_friend",
         setShow
     })

@@ -79,7 +79,7 @@ export default function FriendBtn({userId,profileId,setFriends}:{
             }
         }
         getStatus()
-    },[userId])
+    },[userId,profileId])
     return (
         <>
             {status!==null&&

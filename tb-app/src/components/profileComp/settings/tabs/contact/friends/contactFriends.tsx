@@ -4,7 +4,7 @@ import { FaGlobeAfrica } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import OverlayTemplate from "../../../assets/shared/overlayTemplate";
 import SelectOptions from "../../../assets/shared/selectOptions";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 import UserPivacy from "@/lib/classes/User.misc/UserPrivacy";
 const audienceList = [
     {
@@ -26,7 +26,7 @@ export default function ContactFriends({reqSend}:{
 }) {
     const [original,setOriginal] = useState<"all"|"fff">(reqSend)
     const [requests,setRequests] = useState<"all"|"fff">(original)
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const [show,setShow] = useState<boolean>(false)
     const handleSave = useCallback(async() => {
         if(!user || requests === original)return setShow(false)

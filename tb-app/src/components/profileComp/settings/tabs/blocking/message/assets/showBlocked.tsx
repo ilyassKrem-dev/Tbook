@@ -1,11 +1,11 @@
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import UserMisc from "@/lib/classes/User.misc/UserMisc"
 import { UnblockedConvosType } from "@/lib/utils/types/user.misc/user.misc"
 import { useEffect, useState } from "react"
 import BlockedSearch from "./searchShow/blockedSearch";
 import LoadingAnimation from "@/shared/spinner";
 export default function ShowBlocked() {
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const [blocked,setBlocked] = useState<UnblockedConvosType[]>([])
     const [loading,setLoading] = useState<boolean>(true)
     useEffect(() => {

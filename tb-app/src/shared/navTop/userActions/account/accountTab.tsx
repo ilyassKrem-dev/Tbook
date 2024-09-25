@@ -7,7 +7,7 @@ import { IoLogOut } from "react-icons/io5";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import { signOut } from "next-auth/react";
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 
 const accTabs = [
     {
@@ -35,7 +35,7 @@ export  default function AccountTab({user}:{
         if(value !== "Logout") return
         signOut()
     }
-    removeOverlay({
+    useRemoveOverlay({
         tab:".acc-tab",
         setShow:setShow
     })

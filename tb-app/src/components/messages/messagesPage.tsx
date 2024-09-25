@@ -1,14 +1,14 @@
 
 import { useSize } from "@/lib/utils/hooks";
 import { TiMessages } from "react-icons/ti";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 
 
 
 
 
 export default function MessagesPage() {
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const {w} = useSize()
 
     return (

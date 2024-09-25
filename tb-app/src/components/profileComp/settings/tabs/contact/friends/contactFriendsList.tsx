@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import { FaGlobeAfrica, FaUsers,FaUserFriends,FaLock   } from "react-icons/fa"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import OverlayTemplate from "../../../assets/shared/overlayTemplate"
 import SelectOptions from "../../../assets/shared/selectOptions"
 import UserPivacy from "@/lib/classes/User.misc/UserPrivacy"
@@ -37,7 +37,7 @@ export default function ContactFriendsList({friendsList}:{
     const [original,setOriginal] = useState<"all"|"me"|"fff"|"friends">(friendsList)
     const [choise,setChoise] = useState<"all"|"me"|"fff"|"friends">(original)
     const [show,setShow] = useState<boolean>(false)
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const handleChange = useCallback(async() => {
         if(!user||choise === original) return setShow(false)
         const res = await new UserPivacy(user.id).updateFriendsListView(choise)
@@ -51,7 +51,7 @@ export default function ContactFriendsList({friendsList}:{
             <div className="flex justify-between items-center gap-2">
                     <div className="flex flex-col">
                         <h3 className="font-bold">Who can see your friends list?</h3>
-                        <p className="text-sm text-black/70 break-words max-w-[600px]">Remember, your friends control who can see their friendships on their own Timelines. If people can see your friendship on another timeline, they'll be able to see it in News Feed, search and other places on Facebook. If you set this to Only me, only you will be able to see your full friends list on your timeline. Other people will see only mutual friends.</p>
+                        <p className="text-sm text-black/70 break-words max-w-[600px]">Remember, your friends control who can see their friendships on their own Timelines. If people can see your friendship on another timeline, they&apos;ll be able to see it in News Feed, search and other places on Facebook. If you set this to Only me, only you will be able to see your full friends list on your timeline. Other people will see only mutual friends.</p>
                     </div>
                     <div className="bg-gray-300/70 p-[0.3rem] px-4 rounded-md  flex gap-1 items-center  cursor-pointer hover:bg-gray-300 transition-all duration-300 active:scale-95" onClick={() => setShow(true)}>
                         <div className="text-lg text-black/70 flex-1">

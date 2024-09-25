@@ -3,7 +3,7 @@ import AboutSideTabs from "./aboutSideTab";
 import { MdOutlineWork } from "react-icons/md";
 import { useEffect, useState } from "react";
 import UserInfo from "@/lib/classes/User.misc/UserInfo";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 import { MoreInfoType } from "@/lib/utils/types/user.misc/user.misc";
 import OverView from "./tabs/overview/overView";
 import Place from "./tabs/place/Place";
@@ -14,7 +14,7 @@ export default function AboutTab({view,userData,aboutTab}:{
     aboutTab:string
 }) {
     const [moreInfo,setMoreInfo] = useState<MoreInfoType>()
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     useEffect(() => {
         if(!user) return
         const getMoreInfo = async() => {

@@ -26,7 +26,7 @@ const defaultMediaInfo:MediaFullType = {
     medias:[]
 }
 
-export const showMedia = () => {
+export const useShowMedia = () => {
     const context = useContext(mediaContext)
     if(!context) {
         throw new Error(`error`)

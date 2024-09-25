@@ -1,5 +1,5 @@
 
-import { SignInInfoType,LoginInfoType } from "../utils/types/auth"
+import { SignInInfoType,useLoginInfoType } from "../utils/types/auth"
 import axios from "axios"
 import Servers from "./Servers"
 
@@ -63,7 +63,7 @@ class Auth {
        
     }
 
-    static async login(info:LoginInfoType) {
+    static async login(info:useLoginInfoType) {
         const {email,password} = info
         const baseUrl = Servers.laravelURl
         let data = {

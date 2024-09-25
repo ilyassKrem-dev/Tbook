@@ -59,7 +59,7 @@ export default function BlockedSearch({setBlocked,user,loading,setLoading,blocke
                     <IoSearch />
                 </div>
             </div>}
-            {!loading&&input.length>0&&blocked===0&&<p className="text-sm text-center text-black/30">No matches for "{input}"</p>}
+            {!loading&&input.length>0&&blocked===0&&<p className="text-sm text-center text-black/30">No matches for &quot;{input}&quot;</p>}
             {!loading&&input.length==0&&blocked===0&&<p className="text-center text-black/30">No blocked user</p>}
         </div>
     )

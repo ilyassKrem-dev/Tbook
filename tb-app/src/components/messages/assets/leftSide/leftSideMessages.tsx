@@ -1,10 +1,10 @@
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 
 import AllConvos from "./allConvos";
 
 
 export default function LeftSideMessages() {
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     return (
         <div className="bg-white md:w-[400px] fixed top-14 left-0 bottom-0 right-0 py-1 z-40">
             <div className="p-3 flex flex-col h-full">

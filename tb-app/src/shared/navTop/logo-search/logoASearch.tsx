@@ -3,7 +3,7 @@ import { IoSearch } from "react-icons/io5";
 import Link from "next/link";
 import {   useEffect, useRef, useState } from "react";
 import { AnimatePresence} from "framer-motion";
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import SearchFunc from "./searchFunc";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { RxCross2 } from "react-icons/rx";
@@ -37,8 +37,8 @@ export default function LogoASearch({w}:{w:number}) {
                 router.push("/");
             }
         })
-    },[])
-    removeOverlay({
+    },[router])
+    useRemoveOverlay({
         tab:".search-tab",
         setShow:setShow
     })

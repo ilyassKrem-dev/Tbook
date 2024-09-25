@@ -4,7 +4,7 @@ import OverlayTemplate from "@/components/profileComp/settings/assets/shared/ove
 import SelectOptions from "@/components/profileComp/settings/assets/shared/selectOptions";
 import { FaGlobeAfrica } from "react-icons/fa";
 import { FaUserFriends } from "react-icons/fa";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 import SelectStory from "./asset/selectStory";
 import LeftSideStories from "../shared/create/LeftSideStories";
 import { colors } from "./misc/misc";
@@ -55,7 +55,7 @@ export default function CreateStory() {
         textColor:"white"
     });
 
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
   
     return (
         <>

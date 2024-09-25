@@ -1,5 +1,5 @@
 
-
+import emojiRegex from 'emoji-regex';
 
 export const changeContentToLinks= (content:string,post?:boolean) => {
     const reg = /@\w+\b/
@@ -22,8 +22,8 @@ export const changeContentToLinks= (content:string,post?:boolean) => {
 
         }
     })
-    const emojiRegex = /(\p{Emoji_Presentation}|\p{Emoji}\u200D|\p{Extended_Pictographic})/gu;
-    const changedSecond = changedContent.replace(emojiRegex,(match:any) => {
+    const regex = emojiRegex();
+    const changedSecond = changedContent.replace(regex,(match:any) => {
         return (
             `<span class="font-noto">${match}</span>`
         )

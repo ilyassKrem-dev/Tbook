@@ -5,7 +5,7 @@ import { RxCross2 } from "react-icons/rx";
 import { ConvoType } from "@/lib/utils/types/convo";
 import { RiArrowDownSLine } from "react-icons/ri";
 import OtherOptions from "@/assets/convo/misc/otherOptions";
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import { UserType } from "@/lib/utils/types/user";
 interface Props {
     convo:ConvoType;
@@ -17,7 +17,7 @@ export default function ChatHeader({convo,user}:Props) {
     const [show,setShow] = useState<boolean>(false)
     const {other} = convo
     
-    removeOverlay(
+    useRemoveOverlay(
         {
             tab:".other_options",
             setShow

@@ -1,13 +1,13 @@
 
 import { useCallback, useEffect } from "react";
-import { loginInfo } from "./sessionWrapper"
+import { useLoginInfo } from "./sessionWrapper"
 import { updateStatus } from "../status/utils";
 
 
 export default function StatusWrapper({children}:{
     children:React.ReactNode
 }) {
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     
     
     const handleBeforeUnload = useCallback((event:any) => {
@@ -21,7 +21,7 @@ export default function StatusWrapper({children}:{
     return () => {
         window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-    }, [user]);
+    }, [user,handleBeforeUnload]);
     return (
         children
     )

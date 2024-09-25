@@ -1,4 +1,4 @@
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import { useState } from "react";
 import { CgMenuGridR } from "react-icons/cg";
 import { tabs } from "@/components/home/leftTabs/tabs";
@@ -10,7 +10,7 @@ import Link from "next/link";
 export default function Menu() {
     const [show,setShow] = useState<boolean>(false)
 
-    removeOverlay(
+    useRemoveOverlay(
         {
             tab:".menu",
             setShow

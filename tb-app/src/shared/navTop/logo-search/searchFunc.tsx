@@ -6,7 +6,7 @@ import { IoSearch } from "react-icons/io5"
 import { useRouter,usePathname,useSearchParams } from "next/navigation";
 import Link from "next/link";
 import User from "@/lib/classes/User";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 interface Props {
     inputRef:RefObject<HTMLInputElement>;
     focused:boolean;
@@ -24,7 +24,7 @@ export default function SearchFunc({inputRef,focused,setShow,setFocused,handleFo
     const [results,setResults] = useState<ResultsType[]>([])
     const [inputString,setInputString] = useState<string>("")
     const router = useRouter()
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const searchString = searchParams?.get("search")
@@ -53,7 +53,7 @@ export default function SearchFunc({inputRef,focused,setShow,setFocused,handleFo
             }
         },100)
         return () => clearTimeout(id)
-    },[inputString,searchString,pathname])
+    },[inputString,searchString,pathname,router,searchParams])
     useEffect(() => {
         if(!searchString||!user) return
         const getResults = async() => {

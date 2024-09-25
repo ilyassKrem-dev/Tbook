@@ -30,7 +30,7 @@ export const useSize =() => {
 }
 
 
-export const removeOverlay =({tab,setShow}:{
+export const useRemoveOverlay =({tab,setShow}:{
     tab:string;
     setShow:React.Dispatch<SetStateAction<boolean>>
 }) => {
@@ -46,7 +46,7 @@ export const removeOverlay =({tab,setShow}:{
     
         return () => document.removeEventListener('click',removeOv)
   
-    },[])
+    },[setShow,tab])
 }
 
 export const ScrollDetector = () => {

@@ -1,6 +1,6 @@
 
 
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import ConvoClass from "@/lib/classes/Convo"
 import { ConvoType, MessageType } from "@/lib/utils/types/convo"
 import LoadingChat from "./LoadingChat"
@@ -10,7 +10,7 @@ import { useSocket } from "@/assets/Wrappers/socketWrapper"
 export default function MessagesChat({convo_id}:{
     convo_id:string
 }) {
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const {socket} = useSocket()
     const [convo,setConvo] = useState<ConvoType>()
     useEffect(() => {
@@ -25,7 +25,7 @@ export default function MessagesChat({convo_id}:{
             }
         }
         getConvo()
-    },[user])
+    },[user,convo_id])
     useEffect(() => {
         if(!socket||!convo) return
         const handleNewMessage = (data: MessageType) => {

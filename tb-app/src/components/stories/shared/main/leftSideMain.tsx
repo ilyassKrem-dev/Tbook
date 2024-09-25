@@ -1,6 +1,6 @@
 "use client"
 
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import Story from "@/lib/classes/story/Story"
 import {  useSize } from "@/lib/utils/hooks"
 import { UserStoryType } from "@/lib/utils/types/storyType"
@@ -14,7 +14,7 @@ type allStoryType = {
 }
 
 export default function LeftSideMainStory() {
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const [allStories,setAllStories] = useState<allStoryType|null>(null)
     useEffect(() => {
         if(!user) return
@@ -101,7 +101,7 @@ export default function LeftSideMainStory() {
                     </div>}
             </div>
         )
-    },[allStories,user])
+    },[allStories])
     const divStorySm = useMemo(() => {
         return (
             <div className="flex flex-col gap-2 p-3 items-start static z-40">
@@ -146,7 +146,7 @@ export default function LeftSideMainStory() {
             </div>
         </div>
         )
-    },[allStories,user])
+    },[allStories])
     return (
         <>
             {user&&

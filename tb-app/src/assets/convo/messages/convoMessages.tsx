@@ -8,8 +8,7 @@ import { motion ,AnimatePresence } from "framer-motion";
 import { LuCheck,LuCheckCheck } from "react-icons/lu";
 import { changeContentToLinks } from "@/lib/utils/textUtils";
 import { MdBlock } from "react-icons/md";
-import { showMedia } from "@/assets/Wrappers/mediaWrapper";
-
+import { useShowMedia } from "@/assets/Wrappers/mediaWrapper";
 interface GroupedMessages {
     date: string;
     messages: MessageType[];
@@ -29,7 +28,7 @@ export default function ConvoMessages({convo,user,status,added}:{
     const divRef = useRef<HTMLDivElement>(null)
     const {messages,other,id} = convo
     const {stat,by} = status
-    const {handleMediaClick} = showMedia()
+    const {handleMediaClick} = useShowMedia()
 
     useEffect(() => {
         if(added) return

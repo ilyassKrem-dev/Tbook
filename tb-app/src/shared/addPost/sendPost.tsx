@@ -26,7 +26,7 @@ export default function SendPost({user,setPosts}:{
 
                     </Link>
                     <div className="w-full rounded-full  bg-gray-300/40 text-gray-500 p-[0.55rem] pl-4 cursor-pointer hover-opacity" onClick={() => setShow(true)}>
-                        What's on your mind??
+                        What&apos;s on your mind??
                     </div>
                 </div>  
                 <div className="bg-gray-300 h-px w-full" />

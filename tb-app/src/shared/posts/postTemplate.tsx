@@ -55,7 +55,7 @@ export default function PostTemplate({userInfo,user,post}:{
                 <div className="max-w-[700px]  w-full mx-auto bg-white h-full rounded-lg shadow-[0px_0px_7px_2px_rgba(0,0,0,0.3)]">
                     <div className="flex flex-col justify-between h-full">
                         <div className="relative py-4 border-b border-dark/30">
-                            <h1 className="font-bold text-center text-xl capitalize flex items-center justify-center">{userInfo.name}'s Post</h1>
+                            <h1 className="font-bold text-center text-xl capitalize flex items-center justify-center">{userInfo.name}&apos;s Post</h1>
                             <div className="absolute text-2xl p-2 rounded-full bg-gray-300/60 cursor-pointer hover-opacity active:scale-90 right-3 bottom-3" onClick={() => setShow(false)}>
                                 <RxCross2 />
                                 

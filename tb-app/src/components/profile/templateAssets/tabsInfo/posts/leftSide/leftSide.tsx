@@ -1,7 +1,7 @@
 import { UserDataType } from "@/lib/utils/types/user"
 
 import Intro from "./assets/intro"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import FriendsSide from "./assets/friendsSide";
 export default function LeftSide({userData,view,friendsPrivacy}:{
     userData:UserDataType;
@@ -9,7 +9,7 @@ export default function LeftSide({userData,view,friendsPrivacy}:{
     friendsPrivacy:boolean
 }) {
     const userInfo = userData.user
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
 
 
 

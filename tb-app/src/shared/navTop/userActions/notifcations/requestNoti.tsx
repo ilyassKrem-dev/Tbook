@@ -2,7 +2,7 @@
 import { NotificationType } from "@/lib/utils/types/notification"
 import { SetStateAction } from "react";
 import Friend from "@/lib/classes/Friend";
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import Link from "next/link";
 export default function RequestNotification({notifications,setNotifications,userId,setShow}:{
     notifications:NotificationType[];
@@ -26,7 +26,7 @@ export default function RequestNotification({notifications,setNotifications,user
             })
         }
     }
-    removeOverlay({
+    useRemoveOverlay({
         tab:".noti-tab",
         setShow
     })

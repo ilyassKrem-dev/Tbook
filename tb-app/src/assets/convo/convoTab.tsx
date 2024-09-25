@@ -58,7 +58,7 @@ export default function ConvoTab({convos,user,dispatch}:{
             unsubscribeFromEvents()
            
         }
-    },[socket,convos])
+    },[socket,convos,dispatch])
    
     return (
         <>

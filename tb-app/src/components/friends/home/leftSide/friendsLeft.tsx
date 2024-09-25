@@ -5,7 +5,7 @@ import { FaUserFriends } from "react-icons/fa";
 import Link from "next/link";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import LeftTemplate from "@/components/friends/shared/leftTemplate";
-import { removeOverlay, useSize } from "@/lib/utils/hooks";
+import { useRemoveOverlay, useSize } from "@/lib/utils/hooks";
 import { useState } from "react";
 import { motion,AnimatePresence } from "framer-motion";
 import BurgerCross from "../../shared/burgerCross";
@@ -38,7 +38,7 @@ const leftList = [
 export default function FriendsLeftSide() {
     const {w} = useSize()
     const [show,setShow] = useState<boolean>(false)
-    removeOverlay({
+    useRemoveOverlay({
         tab:".friends-nav",
         setShow
     })

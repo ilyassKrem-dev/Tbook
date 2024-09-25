@@ -1,7 +1,7 @@
 import Comments from "@/lib/classes/Comments"
 import { SetStateAction } from "react"
 import { useToast } from "@/assets/Wrappers/toastWrapper";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 
 
 export default function LikeComment({setLikes,comment_id,postId}:{
@@ -9,7 +9,7 @@ export default function LikeComment({setLikes,comment_id,postId}:{
     comment_id:string;
     postId:string
 }) {
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const {toast}= useToast()
     const handleLike = async() => {
         if(!user) return

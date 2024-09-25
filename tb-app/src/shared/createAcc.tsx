@@ -1,12 +1,12 @@
 
 import SignUp from "@/assets/account/signin/signUp"
-import { removeOverlay } from "@/lib/utils/hooks"
+import { useRemoveOverlay } from "@/lib/utils/hooks"
 import React, { SetStateAction, useEffect } from "react"
 
 export default function CreateAccount({setShow}:{
     setShow:React.Dispatch<SetStateAction<boolean>>
 }) {
-    removeOverlay({
+    useRemoveOverlay({
         tab:".create",
         setShow:setShow
     })

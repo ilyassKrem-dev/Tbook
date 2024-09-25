@@ -50,7 +50,7 @@ export default function TextInput({transformedText,setPostText,setTranformedText
                 
             </div>
             {!transformedText&&<div className="absolute left-0 -top-[0.1rem] text-gray-500/60 ">
-                What's on your mind?
+                What&apos;s on your mind?
             </div>}
         </div>
     )

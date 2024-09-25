@@ -5,7 +5,7 @@ import { RxCross2 } from "react-icons/rx";
 import { ConvoType } from "@/lib/utils/types/convo";
 import { RiArrowDownSLine } from "react-icons/ri";
 import OtherOptions from "./misc/otherOptions";
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import { UserType } from "@/lib/utils/types/user";
 import { useDispatch } from "react-redux";
 import { moveConvoToSide, removeConvo } from "../redux/convoRedux";
@@ -24,7 +24,7 @@ export default function ConvoHeader({mouseEntered,convo,user,dispatch}:Props) {
     const handleClose = (id:string) => {
         dispatch(removeConvo({id}))
     }
-    removeOverlay(
+    useRemoveOverlay(
         {
             tab:`.other_options-${convo.id}`,
             setShow

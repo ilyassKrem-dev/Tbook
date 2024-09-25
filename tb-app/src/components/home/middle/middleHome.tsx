@@ -22,7 +22,7 @@ export default function MiddleHome({userDetails}:{
             }
         }
         fetchAllPosts()
-    },[])
+    },[userDetails])
     const {toast} = useToast()
     
     return (

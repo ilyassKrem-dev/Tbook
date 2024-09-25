@@ -124,14 +124,14 @@ class Friend {
             }
         }
     }
-    static async getAllFriends(user_id:string) {
+    static async getAllFriends(user_id:string,location:string) {
         let data = {
             success:false,
             error:'',
             data:[]
         }
         try {
-            const res = await axios.get(`${baseUrl}/${user_id}/friends`)
+            const res = await axios.get(`${baseUrl}/${user_id}/friends/${location}`)
         
             if(res) {
                 

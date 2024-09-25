@@ -1,6 +1,6 @@
 "use client"
 
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import { useEffect, useState } from "react"
 import { UserDataType } from "@/lib/utils/types/user"
 import User from "@/lib/classes/User"
@@ -15,7 +15,7 @@ export default function ProfileBy({userName,fromRequest}:{
 }) {
     const [profileInfo,setProfileInfo] = useState<UserDataType>()
     const [show,setShow] = useState<boolean>(false)
-    const {user,loginStatus} = loginInfo()
+    const {user,loginStatus} = useLoginInfo()
     useEffect(() => {
         const getInfo = async() => {
             const res = await new User(userName).getUserData()

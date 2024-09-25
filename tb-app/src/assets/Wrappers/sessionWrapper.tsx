@@ -17,7 +17,7 @@ const SessionContext = createContext<SessionType|undefined>(undefined)
 const paths = ["/", "/auth/signin", "/auth/login"];
 const dynamicPaths = [/^\/profile\/[^\/]+$/];
 
-export const loginInfo = ()=>{
+export const useLoginInfo = ()=>{
     const context = useContext(SessionContext)
     if(!context) {
         throw new Error(``)
@@ -46,7 +46,7 @@ export const SessionWrapper = ({children}:{children:React.ReactNode}) => {
         if(session?.user &&(session?.user as any).status=="offline") {
             updateStatus(user,"online")
         }
-    },[session])
+    },[session,pathname,router,status,user])
    
     if(status == "loading") {
         return <LaodingFullScreen />

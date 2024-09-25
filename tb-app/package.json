@@ -13,6 +13,7 @@
     "@uploadthing/react": "^6.7.2",
     "axios": "^1.7.2",
     "emoji-picker-react": "^4.11.1",
+    "emoji-regex": "^10.4.0",
     "framer-motion": "^11.3.2",
     "nanoid": "^5.0.7",
     "next": "^14.2.12",

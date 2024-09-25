@@ -1,12 +1,12 @@
 "use client"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 import PasswordChange from "@/components/changePass&Email/passwordChange";
 
 
 
 
 export default function Page() {
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     return (
         <>
             {user&&<PasswordChange />}

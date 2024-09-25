@@ -2,12 +2,12 @@
 import LogoASearch from "./logo-search/logoASearch"
 import Navigation from "./navigation/navigation"
 import UserActions from "./userActions/userActions"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import { UserType } from "@/lib/utils/types/user"
 import { useSize } from "@/lib/utils/hooks"
 import { usePathname } from "next/navigation"
 export default function TopNav() {
-    const {user,loginStatus} = loginInfo()
+    const {user,loginStatus} = useLoginInfo()
     const {w} = useSize()
     const pathname = usePathname()
     return (

@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation"
 import { FaArrowLeft } from "react-icons/fa6"
 import Link from "next/link"
 import { ChangeEvent, useEffect, useState } from "react"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import UserInfo from "@/lib/classes/User.misc/UserInfo"
 import LoadingAnimation from "@/shared/spinner"
 type PasswordsType = {
@@ -12,7 +12,7 @@ type PasswordsType = {
 }
 export default function PasswordChange() {
     const router = useRouter()
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const [loading,setLoading] = useState<boolean>(false)
     const [msg,setMsg] = useState<string>("")
     const [changed,setChanged] = useState<boolean>(false)

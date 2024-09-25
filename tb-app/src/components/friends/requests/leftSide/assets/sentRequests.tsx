@@ -1,18 +1,18 @@
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import Friend from "@/lib/classes/Friend"
 import { FriendType } from "@/lib/utils/types/friend"
 import { useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import { RxCross2 } from "react-icons/rx"
 import LoadingAnimation from "@/shared/spinner"
-import { removeOverlay } from "@/lib/utils/hooks"
+import { useRemoveOverlay } from "@/lib/utils/hooks"
 
 
 
 export default function  SentRequests() {
     const [showReq,setShowReq] = useState<boolean>(false)
     const [sentReq,setSentreq] = useState<FriendType[] | null>(null)
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     useEffect(() => {
         if(!user) return
         const getRequestSent = async () => {

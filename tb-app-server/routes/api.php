@@ -66,7 +66,7 @@ Route::controller(FriendsController::class)
         Route::post('/{id}/getFriendStatus',"getFriendStatus");
         Route::post("/removeFriend","removeFriend");
         Route::post("/addFriend","addFriend");
-        Route::get("/{id}/friends","fetchAllUserFriends");
+        Route::get("/{id}/friends/{location}","fetchAllUserFriends");
         Route::get("/{id}/allfriends","getFriendsAndRequests");
         Route::get("/{id}/userRequests","getUserRequests");
 

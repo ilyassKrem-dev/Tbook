@@ -41,7 +41,7 @@ export default function ContactFrame({userInfo,userId,user}:{
         return () => {
             unSubscribe()
         }
-    },[socket,convoId])
+    },[socket,convoId,userId])
     return (
         <div className="flex items-center justify-between gap-2 cursor-pointer p-2 hover:bg-gray-300/40 rounded-lg transition-all duration-300" onClick={handleShow}>
             <div className="flex gap-2 items-center">

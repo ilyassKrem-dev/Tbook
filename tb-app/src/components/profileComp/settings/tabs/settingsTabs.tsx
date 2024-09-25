@@ -1,6 +1,6 @@
 import { useSize } from "@/lib/utils/hooks"
 import InfoTab from "./info/infoTab"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import { FaArrowLeft } from "react-icons/fa6"
 import { TabsAndLinks } from "../misc/tabs&links"
 import { useRouter } from "next/navigation"
@@ -17,7 +17,7 @@ export default function SettingsTabs({tab}:{
     tab:string
 }) {         
     const [userPrivacy,setUserPrivacy] = useState<UserPrivacyType>()
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const {w} = useSize()
     const tabName = TabsAndLinks.find(
         (link)=>link.tabs.find(ta=>ta.link.split("=")[1] === tab)?.link.split("=")[1] === tab

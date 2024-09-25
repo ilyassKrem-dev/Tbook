@@ -46,7 +46,7 @@ export default function Convo({convo,user,dispatch}:Props) {
             }
         }
         setSeen()
-    },[messages,user])   
+    },[messages,user,convo,socketUrl,other])   
     const handleScroll = async(e:any) => {
         if(other.id.toString() === "100") return
         const current = msgsRef.current

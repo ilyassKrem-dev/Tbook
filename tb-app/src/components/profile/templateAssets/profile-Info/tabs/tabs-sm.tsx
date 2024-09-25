@@ -2,14 +2,14 @@ import { RiArrowDropUpLine } from "react-icons/ri";
 import { smTabs } from "./tabsNames";
 import { useState } from "react";
 import { motion,AnimatePresence } from "framer-motion";
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 
 export default function TabsSm({handleChangeRoute,sk}:{
     handleChangeRoute:(arg:string|null) => void;
     sk:string|null|undefined
 }) {
     const [show,setShow] = useState<boolean>(false)
-    removeOverlay({
+    useRemoveOverlay({
         tab:".more-tab",
         setShow
     })

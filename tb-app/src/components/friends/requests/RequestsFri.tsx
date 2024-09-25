@@ -1,4 +1,4 @@
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import RequestLeft from "./leftSide/requestLeft"
 import { useEffect, useState } from "react"
 import { FriendType, OtherType } from "@/lib/utils/types/friend"
@@ -7,7 +7,7 @@ import RightProfileTemplate from "../shared/rightSideProfile/rightProfileTemplat
 
 export default function RequestFri() {
     const [requests,setRequests] = useState<FriendType[]>([])
-    const {user,loginStatus} = loginInfo()
+    const {user,loginStatus} = useLoginInfo()
     useEffect(() => {
         if(!user) return
         const getRequests = async() => {

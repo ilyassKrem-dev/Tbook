@@ -1,6 +1,6 @@
 import { UserDataType } from "@/lib/utils/types/user"
 import SendPost from "../../../../../shared/addPost/sendPost"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import LeftSide from "./leftSide/leftSide"
 import RightSide from "./rightSide/rightSide"
 
@@ -10,7 +10,7 @@ export default function PostsTab({userData,view,friendsPrivacy}:{
     friendsPrivacy:boolean
 }) {
     const userInfo = userData.user
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const checkUser = userInfo.id == user?.id
     return (
         <>

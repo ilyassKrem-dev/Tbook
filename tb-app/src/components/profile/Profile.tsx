@@ -25,7 +25,7 @@ export default function Profile({user}:{
             setUserData(res.data as UserDataType)
         }
         getUsers()
-    },[username])
+    },[username,toast])
  
     return (
         <div>

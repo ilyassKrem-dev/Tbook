@@ -79,7 +79,7 @@ class FriendsController extends Controller
         $friend->update(["status"=>"friends"]);
         return response()->json(["success"=>true],200);
     }
-    function fetchAllUserFriends($id) {
+    function fetchAllUserFriends($id,$location) {
         $user = User::where("id",$id)->first();
         if(!$user) {
             return response()->json(["data"=>[]],404);
@@ -163,7 +163,10 @@ class FriendsController extends Controller
             "status"=>$aiUser->status,
             "status_by"=>$aiUser->status_by
         ];
-        array_unshift($friendsList,$aiInfo);
+        if($location === "home") {
+            array_unshift($friendsList,$aiInfo);
+        }
+       
         return response()->json(["data"=>$friendsList],200);
     }
 

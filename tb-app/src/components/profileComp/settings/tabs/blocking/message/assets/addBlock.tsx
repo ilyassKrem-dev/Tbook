@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 import UserMisc from "@/lib/classes/User.misc/UserMisc";
 import { UnblockedConvosType } from "@/lib/utils/types/user.misc/user.misc";
 import LoadingAnimation from "@/shared/spinner";
@@ -9,7 +9,7 @@ export default function AddBlock() {
     const [convos,setConvos] = useState<UnblockedConvosType[]>([])
     const [input,setInput] = useState<string>("")
     const [loading,setLoading] = useState<boolean>(true)
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     useEffect(() => {
         if(!user) return
         const getUnblockedConvos = async() => {
@@ -54,7 +54,7 @@ export default function AddBlock() {
                 {convos.length==0&&!loading&&!input&&
                 <p className="font-semibold text-center w-full">No friend to block</p>}
                 
-                {convos.length===0&&input.length>0&&<p className="text-xs text-center text-black/70">No matches for "{input}" </p>}
+                {convos.length===0&&input.length>0&&<p className="text-xs text-center text-black/70">No matches for &quot;{input}&quot; </p>}
 
                 {convos.length>0&&!loading&&convos.map((conov,index) => {
                     const {other,id} = conov

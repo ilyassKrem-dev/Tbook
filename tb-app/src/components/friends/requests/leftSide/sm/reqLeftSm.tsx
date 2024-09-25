@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import SentRequests from "../assets/sentRequests"
-import { removeOverlay } from "@/lib/utils/hooks"
+import { useRemoveOverlay } from "@/lib/utils/hooks"
 
 interface Props{
     requests:FriendType[];
@@ -17,7 +17,7 @@ interface Props{
 export default function ReqLeftSm({requests,loading,handleConfrim,handleDecline}:Props) {
     const [show,setShow] = useState<boolean>(false)
     const pathname = usePathname()
-    removeOverlay({
+    useRemoveOverlay({
         tab:".request-nav",
         setShow
     })

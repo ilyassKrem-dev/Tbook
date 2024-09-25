@@ -6,7 +6,7 @@ import LoadingAnimation from "@/shared/spinner"
 import { UserType } from "@/lib/utils/types/user"
 import { OtherType } from "@/lib/utils/types/friend"
 import LeftTemplate from "../../shared/leftTemplate"
-import { removeOverlay, useSize } from "@/lib/utils/hooks"
+import { useRemoveOverlay, useSize } from "@/lib/utils/hooks"
 import BurgerCross from "../../shared/burgerCross"
 import { usePathname } from "next/navigation"
 import axios from "axios"
@@ -38,7 +38,7 @@ export default function SuggestionLeft({loggedInfo,others,setOthers}:{
         e.preventDefault()
         setOthers(prev => (prev.filter(req=>req.id!==other_id)))
     }
-    removeOverlay({
+    useRemoveOverlay({
         tab:".suggest-nav",
         setShow
     })

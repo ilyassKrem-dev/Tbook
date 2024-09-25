@@ -21,7 +21,7 @@ export default function LeftSideTemplate() {
                         <div className="w-[65px] h-[40px] rounded-t-full bg-gray-500" />
                     </div>
                 </div>
-                <p className="text-gray-500/80 font-bold text-xl text-center">Select people's names to preview their profile.</p>
+                <p className="text-gray-500/80 font-bold text-xl text-center">Select people&apos;s names to preview their profile.</p>
             </div>
         </div>
     )

@@ -1,6 +1,6 @@
 "use client"
 
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import { SetStateAction, useEffect, useState } from "react"
 
 
@@ -11,7 +11,7 @@ export default function Toast({varient,title,description,show,setShow}:{
     show:boolean;
     setShow:React.Dispatch<SetStateAction<boolean>>
 }) {
-    removeOverlay({
+    useRemoveOverlay({
         tab:".toast",
         setShow:setShow
     })

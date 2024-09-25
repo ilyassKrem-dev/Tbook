@@ -21,7 +21,7 @@ export default function Notifications({userId}:{
             }
         }
         getData()
-    },[])
+    },[userId])
     useEffect(() => {
         if(!socket) return
         socket.on(key,(data:NotificationType) => {
@@ -31,7 +31,7 @@ export default function Notifications({userId}:{
         return () => {
             socket.off()
         }
-    },[])
+    },[key,socket])
     return (
         <>
             <div className="h-full rounded-full p-2 text-2xl bg-white-1 active:scale-90 hover:bg-gray-300 cursor-pointer relative flex flex-col items-center justify-center" onClick={() => setShow(prev => !prev)}>

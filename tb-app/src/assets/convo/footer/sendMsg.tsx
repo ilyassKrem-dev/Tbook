@@ -133,7 +133,7 @@ export default function SendMsg({content,userId,otherId,convoId,handleSent,statu
             }
         }
         getAiMsg()
-    },[])
+    },[otherId,user,userId])
     return (
         <>
             {stat!=="block"&&<>

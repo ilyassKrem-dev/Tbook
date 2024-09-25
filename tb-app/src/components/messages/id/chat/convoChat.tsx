@@ -45,7 +45,7 @@ export default function ConvoChat({convo,setConvo,user}:Props) {
             }
         }
         setSeen()
-    },[messages,user])   
+    },[messages,user,convo,socketUrl])   
     const handleScroll = async(e:any) => {
         const current = msgsRef.current
         if(!current || !finished || allMsgs) return

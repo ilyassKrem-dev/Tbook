@@ -1,7 +1,7 @@
 import { UserType, userFriendsType } from "@/lib/utils/types/user"
 import { ChangeEvent, SetStateAction, useEffect, useState } from "react"
 import { FiSearch } from "react-icons/fi"
-import { removeOverlay } from "@/lib/utils/hooks"
+import { useRemoveOverlay } from "@/lib/utils/hooks"
 import FriendList from "../shared/friendList"
 import { LeftTopInfoSm } from "@/components/friends/shared/topLeftInfo"
 export default function AllLeftSm({friends,setFriends,loggedInfo}:{
@@ -19,7 +19,7 @@ export default function AllLeftSm({friends,setFriends,loggedInfo}:{
         const value = e.target.value.toLowerCase()
         setAllFriends(friends.filter(friend => friend.friend.name.toLowerCase().startsWith(value)))
     }
-    removeOverlay({
+    useRemoveOverlay({
         tab:'.all-tab',
         setShow
     })

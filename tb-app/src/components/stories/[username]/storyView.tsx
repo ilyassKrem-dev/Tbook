@@ -114,7 +114,7 @@ export default function StoryView({storyInfo}:{
             
             </div>}
             {stories.length===0&&<div className="flex justify-center items-center text-xl">
-                This user didn't share any story
+                This user didn&apos;t share any story
             </div>}
         </>
         

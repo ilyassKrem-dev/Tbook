@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react"
 import { FaGlobeAfrica, FaLock, FaUsers } from "react-icons/fa"
 import OverlayTemplate from "../../../assets/shared/overlayTemplate"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import SelectOptions from "../../../assets/shared/selectOptions"
 import UserPivacy from "@/lib/classes/User.misc/UserPrivacy"
 
@@ -32,7 +32,7 @@ export default function SearchContact({searchPr}:{
     const [show,setShow] = useState<boolean>(false)
     const [original,setOriginal] = useState<"all"|'fff'|"me">(searchPr) 
     const [choise,setChoise] = useState<"all"|'fff'|"me">(original)
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const handleChange = useCallback(async() => {
         if(!user || choise === original) return setShow(false)
         const res =await new UserPivacy(user.id).updateSearchView(choise)

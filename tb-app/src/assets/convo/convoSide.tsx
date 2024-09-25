@@ -59,7 +59,7 @@ export default function ConvoSide({
             unsubscribeFromEvents()
            
         }
-    },[socket,sideConvos])
+    },[socket,sideConvos,dispatch])
     return (
         <div className="fixed bottom-4 right-4">
             <div className="flex flex-col gap-3">

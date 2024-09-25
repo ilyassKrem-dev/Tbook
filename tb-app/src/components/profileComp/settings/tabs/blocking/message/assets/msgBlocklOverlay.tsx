@@ -40,7 +40,7 @@ export default function MsgBlockOverlay({setShow}:{
                         </div>
                         {!page&&
                         <div className="p-5">
-                            <p className="text-sm text-black break-words font-normal">If you block someone's profile on Facebook, they won't be able to contact you in Messenger either. Unless you block someone's Facebook profile and any others they may create, they may be able to post on your timeline, tag you, and comment on your posts or comments.</p>
+                            <p className="text-sm text-black break-words font-normal">If you block someone&apos;s profile on Facebook, they won&apos;t be able to contact you in Messenger either. Unless you block someone&apos;s Facebook profile and any others they may create, they may be able to post on your timeline, tag you, and comment on your posts or comments.</p>
                             <div className="mt-3 flex flex-col gap-2">
                                 <div className="flex gap-4 items-center hover:bg-gray-1 p-2 rounded-md cursor-pointer transition-all duration-300" onClick={() => setPage(1)}>
                                     <div className="text-xl text-white bg-blue-500 p-[0.625rem] rounded-full w-fit">

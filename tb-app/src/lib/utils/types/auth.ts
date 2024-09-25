@@ -15,7 +15,7 @@ export type SignInInfoType = {
     }
 }
 
-export type LoginInfoType = {
+export type useLoginInfoType = {
     email:string;
     password:string
 }

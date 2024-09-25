@@ -21,7 +21,7 @@ export default function RightSide({userInfo,user}:{
             }
         }
         getPosts()
-    },[userInfo.id])
+    },[userInfo.id,user])
 
     return (
         <div className="flex gap-3 w-full flex-col">

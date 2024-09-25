@@ -40,7 +40,7 @@ export default function FriendList({allFriends,showMore,setShowMore,setFriends,u
         }
         document.addEventListener("click",removeOv)
         return () => document.removeEventListener("click",removeOv)
-    },[showMore])
+    },[showMore,setShowMore])
     
     return (
         <>

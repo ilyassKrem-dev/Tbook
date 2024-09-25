@@ -1,6 +1,6 @@
 import { useToast } from "@/assets/Wrappers/toastWrapper"
 import Profile from "@/lib/classes/Profile";
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import { useUploadThing } from "@/lib/utils/uploadthing"
 import React, { ChangeEvent, SetStateAction, useState } from "react"
 import { BsFillCloudUploadFill } from "react-icons/bs";
@@ -86,7 +86,7 @@ export default function UploadOverlay({userId,setProfileImg,setShow}:{
                 })
         }
     }
-    removeOverlay({
+    useRemoveOverlay({
         tab:".upload_pic",
         setShow
     })

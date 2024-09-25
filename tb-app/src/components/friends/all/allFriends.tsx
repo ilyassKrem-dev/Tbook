@@ -1,5 +1,5 @@
 
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 import { useEffect, useState } from "react"
 import Friend from "@/lib/classes/Friend"
 import RightProfileTemplate from "../shared/rightSideProfile/rightProfileTemplate"
@@ -8,11 +8,11 @@ import AllLeftSide from "./leftSide/allLeftSide"
 
 export default function AllFriends() {
     const [friends,setFriends] = useState<userFriendsType[]>([])
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     useEffect(() => {
         if(!user) return
         const getRequests = async() => {
-                const res = await Friend.getAllFriends(user.id)
+                const res = await Friend.getAllFriends(user.id,"all")
                 if(res?.data) {
                     setFriends(res.data)
                 }

@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import { ChangeEvent, FormEvent, useState } from "react"
-import { LoginInfoType } from "@/lib/utils/types/auth"
+import { useLoginInfoType } from "@/lib/utils/types/auth"
 import Auth from "@/lib/classes/Auth"
 import { signIn } from "next-auth/react"
 import { useToast } from "@/assets/Wrappers/toastWrapper"
@@ -9,7 +9,7 @@ import CreateAccount from "@/shared/createAcc"
 import { usePathname } from "next/navigation"
 export default function Login() {
     const [show,setShow] = useState<boolean>(false)
-    const [info,setInfo] = useState<LoginInfoType>(
+    const [info,setInfo] = useState<useLoginInfoType>(
         {
             email:"",password:""
         }

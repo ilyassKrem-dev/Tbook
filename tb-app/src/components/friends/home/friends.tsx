@@ -1,9 +1,9 @@
 
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 import FriendsLeftSide from "./leftSide/friendsLeft";
 import FriendsRight from "./rightSide/FriendsRight";
 export default function Friends() {
-    const {user,loginStatus} = loginInfo()
+    const {user,loginStatus} = useLoginInfo()
     return (
         <>
             {user&&

@@ -3,7 +3,7 @@ import { MdMic } from "react-icons/md";
 import { motion,AnimatePresence } from "framer-motion";
 import { ChangeEvent, SetStateAction, useState } from "react";
 import { nanoid } from "nanoid";
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 type ContentType = {
     text:string;
     medias:{
@@ -74,7 +74,7 @@ export default function OtherBtns({text,medias,setContent}:{
         }
         setShow(false)
     }
-    removeOverlay({
+    useRemoveOverlay({
         tab:".more_btns",
         setShow
     })

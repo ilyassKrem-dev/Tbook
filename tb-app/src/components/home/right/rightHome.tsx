@@ -16,7 +16,7 @@ export default function  RightHome({user}:{
         if(!user) return
         const getFriends = async() => {
             
-            const res = await Friend.getAllFriends(user.id)
+            const res = await Friend.getAllFriends(user.id,"home")
             if(res?.success) {
                 setFriends(res.data as any)
                 setSavedData(res.data as any)

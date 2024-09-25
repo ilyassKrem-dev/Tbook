@@ -4,7 +4,7 @@ import { useEffect,useState,useContext,createContext, SetStateAction } from "rea
 import { ConvoType } from "@/lib/utils/types/convo"
 import ConvoClass from "@/lib/classes/Convo";
 import ConvoTab from "../convo/convoTab";
-import { loginInfo } from "./sessionWrapper";
+import { useLoginInfo } from "./sessionWrapper";
 import ConvoSide from "../convo/convoSide";
 import { useSize } from "@/lib/utils/hooks";
 import { UseDispatch,useDispatch,useSelector } from "react-redux";
@@ -38,7 +38,7 @@ export const ConvoWrapper = ({children}:{
     const [ids,setIds] = useState<IdsType>({
         user_id:"",other_id:""
     })
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     useEffect(() => {
         if(!ids.user_id) return
         const getConvo = async() => {

@@ -1,11 +1,11 @@
 "use client"
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper"
 
 
 
 
 export default function Page() {
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
 
     return (
         <>

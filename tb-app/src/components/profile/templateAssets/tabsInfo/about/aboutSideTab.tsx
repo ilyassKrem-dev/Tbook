@@ -39,13 +39,11 @@ export default function AboutSideTabs({aboutTab}:{
     useEffect(() => {
         //@ts-ignore
         const queries = new URLSearchParams(Array.from(searchParams.entries()))
-        setNewTabs(prev => {
-            const newData = newTabs.map(tab=>{ 
-                queries.set("sk",tab.link)
-                return {...tab,link:`${pathname}?${queries.toString()}`}
-            })
-            return newData
+        const newData = newTabs.map(tab=>{ 
+            queries.set("sk",tab.link)
+            return {...tab,link:`${pathname}?${queries.toString()}`}
         })
+        setNewTabs(newData)
     },[])
     return (
         <div className="md:w-[280px] border-b md:border-b-0 md:border-r border-black/20  p-2 py-4">

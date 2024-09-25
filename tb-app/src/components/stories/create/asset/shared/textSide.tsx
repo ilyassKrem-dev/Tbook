@@ -1,13 +1,13 @@
 import {  useState } from "react"
 import { motion,AnimatePresence } from "framer-motion"
-import { removeOverlay, useSize } from "@/lib/utils/hooks"
+import { useRemoveOverlay, useSize } from "@/lib/utils/hooks"
 import { colors } from "../../misc/misc";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import OverlayTemplate from "@/components/profileComp/settings/assets/shared/overlayTemplate";
 import { HiOutlineFaceSmile } from "react-icons/hi2";
 import { useUploadThing } from "@/lib/utils/uploadthing";
 import Story from "@/lib/classes/story/Story";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 import { useRouter } from "next/navigation";
 import SideSm from "./sideSm";
 import { SideType } from "./sideType";
@@ -19,12 +19,12 @@ export default function TextSide(
     const {startUpload} = useUploadThing("media",{
         onUploadProgress:(p) => setProgress(p) 
     })
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const [clicked,setClicked] = useState<boolean>(false)
     const [discard,setDiscard] = useState<boolean>(false)
     const [showEmoji,setShowEmoji] = useState<boolean>(false)
     const {w} = useSize()
-    removeOverlay({
+    useRemoveOverlay({
         tab:".story-area",
         setShow:setClicked
     })
@@ -169,7 +169,7 @@ export default function TextSide(
                 <OverlayTemplate title="Discard story?" setShow={setDiscard}>
                     <div className="h-full py-1">
                         <div className="p-3 flex-1">
-                            <p className="text-sm sm:text-[0.9rem] text-black/80">Are you sure you want to discard this story? Your story won't be saved.</p>
+                            <p className="text-sm sm:text-[0.9rem] text-black/80">Are you sure you want to discard this story? Your story won&apos;t be saved.</p>
                         </div>
                         <div className="flex justify-end items-center gap-3 mt-10 px-4">
                             <p className="text-sm sm:text-base font-medium text-blue-500 cursor-pointer" onClick={() => setDiscard(false)}>Continue editing</p>

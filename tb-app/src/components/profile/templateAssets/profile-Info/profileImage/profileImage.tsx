@@ -1,7 +1,7 @@
 import {  useState } from "react";
 import { FaCamera } from "react-icons/fa";
 
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import UploadImage from "./uploadImage";
 
 export default function ProfileImage({profileImage,profileName,isUser,userId,view}:{
@@ -13,7 +13,7 @@ export default function ProfileImage({profileImage,profileName,isUser,userId,vie
 }) {
     const [profileImg,setProfileImg] = useState<string|null>(profileImage)
     const [show,setShow] = useState<boolean>(false)
-    removeOverlay({
+    useRemoveOverlay({
         tab:".image-tab",
         setShow:setShow
     })

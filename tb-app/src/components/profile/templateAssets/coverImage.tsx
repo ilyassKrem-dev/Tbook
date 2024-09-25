@@ -1,5 +1,5 @@
 
-import { removeOverlay } from "@/lib/utils/hooks";
+import { useRemoveOverlay } from "@/lib/utils/hooks";
 import { UserType } from "@/lib/utils/types/user";
 import { useState } from "react";
 import { FaCamera } from "react-icons/fa";
@@ -14,7 +14,7 @@ export default function CoverImage({coverImage,userId,loggedInfo,view}:{
 }) {
     const [show,setShow] = useState<boolean>(false)
     const checkUser = userId === loggedInfo?.id
-    removeOverlay({
+    useRemoveOverlay({
         tab:".cover-tab",
         setShow:setShow
     })

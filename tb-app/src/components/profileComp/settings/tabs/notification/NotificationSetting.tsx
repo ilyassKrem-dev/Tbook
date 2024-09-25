@@ -5,7 +5,7 @@ import OverlayTemplate from "../../assets/shared/overlayTemplate";
 import SelectOptions from "../../assets/shared/selectOptions";
 import { IoIosNotifications } from "react-icons/io";
 import UserPivacy from "@/lib/classes/User.misc/UserPrivacy";
-import { loginInfo } from "@/assets/Wrappers/sessionWrapper";
+import { useLoginInfo } from "@/assets/Wrappers/sessionWrapper";
 const notifiIcons = [
     {
         name:"All",
@@ -34,7 +34,7 @@ export default function NotificationSetting({notifi}:{
     const [original,setOriginal] = useState<NotificationsType>(notifi)
     const [chosen,setChosen] = useState<NotificationsType>(original)
     const [show,setShow] = useState<boolean>(false)
-    const {user} = loginInfo()
+    const {user} = useLoginInfo()
     const handleChange = useCallback(async() => {
         if(!user || original===chosen) return setShow(false)
         const res = await new UserPivacy(user.id).updateNotifications(chosen)
