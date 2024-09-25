@@ -1,7 +1,6 @@
 
 import { BsFillPeopleFill } from "react-icons/bs";
-import { TiGroup } from "react-icons/ti";
-import { SiHomeassistantcommunitystore } from "react-icons/si";
+import { SiStorybook } from "react-icons/si";
 
 type TabTypes = {
     name:string;
@@ -16,15 +15,9 @@ export const tabs = [
         link:"/friends"
     },
     {
-        name:"Groups",
-        icon:<TiGroup  className="text-blue-400"/>,
-        link:"/groups"
-    },
-    ,
-    {
-        name:"Marketplace",
-        icon:<SiHomeassistantcommunitystore  className="text-blue-400"/>,
-        link:"/marketplace"
+        name:"Stories",
+        icon:<SiStorybook  className="text-blue-400"/>,
+        link:"/stories"
     }
 ] as TabTypes[]
 

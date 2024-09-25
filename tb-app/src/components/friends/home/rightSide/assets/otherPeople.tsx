@@ -60,14 +60,14 @@ export default function OtherPeople({others,loggedInfo,setFriendsR}:{
                     const check = user.id === loading
                     return (
                         <div  key={index} className="rounded-lg flex flex-col gap-1 bg-white border shadow-md border-black/20">
-                            <Link href={`/friends/requests/?profile=${user.username}`} className="w-[150px] md:w-[201px] h-[150px] md:h-[201px] ">
+                            <Link href={`/friends/suggestion/?profile=${user.username}`} className="w-[150px] md:w-[201px] h-[150px] md:h-[201px] ">
                                 <img 
                                 src={image??"/profile.jpg"}
                                 alt={name + " profile img"}
                                 className="rounded-t-lg bg-white border w-full h-full object-cover" />
                             </Link>
                             <div className="p-2 px-3 flex gap-5 flex-col">
-                                <Link href={`/friends/requests/?profile=${user.username}`} className="font-bold hover:underline transition-all duration-300">{user.name}</Link>
+                                <Link href={`/friends/suggestion/?profile=${user.username}`} className="font-bold hover:underline transition-all duration-300">{user.name}</Link>
                                 <div className="flex flex-col gap-2">
                                     <button className="bg-blue-100/60 text-blue-600 rounded-md p-1 py-2 hover-opacity active:scale-95 font-semibold" onClick={() => handleAddFriend(id)}>
                                         {check?<LoadingAnimation/>:"Add friend"}

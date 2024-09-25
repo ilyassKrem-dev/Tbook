@@ -42,12 +42,7 @@ export default function  TopOfRight({setFriends,friends}:{
                             Search
                         </div>
                     </div>}
-                    <div className="p-2 hover:bg-gray-300/70 rounded-full active:bg-gray-300 transition-all duration-300 cursor-pointer relative flex flex-col items-center justify-center group">
-                        <BsThreeDots />
-                        <div className=" absolute -bottom-9 text-sm bg-dark/80 text-white p-1 rounded-lg font-medium hidden group-hover:block">
-                            options
-                        </div>
-                    </div>
+                    
                     
                 </div>
             </div>

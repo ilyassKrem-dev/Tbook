@@ -103,8 +103,8 @@ export default function StoriesHome({userDetails}:{
                                         alt={`${user.name} image`} 
                                         className="w-full rounded-full object-cover bg-white border h-full" />
                                     </div>
-                                    <div className="flex-1 rounded-xl overflow-hidden max-w-[150px]  ">
-                                        {/* <StoryShow story={story}/> */}
+                                    <div className="flex-1 rounded-xl overflow-hidden max-w-[150px] h-full">
+                                        <StoryShow story={story}/>
                                     </div>
                                 </Link>
                             )

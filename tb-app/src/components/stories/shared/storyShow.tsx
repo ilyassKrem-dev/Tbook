@@ -23,8 +23,8 @@ export default function StoryShow({story,location}:{
                 dangerouslySetInnerHTML={{__html:content}} />}
             </div>}
             {type=="photo"&&
-            <div className={`rounded-md flex justify-center items-center  ${location==="home" ?"h-full w-full" : ""}`}>
-                <div className="absolute flex justify-center items-center break-words max-w-[300px] text-center z-30 top-10  text-lg font-semibold cursor-pointer"
+            <div className={`rounded-md flex justify-center items-center  ${location==="home" ?"h-full w-full" : "h-full sm:h-auto"}`}>
+                <div className="absolute flex justify-center items-center break-words max-w-[300px] text-center z-30 top-12  sm:text-lg font-semibold cursor-pointer max-[400px]:text-sm text-base"
                 style={{color:textColor}} dangerouslySetInnerHTML={{__html:content}} />
                 {media&&<img 
                 src={media} 

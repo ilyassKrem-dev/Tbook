@@ -32,7 +32,7 @@ export default function RequestNotification({notifications,setNotifications,user
     })
     return (
         <>
-            <div className="absolute top-14 z-40 -right-8 noti-tab">
+            <div className="absolute top-14 z-40 -right-6 noti-tab">
                 <div className="bg-white rounded-lg w-[400px] flex flex-col gap-6 p-2 font-normal text-base sm-shadow px-4">
                     <div className="flex justify-between items-center">
                         <h1 className="font-bold text-2xl">Notifications</h1>
