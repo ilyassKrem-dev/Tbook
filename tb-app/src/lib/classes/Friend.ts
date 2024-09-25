@@ -145,7 +145,6 @@ class Friend {
             } 
             
         } catch (error:any) {
-          
             if(error.message != "Request failed with status code 400") {
                 
                 return {

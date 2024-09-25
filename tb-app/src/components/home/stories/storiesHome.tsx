@@ -24,6 +24,7 @@ export default function StoriesHome({userDetails}:{
         }
         getStories()
     },[userDetails])
+
     const {w} = useSize()
     return (
         <>
@@ -75,7 +76,7 @@ export default function StoriesHome({userDetails}:{
                     (
                         w>600?stories.map((storyInfo,index) => {
                             const {story,user} = storyInfo
-                            
+                         
                             return (
                                 <Link key={index} href={`/stories/${user.username}`} className="h-full rounded-xl flex flex-col max-w-[150px] bg-white hover:bg-black/70 transition-all duration-300 active:scale-95 cursor-pointer group shadow-[0px_0px_5px_1px_rgba(0,0,0,0.4)] relative ">
                                     <div className="absolute top-2 left-2 rounded-full bg-gray-400/80 w-[40px] h-[40px] z-20">
@@ -85,7 +86,7 @@ export default function StoriesHome({userDetails}:{
                                         className="w-full rounded-full object-cover bg-white border h-full" />
                                     </div>
                                     <div className="flex-1 rounded-xl overflow-hidden max-w-[150px] w-[100px] sm:w-[150px] ">
-                                        <StoryShow story={story}/>
+                                        <StoryShow story={story} location="home"/>
                                     </div>
                                 </Link>
                             )
@@ -103,7 +104,7 @@ export default function StoriesHome({userDetails}:{
                                         className="w-full rounded-full object-cover bg-white border h-full" />
                                     </div>
                                     <div className="flex-1 rounded-xl overflow-hidden max-w-[150px]  ">
-                                        <StoryShow story={story}/>
+                                        {/* <StoryShow story={story}/> */}
                                     </div>
                                 </Link>
                             )

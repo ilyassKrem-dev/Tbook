@@ -138,18 +138,12 @@ class FriendsController extends Controller
             array_push($friendsList,$info);
         }
         $aiUser = User::where("id",100)->first();
-        $convoAi = Convos::where(function($query) use($friend,$user){
-            $query->where(function($query) use($friend) {
-                $query->where("user1",$friend->user)
-                        ->orWhere("user1",$friend->friend);
-                        })
+        $convoAi = Convos::where(function($query) use($user){
+            $query->where("user1",100)
                     ->where("user2",$user->id);
         })
-        ->orWhere(function($query) use($friend,$user){
-            $query->where(function($query) use($friend) {
-                    $query->where("user2",$friend->user)
-                        ->orWhere("user2",$friend->friend);
-                        })
+        ->orWhere(function($query) use($user){
+            $query->where("user2",100)
                     ->where("user1",$user->id);
         })->first();
         $convoAiId = $convoAi->id??null;
@@ -166,8 +160,8 @@ class FriendsController extends Controller
             "unseenMsgs"=>0,
             "convoId"=>$convoAiId,
             "user"=>$user->id,
-            "status"=>$friend->status,
-            "status_by"=>$friend->status_by
+            "status"=>$aiUser->status,
+            "status_by"=>$aiUser->status_by
         ];
         array_unshift($friendsList,$aiInfo);
         return response()->json(["data"=>$friendsList],200);

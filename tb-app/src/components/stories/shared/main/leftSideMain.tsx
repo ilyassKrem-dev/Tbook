@@ -2,33 +2,36 @@
 
 import { loginInfo } from "@/assets/Wrappers/sessionWrapper"
 import Story from "@/lib/classes/story/Story"
-import { ScrollDetector, useSize } from "@/lib/utils/hooks"
+import {  useSize } from "@/lib/utils/hooks"
 import { UserStoryType } from "@/lib/utils/types/storyType"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { FaPlus } from "react-icons/fa6"
 
-type SeeStory = {
-    user:UserStoryType
+type allStoryType = {
+    own:UserStoryType|null,
+    others:UserStoryType[]
 }
 
 export default function LeftSideMainStory() {
     const {user} = loginInfo()
-    const [seeStories,setSeeStories] = useState<SeeStory[]|null>(null)
+    const [allStories,setAllStories] = useState<allStoryType|null>(null)
     useEffect(() => {
         if(!user) return
         const getStories = async() => {
             const res = await new Story(user.id).getStories()
             if(res?.success) {
-                setSeeStories(res.data)
+                setAllStories(res.data as any)
             } else {
-                setSeeStories([])
+                setAllStories({
+                    own:null,
+                    others:[]
+                })
             }
         }
         getStories()
     },[user])
     const {w} = useSize()
-    const scrolling = ScrollDetector()
     const divStoryBg = useMemo(() => {
         return (
             <div className="p-3 py-5 overflow-y-auto h-full custom-scrollbar">
@@ -37,7 +40,7 @@ export default function LeftSideMainStory() {
                         <h2 className="font-semibold text-lg">Your story</h2>
                         <div className="flex flex-col gap-2">
 
-                            {!seeStories&&<div className="flex gap-2 items-center cursor-pointer">
+                            {!allStories&&<div className="flex gap-2 items-center cursor-pointer">
                                 <div className=" bg-gray-300 rounded-full text-lg p-7 animate-pulse">
                                     
                                 </div>
@@ -47,16 +50,16 @@ export default function LeftSideMainStory() {
                                 </div>
                             </div>}
 
-                            {seeStories&&seeStories.length>0&&
-                            <Link href={`/stories/${seeStories[0].user.username}`}  className="flex gap-2 items-center cursor-pointer">
+                            {allStories&&allStories.own&&
+                            <Link href={`/stories/${allStories.own.username}`}  className="flex gap-2 items-center cursor-pointer">
                                 <div className=" bg-gray-300 rounded-full text-lg w-[58px] h-[58px] border-blue-500 border-2">
                                     <img 
-                                    src={seeStories[0].user.image ?? "/profile.jpg"} 
-                                    alt={`${seeStories[0].user.name} profile` }
+                                    src={allStories.own.image ?? "/profile.jpg"} 
+                                    alt={`${allStories.own.name} profile` }
                                     className="rounded-full object-cover bg-white  h-full w-full border-blue-500 border-2" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <h5 className="font-semibold cursor-pointer">{seeStories[0].user.name}</h5>
+                                    <h5 className="font-semibold cursor-pointer">{allStories.own.name}</h5>
                                 </div>
                                
                             </Link>}
@@ -74,22 +77,22 @@ export default function LeftSideMainStory() {
                     </div>
                     
                     
-                    {seeStories&&seeStories.length>0&&
-                    (seeStories.length>1||seeStories[0].user.id!==user?.id)&&
+                    {allStories&&allStories.others.length>0&&
+                
                     <div className="flex flex-col gap-3 mt-5">
                         <h2 className="font-semibold text-lg">Other stories</h2>
-                        {seeStories.slice(1,seeStories.length-1).map((story,index) => {
-                            const {user} = story
+                        {allStories.others.map((userInfo,index) => {
+                            const {id,name,username,image} = userInfo
                             return (
-                                <Link href={`/stories/${user.username}`} key={index} className="flex gap-2 items-center cursor-pointer">
+                                <Link href={`/stories/${username}`} key={index} className="flex gap-2 items-center cursor-pointer">
                                     <div className=" bg-gray-300 rounded-full text-lg w-[58px] h-[58px] border-blue-500 border-2">
                                         <img 
-                                        src={user.image ?? "/profile.jpg"} 
-                                        alt={`${user.name} profile` }
+                                        src={image ?? "/profile.jpg"} 
+                                        alt={`${name} profile` }
                                         className="rounded-full object-cover bg-white  h-full w-full border-blue-500 border-2" />
                                     </div>
                                     <div className="flex flex-col">
-                                        <h5 className="font-semibold cursor-pointer">{user.name}</h5>
+                                        <h5 className="font-semibold cursor-pointer">{name}</h5>
                                     </div>
                                 
                                 </Link>
@@ -98,12 +101,12 @@ export default function LeftSideMainStory() {
                     </div>}
             </div>
         )
-    },[seeStories,user])
+    },[allStories,user])
     const divStorySm = useMemo(() => {
         return (
-            <div className="flex flex-col gap-2 p-3 items-start">
+            <div className="flex flex-col gap-2 p-3 items-start static z-40">
             <h1 className="font-bold text-2xl">Stories</h1>
-            <div className="px-4 relative flex items-center gap-3">
+            <div className="px-4 relative flex items-center gap-3 ">
                 <Link href={"/stories/create"} className="flex gap-2 items-center cursor-pointer justify-center group rounded-full active:scale-95">
                     <div className="text-blue-500 bg-blue-100/90 rounded-full text-lg p-4">
                         <FaPlus />
@@ -113,27 +116,25 @@ export default function LeftSideMainStory() {
                     </div>
                 </Link>
                 <div className=" overflow-x-scroll custom-scrollbar flex gap-3 items-center">
-                    {seeStories&&seeStories.length>0&&
-                    <Link href={`/stories/${seeStories[0].user.username}`}  className="flex gap-2 items-center cursor-pointer">
+                    {allStories&&allStories.own&&
+                    <Link href={`/stories/${allStories.own.username}`}  className="flex gap-2 items-center cursor-pointer">
                         <div className=" bg-gray-300 rounded-full text-lg w-[50px] h-[50px] border-blue-500 border-2">
                             <img 
-                            src={seeStories[0].user.image ?? "/profile.jpg"} 
-                            alt={`${seeStories[0].user.name} profile` }
+                            src={allStories.own.image ?? "/profile.jpg"} 
+                            alt={`${allStories.own.name} profile` }
                             className="rounded-full object-cover bg-white  h-full w-full border-blue-500 border-2" />
                         </div>
                     </Link>}
-                    {seeStories&&seeStories.length>0&&
-                    (seeStories.length>1||seeStories[0].user.id!==user?.id)&&
-                    <div className="flex flex-col gap-3 mt-5">
-                        <h2 className="font-semibold text-lg">Other stories</h2>
-                        {seeStories.slice(1,seeStories.length-1).map((story,index) => {
-                            const {user} = story
+                    {allStories&&allStories.others.length>0&&
+                    <div className="flex items-center gap-3">
+                        {allStories.others.map((userInfo,index) => {
+                            const {id,name,image,username} = userInfo
                             return (
-                                <Link href={`/stories/${user.username}`} key={index} className="flex gap-2 items-center cursor-pointer">
+                                <Link href={`/stories/${username}`} key={index} className="flex gap-2 items-center cursor-pointer">
                                     <div className=" bg-gray-300 rounded-full text-lg w-[50px] h-[50px] border-blue-500 border-2">
                                         <img 
-                                        src={user.image ?? "/profile.jpg"} 
-                                        alt={`${user.name} profile` }
+                                        src={image ?? "/profile.jpg"} 
+                                        alt={`${name} profile` }
                                         className="rounded-full object-cover bg-white  h-full w-full border-blue-500 border-2" />
                                     </div>
                                 </Link>
@@ -145,7 +146,7 @@ export default function LeftSideMainStory() {
             </div>
         </div>
         )
-    },[seeStories,user])
+    },[allStories,user])
     return (
         <>
             {user&&

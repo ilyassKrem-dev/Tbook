@@ -5,7 +5,7 @@ import TextPreview from "../text/textPreview";
 import PhotoPreview from "../photo/photoPreview";
 
 
-export default function PreviewStory({textStory,selectedColor,story,photoStory,setPhotoStory}:{
+export default function  PreviewStory({textStory,selectedColor,story,photoStory,setPhotoStory}:{
     selectedColor:{
         bgColor:string;
         textColor:"black"|"white"; 
@@ -32,7 +32,7 @@ export default function PreviewStory({textStory,selectedColor,story,photoStory,s
     
     
     return (
-        <div className="h-full justify-center items-center flex py-14 px-8 flex-1">
+        <div className="h-full justify-center items-center flex py-14  flex-1 pb-32 md:py-14 lg:px-8 md:px-6 md:pr-4">
             <div className="bg-white rounded-md shadow-lg h-full w-full p-4 flex gap-3 flex-col max-w-[1000px]">
                 <h1 className="font-medium">Preview</h1>
                 <div className=" h-full">

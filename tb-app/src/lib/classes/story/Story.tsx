@@ -92,7 +92,7 @@ class Story {
     async getStories() {
         let data = {
             success:false,
-            data:[],
+            data:undefined,
             error:""
         }
         try {
@@ -109,7 +109,7 @@ class Story {
                 
                 return {
                     success:null,
-                    data:[],
+                    data:undefined,
                     error:"Internal server error"
                 }
             }
@@ -117,7 +117,7 @@ class Story {
                 const err = error.response.data
                 data = {
                     success:false,
-                    data:[],
+                    data:undefined,
                     error:err
                 }
                 
@@ -140,7 +140,7 @@ class Story {
                 return data
             }
         } catch (error:any) {
-    
+           
             if(error.message != "Request failed with status code 400") {
                 
                 return {

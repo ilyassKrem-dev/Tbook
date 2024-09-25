@@ -32,35 +32,44 @@ export default function PhotoPreview({photoStory,setPhotoStory,textStory,selecte
     const [zoom,setZoom] = useState<number>(50)
     const [isDragging, setIsDragging] = useState<boolean>(false);
     const [rotation,setRotation] = useState<number>(photoStory.class.rotate)
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMove = (clientX: number) => {
         if (!isDragging || !divRef.current) return;
-
+    
         const container = divRef.current.parentElement;
         if (!container) return;
-
+    
         const containerRect = container.getBoundingClientRect();
-        const x = e.clientX - containerRect.left; 
-        const newLeftPercent = Math.min(Math.max((x / containerRect.width) * 100, 0), 95); 
+        const x = clientX - containerRect.left; 
+        const newLeftPercent = Math.min(Math.max((x / containerRect.width) * 100, 0), 95);
         setZoom(newLeftPercent);
-        setPhotoStory(prev => ({...prev,class:{...prev.class,scale:zoom}}))
-    };
-    const handleMouseDown = () => {
-        setIsDragging(true);
+        setPhotoStory(prev => ({ ...prev, class: { ...prev.class, scale: newLeftPercent } }));
+      };
+    const handleMouseMove = (e: MouseEvent) => {
+    handleMove(e.clientX);
     };
 
-    const handleMouseUp = () => {
-        setIsDragging(false);
+    const handleTouchMove = (e: TouchEvent) => {
+    handleMove(e.touches[0].clientX);
     };
+
+    const handleMouseDown = () => setIsDragging(true);
+    const handleTouchStart = () => setIsDragging(true);
+    const handleMouseUp = () => setIsDragging(false);
+    const handleTouchEnd = () => setIsDragging(false);
     useEffect(() => {
         if (isDragging) {
             document.addEventListener("mousemove", handleMouseMove);
             document.addEventListener("mouseup", handleMouseUp);
-        }
-
-        return () => {
+            document.addEventListener("touchmove", handleTouchMove, { passive: false });
+            document.addEventListener("touchend", handleTouchEnd);
+          }
+      
+          return () => {
             document.removeEventListener("mousemove", handleMouseMove);
             document.removeEventListener("mouseup", handleMouseUp);
-        };
+            document.removeEventListener("touchmove", handleTouchMove);
+            document.removeEventListener("touchend", handleTouchEnd);
+          };
     }, [isDragging]);
     const handleRotation  = () => {
         if(rotation ===240) {
@@ -94,7 +103,7 @@ export default function PhotoPreview({photoStory,setPhotoStory,textStory,selecte
                     <div className="cursor-pointer active:scale-95" onClick={() => setZoom(prev => Math.max(0,prev-10))}>
                         <FaMinus />
                     </div>
-                    <div className="w-[300px] relative h-[4px] bg-white rounded-full flex  items-center">
+                    <div className="max-[420px]:w-[100px] max-[450px]:w-[150px] w-[200px] md:w-[180px] lg:w-[300px] relative h-[4px] bg-white rounded-full flex  items-center">
                         <div className="absolute bg-blue-400 h-[4px] rounded-full self-start"
                         style={{width:`${zoom}%`}}>
 
@@ -102,6 +111,7 @@ export default function PhotoPreview({photoStory,setPhotoStory,textStory,selecte
                         <div className="absolute rounded-full p-2 cursor-pointer bg-white"
                         style={{left:`${zoom}%`}} 
                         onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
                         ref={divRef}>
 
                         </div>

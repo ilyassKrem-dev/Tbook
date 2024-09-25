@@ -38,7 +38,7 @@ export default function SelectStory({setStory,setPhotoStory}:{
     return (
         <div className="flex justify-center items-center h-full flex-1 gap-3">
             <>
-                <label htmlFor="photo-story" className="h-[300px] flex justify-center items-center bg-gradient-to-b from-blue-500 via-violet-500 to-blue-200 rounded-md w-[200px]  flex-col gap-2 cursor-pointer active:scale-95 group relative">
+                <label htmlFor="photo-story" className="h-[300px] flex justify-center items-center bg-gradient-to-b from-blue-500 via-violet-500 to-blue-200 rounded-md max-[400px]:w-[150px] max-[400px]:h-[200px] w-[200px]  flex-col gap-2 cursor-pointer active:scale-95 group relative">
                     <div  className="rounded-full  text-2xl bg-white p-3">
                         <MdPhotoLibrary />
                     </div>
@@ -48,7 +48,7 @@ export default function SelectStory({setStory,setPhotoStory}:{
                 </label>
                 <input type="file" accept="image/*" id="photo-story" className="hidden" onChange={handleClick} />
             </>
-            <div className="h-[300px] flex justify-center items-center bg-gradient-to-b from-violet-500 via-purple-400 to-purple-500 rounded-md w-[200px]  flex-col gap-2 cursor-pointer active:scale-95 group relative" onClick={() => setStory("text")}>
+            <div className="h-[300px] flex justify-center items-center bg-gradient-to-b from-violet-500 via-purple-400 to-purple-500 rounded-md w-[200px]  max-[400px]:w-[150px] max-[400px]:h-[200px] flex-col gap-2 cursor-pointer active:scale-95 group relative" onClick={() => setStory("text")}>
                 <div  className="rounded-full  text-2xl bg-white p-3">
                     <IoText />
                 </div>

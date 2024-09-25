@@ -72,7 +72,9 @@ export default function CreateStory() {
                         setStory={setStory}
                         story={story}
                         photoStory={photoStory}
-                        choice={choice}/>}
+                        choice={choice}
+                        setShow={setShow}
+                        />}
                         
                     </LeftSideStories>
                     {!story&&

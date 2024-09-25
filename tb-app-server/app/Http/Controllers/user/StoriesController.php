@@ -36,7 +36,7 @@ class StoriesController extends Controller
             return response()->json(["error"=>"No user found"],404);
 
         };
-        $allStories = [];
+        $ownStories = [];
         $userFriends = Friend::where(function($query) use($user) {
             $query->where("user",$user->id)
                 ->orWhere("friend",$user->id);
@@ -56,78 +56,16 @@ class StoriesController extends Controller
             });
         $userStories = Stories::where("user",$user->id)->get();
         if($userStories->isNotEmpty()) {
-            $allStories[] = [
-                "user"=>[
-                    "id"=>$user->id,
-                    "image"=>$user->image,
-                    "name"=>$user->name,
-                    "username"=>$user->username
-                ]
-            ];
-        }
-        foreach ($userFriends as $friendId) {
-            $friendStories = Stories::with("user")->where("user", $friendId)->where("visibility", 'friends')->get();
-            foreach ($friendStories as $story) {
-                $friendInfo = User::where("id",$friendId)->first();
-                if(!$friendInfo) return;
-                if ($story->visibility == 'all' || in_array($user->id, $story->friends_ids)) {
-                    $allStories[] = [
-                        "user"=>[
-                        "id"=>$friendInfo->id,
-                        "image"=>$friendInfo->image,
-                        "name"=>$friendInfo->name,
-                        "username"=>$friendInfo->username
-                        ]
-                    ];
-                }
-            }
-        }
-        $publicStories = Stories::with("user")
-                    ->where("visibility", 'all')
-                    ->where("user","!=",$user->id)
-                    ->get();
-        foreach ($publicStories as $publicStory) {
-            $info = User::where("id",$publicStory->id)->first();
-            if(!$info) return;
-            $exists = collect($allStories)->contains(function ($story) use ($info) {
-                return $story['user']['id'] === $info->id;
-            });
-            if(!$exists) {
-                $allStories[] = [
-                    "user"=>[
-                        "id" => $info->id,
-                        "image" => $info->image,
-                        "name" => $info->name,
-                        "username" => $info->username
-    
-                    ]
-                ];
-
-            }
-    
-          
-        }
-        return response()->json(["data"=>$allStories],200);
-    }
-    function getHomeStories($id) {
-        $user = User::find($id);
-        if(!$user) {
-            return response()->json(["error"=>"No user found"],200);
-
-        }
-        $allStories = [];
-        $getUserStorie = Stories::where("user",$user->id)
-                                ->orderBy("created_at","desc")
-                                ->first();
-        $allStories[] = [
-            "user"=>[
+            $ownStories = [
                 "id"=>$user->id,
-                "image"=>$user->iamge,
+                "image"=>$user->image,
                 "name"=>$user->name,
                 "username"=>$user->username
-            ],
-            "story"=>$getUserStorie
-        ];
+            ];
+        } else {
+            $ownStories = null;
+        }
+        $otherStories = [];
         $userFriends = Friend::where(function($query) use($user) {
             $query->where("user",$user->id)
                 ->orWhere("friend",$user->id);
@@ -152,24 +90,110 @@ class StoriesController extends Controller
                         ->where("visibility", 'friends')
                         ->orderBy("created_at","desc")
                         ->first();
-            if(!$friendStory) continue;
             $friendInfo = User::where("id",$friendId)->first();
-            if(!$friendInfo) return;
+            if($friendStory && $friendInfo) {
+                $otherStories[] = [
+                    "id"=>$friendInfo->id,
+                    "image"=>$friendInfo->image,
+                    "name"=>$friendInfo->name,
+                    "username"=>$friendInfo->username
+                ];
+
+            }
+        }
+        $publicStories = Stories::with("user")
+                    ->where("visibility", 'all')
+                    ->where("user","!=",$user->id)
+                    ->get();
+        foreach ($publicStories as $publicStory) {
+            $info = User::where("id",$publicStory->user)->first();
+            if(!$info) return;
+            $exists = collect($otherStories)->contains(function ($story) use ($info) {
+                return $story['id'] === $info->id;
+            });
+            if(!$exists) {
+                $otherStories[] = [
+                    "id" => $info->id,
+                    "image" => $info->image,
+                    "name" => $info->name,
+                    "username" => $info->username
+                ];
+
+            }
+    
+          
+        }
+        $res = [
+            "own"=>$ownStories,
+            "others"=>$otherStories
+        ];
+        return response()->json(["data"=>$res],200);
+    }
+    function getHomeStories($id) {
+        $user = User::find($id);
+        if(!$user) {
+            return response()->json(["error"=>"No user found"],200);
+
+        }
+        $allStories = [];
+        $getUserStorie = Stories::where("user",$user->id)
+                                ->orderBy("created_at","desc")
+                                ->first();
+        if($getUserStorie) {
             $allStories[] = [
                 "user"=>[
-                    "id" => $friendInfo->id,
-                    "image" => $friendInfo->image,
-                    "name" => $friendInfo->name,
-                    "username" => $friendInfo->username,
+                    "id"=>$user->id,
+                    "image"=>$user->image,
+                    "name"=>$user->name,
+                    "username"=>$user->username
                 ],
-                "story"=>$friendStory
+                "story"=>$getUserStorie
             ];
+
+        }
+        $userFriends = Friend::where(function($query) use($user) {
+            $query->where("user",$user->id)
+                ->orWhere("friend",$user->id);
+        }) 
+            ->where("status","friends")
+            ->pluck("user")
+            ->merge(Friend::where(function($query) use($user) {
+                $query->where("user",$user->id)
+                    ->orWhere("friend",$user->id);
+            }) 
+                ->where("status","friends")
+                ->pluck("friend"))
+            ->unique()
+            ->values()
+            ->take(5)
+            ->filter(function($friend) use($user) {
+                return $friend !== $user->id;
+            });
+        foreach ($userFriends as $friendId) {
+            $friendStory = Stories::with("user")
+                        ->where("user", $friendId)
+                        ->where("visibility", 'friends')
+                        ->orderBy("created_at","desc")
+                        ->first();
+            $friendInfo = User::where("id",$friendId)->first();
+            if($friendStory && $friendInfo) {
+                $allStories[] = [
+                    "user"=>[
+                        "id" => $friendInfo->id,
+                        "image" => $friendInfo->image,
+                        "name" => $friendInfo->name,
+                        "username" => $friendInfo->username,
+                    ],
+                    "story"=>$friendStory
+                ];
+
+            }
         }
         $publicStories = Stories::where("visibility", 'all')
                     ->where("user","!=",$user->id)
                     ->get();
         foreach ($publicStories as $publicStory) {
-            $info = User::where("id",$publicStory->id)->first();
+            $info = User::where("id",$publicStory->user)->first();
             if(!$info) return;
             $exists = collect($allStories)->contains(function ($story) use ($info) {
                 return $story['user']['id'] === $info->id;
@@ -187,8 +211,7 @@ class StoriesController extends Controller
             }
 
           
-        }
-        ;
+        };
         return response()->json(["data"=>array_slice($allStories,0,5)],200);
     }
     function getUsernameStories($id,$username) {
@@ -239,7 +262,7 @@ class StoriesController extends Controller
                             ->where(function($query) use($userFriends) {
                                 $query->where("visibility","all")
                                         ->orWhere(function($query) use($userFriends) {
-                                            $query->where("visibilty","friends")
+                                            $query->where("visibility","friends")
                                                 ->whereIn("user",$userFriends);
                                         });
                             })

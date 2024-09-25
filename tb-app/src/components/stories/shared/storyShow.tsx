@@ -4,8 +4,9 @@ import { StoryType } from "@/lib/utils/types/storyType"
 
 
 
-export default function StoryShow({story}:{
-    story:StoryType
+export default function StoryShow({story,location}:{
+    story:StoryType;
+    location?:string
 }) {
     const {type,media,text,bgColor,textColor,mediaClass} = story 
     const content = text ? changeContentToLinks(text) : ""
@@ -22,13 +23,13 @@ export default function StoryShow({story}:{
                 dangerouslySetInnerHTML={{__html:content}} />}
             </div>}
             {type=="photo"&&
-            <div className="rounded-md">
+            <div className={`rounded-md flex justify-center items-center  ${location==="home" ?"h-full w-full" : ""}`}>
                 <div className="absolute flex justify-center items-center break-words max-w-[300px] text-center z-30 top-10  text-lg font-semibold cursor-pointer"
                 style={{color:textColor}} dangerouslySetInnerHTML={{__html:content}} />
                 {media&&<img 
                 src={media} 
                 alt="photo" 
-                className={`h-full w-full rounded-md object-contain`}
+                className={`h-full w-full rounded-md object-cover ${location === "home" ? "object-cover":" object-contain"}`}
                 style={{
                     scale:(Number(zoom)+70)/100,
                     rotate:`${Number(rotate)}deg`
