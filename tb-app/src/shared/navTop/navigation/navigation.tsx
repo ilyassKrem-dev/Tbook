@@ -19,14 +19,7 @@ const navs = [
         path:"/friends",
         name:"Friends"
 
-    },
-    {
-        icon:<RiShoppingBagFill className="text-black/60"/>,
-        fillIcon:<RiShoppingBagLine className="text-blue-500"/>,
-        path:"/marketplace",
-        name:"Marketplace"
-
-    },
+    }
 ]
 export default function Navigation() {
     const pathname = usePathname()

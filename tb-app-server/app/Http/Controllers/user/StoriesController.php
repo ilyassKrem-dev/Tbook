@@ -212,7 +212,7 @@ class StoriesController extends Controller
 
           
         };
-        return response()->json(["data"=>array_slice($allStories,0,5)],200);
+        return response()->json(["data"=>array_slice($allStories,0,3)],200);
     }
     function getUsernameStories($id,$username) {
         $user = User::find($id);

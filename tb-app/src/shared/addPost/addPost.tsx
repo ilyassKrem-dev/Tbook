@@ -10,6 +10,7 @@ import { UserType } from "@/lib/utils/types/user";
 import PostBtn from "./assets/postBtn";
 import { ViewPrivacyType } from "@/lib/utils/types/user.misc/user.privacy";
 import UserPivacy from "@/lib/classes/User.misc/UserPrivacy";
+import { DefaultPostType } from "@/lib/utils/types/post";
 type MediaType = {
     id:string;
     file:File;
@@ -17,9 +18,10 @@ type MediaType = {
     type:"image"|"video"|"audio"
 }
 
-export default function AddPost({user,setShow}:{
+export default function AddPost({user,setShow,setPosts}:{
     user:UserType;
-    setShow:React.Dispatch<SetStateAction<boolean>>
+    setShow:React.Dispatch<SetStateAction<boolean>>;
+    setPosts?:React.Dispatch<SetStateAction<DefaultPostType[]>>
 }) {
     const [postText, setPostText] = useState<string>('');
     const [transformedText,setTranformedText] = useState<string>("")
@@ -95,7 +97,8 @@ export default function AddPost({user,setShow}:{
                     medias={medias}
                     status={status}
                     setShow={setShow}
-                    userId={user.id}/>
+                    userId={user.id}
+                    setPosts={setPosts}/>
                     
                 </div>}
             </div>

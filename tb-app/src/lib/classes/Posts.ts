@@ -16,7 +16,7 @@ class Posts {
         let data = {
             success:false,
             errors:''||null,
-            msg:""
+            data:undefined
         }
         try {
             const res = await axios.post(`${baseUrl}/addpost`,postData)
@@ -24,7 +24,7 @@ class Posts {
                 data = {
                     success:true,
                     errors:null,
-                    msg:res.data.message
+                    data:res.data.data
                 }
                 return data
             } 
@@ -34,7 +34,7 @@ class Posts {
                 
                 return {
                     success:null,
-                    msg:null,
+                    data:undefined,
                     errors:"Internal server error"
                 }
             }
@@ -42,7 +42,7 @@ class Posts {
                 const err = error.response.data
                 data = {
                     success:false,
-                    msg:"",
+                    data:undefined,
                     errors:error.response.data
                 }
                 

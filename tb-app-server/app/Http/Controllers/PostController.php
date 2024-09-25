@@ -33,8 +33,24 @@ class PostController extends Controller
                 ]);
             }
         } 
-        
-        return response()->json(["message"=>"Post created",200]);
+        $allMedias = Medias::where("post_id",$post->id)->get();
+        $userInfo = [
+            "id"=>$user->id,
+            "name"=>$user->name,
+            "username"=>$user->username,
+            "image"=>$user->image
+        ];
+        $data = [
+            "id"=>$post->id,
+            "content"=>$post->content,
+            "status"=>$post->status,
+            "user"=>$userInfo,
+            "likes"=>[],
+            "medias"=>$allMedias,
+            'created_at'=>$post->created_at,
+            'updated_at'=>$post->updated_at
+        ];
+        return response()->json(["data"=>$data,200]);
     }
     function likePost(Request $request) {
         $data = $request->validate(

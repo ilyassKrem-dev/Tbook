@@ -1,14 +1,16 @@
-import { FullUserType } from "@/lib/utils/types/user"
+
 import Link from "next/link"
-import {  useState } from "react"
+import {  SetStateAction, useState } from "react"
 import { IoMdPhotos } from "react-icons/io";
 import AddPost from "@/shared/addPost/addPost";
 
 import { UserType } from "@/lib/utils/types/user"
+import { DefaultPostType } from "@/lib/utils/types/post";
 
 
-export default function SendPost({user}:{
-    user:UserType
+export default function SendPost({user,setPosts}:{
+    user:UserType;
+    setPosts?:React.Dispatch<SetStateAction<DefaultPostType[]>>
 }) {
     const [show,setShow] = useState<boolean>(false)
     return (
@@ -34,7 +36,7 @@ export default function SendPost({user}:{
                         Photo/Video
                     </div>
                 </div>
-                {show&&<AddPost user={user} setShow={setShow}/>}
+                {show&&<AddPost user={user} setShow={setShow} setPosts={setPosts}/>}
             </div>
         </>
     )

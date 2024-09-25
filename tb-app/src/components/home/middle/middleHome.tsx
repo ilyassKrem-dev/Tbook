@@ -6,6 +6,7 @@ import PostTemplate from "@/shared/posts/postTemplate"
 import SendPost from "@/shared/addPost/sendPost"
 import StoriesHome from "../stories/storiesHome"
 import React from "react"
+import { useToast } from "@/assets/Wrappers/toastWrapper"
 const StoriesMemo = React.memo(StoriesHome)
 const SendPostMemo = React.memo(SendPost)
 export default function MiddleHome({userDetails}:{
@@ -22,6 +23,7 @@ export default function MiddleHome({userDetails}:{
         }
         fetchAllPosts()
     },[])
+    const {toast} = useToast()
     
     return (
         <div className="flex-1 h-full max-w-[710px] mx-auto flex flex-col gap-5">
@@ -32,7 +34,7 @@ export default function MiddleHome({userDetails}:{
 
             </div>
             <div>
-                <SendPostMemo user={userDetails}/>
+                <SendPostMemo user={userDetails}  setPosts={setPosts}/>
             </div>
             {posts.length>0&&
             <div className="flex flex-col gap-5">

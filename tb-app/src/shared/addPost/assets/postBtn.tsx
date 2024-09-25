@@ -1,6 +1,6 @@
 
 import Posts from "@/lib/classes/Posts"
-import { MediaType } from "@/lib/utils/types/post"
+import { DefaultPostType, MediaType } from "@/lib/utils/types/post"
 import { SetStateAction, useState } from "react";
 import { useToast } from "@/assets/Wrappers/toastWrapper";
 import { useUploadThing } from "@/lib/utils/uploadthing";
@@ -9,11 +9,12 @@ interface Props {
     postText:string;
     status:string;
     userId:string;
-    setShow:React.Dispatch<SetStateAction<boolean>>
+    setShow:React.Dispatch<SetStateAction<boolean>>;
+    setPosts?:React.Dispatch<SetStateAction<DefaultPostType[]>>
 }
 
 export default function PostBtn(
-    {medias,postText,status,userId,setShow}:Props) 
+    {medias,postText,status,userId,setShow,setPosts}:Props) 
     {
     const [progress,setProgress] = useState<number>(0)
     const {toast} = useToast()
@@ -57,6 +58,9 @@ export default function PostBtn(
             if(res?.success) {
                 setProgress(100)
                 setShow(false)
+                if(setPosts) {
+                    setPosts((prev:any) => ([res.data,...prev]))
+                }
                 return toast({
                     varient:"success",
                     title:"Posted",
