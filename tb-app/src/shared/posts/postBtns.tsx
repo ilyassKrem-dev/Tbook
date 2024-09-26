@@ -48,7 +48,7 @@ export default function PostBtns({userId,isLiked,postId,setShow,likeNum}:{
             <div className="flex gap-1 border-y border-gray-500/30 py-1 mt-10 px-4">
                 <div className="flex-1 text-center font-bold text-gray-600/80 flex items-center gap-1 justify-center cursor-pointer hover:bg-gray-300/40 rounded-md hover-opacity active:scale-95 p-[0.4rem]" onClick={handleLike}>
                     <span className="text-semibold cursor-pointer text-sm">
-                        {likes>0 ? likes:0}
+                        {likes>0 ? likes:""}
                     </span>
                     
                     <AnimatePresence>
