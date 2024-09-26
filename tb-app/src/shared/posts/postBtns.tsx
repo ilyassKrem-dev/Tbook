@@ -5,18 +5,26 @@ import { motion,AnimatePresence } from "framer-motion";
 import { SetStateAction, useState } from "react";
 import Posts from "@/lib/classes/Posts";
 import { useToast } from "@/assets/Wrappers/toastWrapper";
-export default function PostBtns({userId,isLiked,postId,setShow}:{
+export default function PostBtns({userId,isLiked,postId,setShow,likeNum}:{
     userId:string|undefined;
     isLiked:boolean;
     postId:string;
-    setShow:React.Dispatch<SetStateAction<boolean>>
+    setShow:React.Dispatch<SetStateAction<boolean>>;
+    likeNum:number
 }) {
+
     const [liked,setLiked] = useState<boolean>(isLiked)
+    const [likes,setLikes] = useState<number>(likeNum)
     const {toast} = useToast()
     const handleLike = async() => {
         if(!userId) return
         const res =  await Posts.changeLike(userId,postId)
         if(res?.success) {
+            if(liked) {
+                setLikes(prev => prev-1)
+            } else {
+                setLikes(prev => prev+1)
+            }
             return setLiked(prev=>!prev)
         }
         if(res?.success == null) {
@@ -39,6 +47,10 @@ export default function PostBtns({userId,isLiked,postId,setShow}:{
         <>
             <div className="flex gap-1 border-y border-gray-500/30 py-1 mt-10 px-4">
                 <div className="flex-1 text-center font-bold text-gray-600/80 flex items-center gap-1 justify-center cursor-pointer hover:bg-gray-300/40 rounded-md hover-opacity active:scale-95 p-[0.4rem]" onClick={handleLike}>
+                    <span className="text-semibold cursor-pointer text-sm">
+                        {likes>0 ? likes:0}
+                    </span>
+                    
                     <AnimatePresence>
                         {!liked?
                         <motion.div

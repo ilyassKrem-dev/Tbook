@@ -109,7 +109,7 @@ class PostController extends Controller
         $allPosts = [];
         
         foreach($posts as $post) {
-            $postLikes = Likes::where("post_id",$post->id)->get();
+            
             $allMedias = Medias::where("post_id",$post->id)->get();
             $likes = Likes::where("post_id",$post->id)->get();
             $user = User::where("id",$post->user_id)->first();

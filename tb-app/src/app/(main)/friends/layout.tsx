@@ -12,7 +12,7 @@ import StoreProvider from "@/assets/Wrappers/reduxProvider";
 const figtree = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Friends | Tbook",
+  title: "Tbook | Friends",
   description: "Tbook a social media website",
 };
 
