@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\posts\PostMiscController;
 use App\Http\Controllers\user\PrivacyController;
 use App\Http\Controllers\user\StoriesController;
 use App\Http\Controllers\user\UserMoreInfoController;
@@ -51,6 +52,7 @@ Route::controller(PostController::class)
         Route::post('/addpost',"addPost");
         Route::post("/likePost","likePost");
         Route::get("/{id}/getAllPosts","getAllPosts");
+        Route::get("/profile/{username}/posts/{postId}","getPost");
         
     });
 Route::controller(CommentControllere::class)
@@ -59,7 +61,10 @@ Route::controller(CommentControllere::class)
         Route::get("/{postId}/getComments","getComments");
         Route::post("/likeComment","likeComment");
     });
-
+Route::controller(PostMiscController::class)
+    ->group(function(){
+        Route::post("/post/{postId}/share","sharePost");
+    });
 Route::controller(FriendsController::class)
     ->group(function() {
         Route::post("/sendRequest","sendFriendRequest");

@@ -214,7 +214,7 @@ class UserController extends Controller
           
             array_push($newPosts,[
                 "id"=>$post->id,
-                "content"=>$post->content,
+                "content"=>$post->content ?? "",
                 "status"=>$post->status,
                 "user_id"=>$post->user_id,
                 "f_comment"=>empty($newComment)?null:$newComment,

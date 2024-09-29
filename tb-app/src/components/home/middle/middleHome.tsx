@@ -9,21 +9,31 @@ import React from "react"
 
 const StoriesMemo = React.memo(StoriesHome)
 const SendPostMemo = React.memo(SendPost)
+const PostTemplateMemo = React.memo(PostTemplate)
 export default function MiddleHome({userDetails}:{
     userDetails:UserType
 }) {
     const [posts,setPosts] = useState<DefaultPostType[]>([])
-   
+    const [fetched,setFetched] = useState<boolean>(false)
     useEffect(() => {
+        if(!userDetails) return
         const fetchAllPosts = async() => {
             const res = await Posts.getAllPosts(userDetails.id)
             if(res?.success) {
                 setPosts(res.data)
+        
             }
         }
         fetchAllPosts()
     },[userDetails])
-  
+   
+    useEffect(() => {
+        if(fetched) return
+        const id = setTimeout(() => {
+            setFetched(true)
+        },3000)
+        return () => clearTimeout(id)
+    },[fetched])
     return (
         <div className="flex-1 h-full max-w-[710px] mx-auto flex flex-col gap-5">
             <div className="relative">
@@ -35,13 +45,13 @@ export default function MiddleHome({userDetails}:{
             <div>
                 <SendPostMemo user={userDetails}  setPosts={setPosts}/>
             </div>
-            {posts.length>0&&
+            {fetched&&posts.length>0&&
             <div className="flex flex-col gap-5">
                 {posts.map((post,index) => {
                     const {user} = post
                     return (
                         <div key={index} className="w-full">
-                            <PostTemplate 
+                            <PostTemplateMemo 
                             post={post as any}
                             user={userDetails}
                             userInfo={user}

@@ -5,16 +5,20 @@ import { motion,AnimatePresence } from "framer-motion";
 import { SetStateAction, useState } from "react";
 import Posts from "@/lib/classes/Posts";
 import { useToast } from "@/assets/Wrappers/toastWrapper";
-export default function PostBtns({userId,isLiked,postId,setShow,likeNum}:{
+import ReactDOM from "react-dom";
+import ShareOverlay from "../share/ShareOverlay";
+export default function PostBtns({userId,isLiked,postId,setShow,likeNum,postUsername}:{
     userId:string|undefined;
     isLiked:boolean;
     postId:string;
     setShow:React.Dispatch<SetStateAction<boolean>>;
-    likeNum:number
+    likeNum:number;
+    postUsername:string;
 }) {
 
     const [liked,setLiked] = useState<boolean>(isLiked)
     const [likes,setLikes] = useState<number>(likeNum)
+    const [showShare,setShowShare] = useState<boolean>(false)
     const {toast} = useToast()
     const handleLike = async() => {
         if(!userId) return
@@ -74,11 +78,16 @@ export default function PostBtns({userId,isLiked,postId,setShow,likeNum}:{
                     <FaRegComment className="text-xl" />
                     Comment
                 </div>
-                <div className="flex-1 text-center font-bold text-gray-600/80 flex items-center gap-1 justify-center cursor-pointer hover:bg-gray-300/40 rounded-md hover-opacity active:scale-95 p-[0.4rem]">
+                <div className="flex-1 text-center font-bold text-gray-600/80 flex items-center gap-1 justify-center cursor-pointer hover:bg-gray-300/40 rounded-md hover-opacity active:scale-95 p-[0.4rem]" onClick={() => setShowShare(true)}>
                     <TbShare3  className="text-xl"/>
                     Share
                 </div>
             </div>
+            {showShare&&ReactDOM.createPortal(
+            <ShareOverlay 
+            setShowShare={setShowShare} 
+            postUsername={postUsername}
+            postId={postId}/>,document.body)}
         </>
     )
 }

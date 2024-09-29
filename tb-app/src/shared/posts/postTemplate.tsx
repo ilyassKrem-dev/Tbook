@@ -10,10 +10,13 @@ import { RxCross2 } from "react-icons/rx";
 import AddComment from "./footer/addComment";
 import AllComments from "./footer/comment/allComment";
 import { usePathname } from "next/navigation";
-export default function PostTemplate({userInfo,user,post}:{
+import React from "react";
+const PostBtnsMemo = React.memo(PostBtns)
+export default function PostTemplate({userInfo,user,post,isShared}:{
     userInfo:PostUserType;
     user:UserType | null;
-    post:PostType
+    post:PostType;
+    isShared?:boolean
 }) {
     const [show,setShow] = useState<boolean>(false)
     const [comment,setComment] = useState<FCommentType|null>(post.f_comment)
@@ -33,23 +36,34 @@ export default function PostTemplate({userInfo,user,post}:{
                 <PostContent 
                 content={post.content} 
                 medias={post.medias}/>
-                <div>
-
-                </div>  
-                <PostBtns 
-                userId={user?.id} 
-                isLiked={isLiked}
-                postId={post.id}
-                setShow={setShow}
-                likeNum={post.likes.length}/>
-                {pathname!=="/"&&user&&<div className="py-3">
-                    <PostFooter user={user} 
+                {post.parent_post&&
+                <div className="p-3">
+                    <div className="border rounded-md border-black/20">
+                        <PostTemplate 
+                        post={post.parent_post} 
+                        user={user} 
+                        userInfo={post.parent_post.user as PostUserType} 
+                        isShared/>
+                    </div>
+                </div>
+                 }
+                {!isShared&&<>
+                    <PostBtnsMemo 
+                    userId={user?.id} 
+                    isLiked={isLiked}
                     postId={post.id}
-                    comment={comment} 
-                    setComment={setComment}
-                    setShow={setShow}/>
+                    setShow={setShow}
+                    postUsername={userInfo.username}
+                    likeNum={post.likes.length}/>
+                    {pathname!=="/"&&user&&<div className="py-3">
+                        <PostFooter user={user} 
+                        postId={post.id}
+                        comment={comment} 
+                        setComment={setComment}
+                        setShow={setShow}/>
 
-                </div>}
+                    </div>}
+                </>}
             </div>
             {show&&<div className="fixed top-0 right-0 left-0 bottom-0 bg-white/60 z-50 no-doc-scroll pt-8 md:py-8">
                 <div className="max-w-[700px]  w-full mx-auto bg-white h-full rounded-lg shadow-[0px_0px_7px_2px_rgba(0,0,0,0.3)]">
@@ -70,11 +84,23 @@ export default function PostTemplate({userInfo,user,post}:{
                             <PostContent 
                             content={post.content} 
                             medias={post.medias}/>
-                            <PostBtns 
+                            {post.parent_post&&
+                                <div className="p-3">
+                                    <div className="border rounded-md border-black/20">
+                                    <PostTemplate 
+                                    post={post.parent_post} 
+                                    user={user} 
+                                    userInfo={post.parent_post.user as PostUserType} 
+                                    isShared/>
+                                    </div>
+                                </div>
+                                }
+                            <PostBtnsMemo 
                             userId={user?.id} 
                             isLiked={isLiked}
                             postId={post.id}
                             setShow={setShow}
+                            postUsername={userInfo.username}
                             likeNum={post.likes.length}/>
                             <AllComments 
                             postId={post.id} 

@@ -100,8 +100,8 @@ class Posts {
         }
         try {
             const res = await axios.get(`${baseUrl}/${userId}/getAllPosts`)
-           
-            if(res) {
+            
+            if(res.data) {
                 data = {
                     success:true,
                     error:"",
@@ -131,6 +131,46 @@ class Posts {
             }
         }
     }
+    static async getPost(profileUsername:string,postId:string) {
+        let data = {
+            success:false,
+            error:'',
+            data:undefined
+        }
+        try {
+            const res = await axios.get(`${baseUrl}/profile/${profileUsername}/posts/${postId}`)
+            
+            if(res) {
+                data = {
+                    success:true,
+                    error:"",
+                    data:res.data.data
+                }
+                return data
+            } 
+            
+        } catch (error:any) {
+            if(error.message != "Request failed with status code 400") {
+                
+                return {
+                    success:null,
+                    data:undefined,
+                    error:"Internal server error"
+                }
+            }
+            if(error && error.response && error.response.data) {
+                const err = error.response.data
+                data = {
+                    success:false,
+                    data:undefined,
+                    error:err
+                }
+                
+                return data
+            }
+        }
+    }
+    
 }
 
 

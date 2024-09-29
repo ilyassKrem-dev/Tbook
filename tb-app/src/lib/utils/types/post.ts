@@ -33,9 +33,11 @@ export type PostType = {
     updated_at:string;
     f_comment:FCommentType|null;
     medias:PostMediaType[];
+    parent_post:PostType|null
     likes:LikeType[];
     status:string;
     user_id:string;
+    user:PostUserType|null;
     id:string;
 }
 export type DefaultPostType = {
@@ -43,6 +45,7 @@ export type DefaultPostType = {
     created_at:string;
     updated_at:string;
     medias:PostMediaType[];
+    parent_post:DefaultPostType|null
     likes:LikeType[];
     status:string;
     user:PostUserType;

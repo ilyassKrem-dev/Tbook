@@ -65,7 +65,11 @@ export default function Emotes({setTranformedText,setPostText,className}:{
                     </div>
                     {showPicker && (
                         <div className="absolute -top-[29rem] md:-left-[12rem] -left-[11rem] max-[300px]:-left-[11rem] background">
-                            <EmojiPicker lazyLoadEmojis width={pickerWidth} onEmojiClick={handleEmojiClick} />
+                            <EmojiPicker 
+                            lazyLoadEmojis 
+                            width={pickerWidth}
+                            searchDisabled 
+                            onEmojiClick={handleEmojiClick} />
                         </div>
                     )}
                 </div>

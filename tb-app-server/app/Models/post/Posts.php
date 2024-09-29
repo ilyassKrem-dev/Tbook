@@ -15,6 +15,7 @@ class Posts extends Model
         "content",
         "status",
         "user_id",
+        "parent_post"
 
     ];
   
